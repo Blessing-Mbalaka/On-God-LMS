@@ -1,0 +1,20 @@
+<div class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Paper {{ paper.name }}</h5>
+    <p class="card-text">
+      <strong>Qualification:</strong> {{ paper.qualification.name }}<br>
+      {% if paper.qualification and paper.qualification.saqa_id %}
+        <strong>SAQA ID:</strong> {{ paper.qualification.saqa_id }}<br>
+      {% endif %}
+      <strong>Status:</strong> {{ paper.status|title }}
+    </p>
+    <div class="d-flex gap-2">
+      <a href="{% url 'load_saved_paper' paper.pk %}" class="btn btn-outline-primary btn-sm">
+        <i class="fa fa-eye"></i> View
+      </a>
+      <a href="{% url 'download_paper' paper.id %}" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-download"></i> Download
+      </a>
+    </div>
+  </div>
+</div>

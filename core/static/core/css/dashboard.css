@@ -1,0 +1,382 @@
+@import "./base.css";
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(to bottom, #f1f1f1, #ffffff, #a0a0a0, #f0efef, #5b3c83);
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #8f6620;
+  position: relative;
+  z-index: 10;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  margin: 8px 0;
+  border-radius: 8px;
+  color: var(--dark-purple);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-item i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.nav-item:hover {
+  background-color: rgba(143, 102, 32, 0.2);
+}
+
+.nav-item.active {
+  background-color: var(--dark-purple);
+  color: white;
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  right: 15px;
+}
+
+.sidebar-footer img {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* SIDEBAR ICON IMAGE */
+.graduate-icon {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.graduate-icon img {
+  width: 130px;
+  transition: all 0.3s ease;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 30px;
+  background-color: var(--bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-y: auto;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  position: relative;
+  width: 60%;
+}
+
+.search-container input {
+  padding: 10px 15px 10px 40px;
+  width: 100%;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.search-container i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+/* WELCOME SECTION */
+.welcome-box {
+  background: linear-gradient(to right, white, #e3e3e3, #f0f0f0, #8a6daf);
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-box h2 {
+  color: var(--dark-purple);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.welcome-box .date {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.welcome-image {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 80%;
+  opacity: 0.8;
+}
+
+/* BUTTON STYLES */
+.gradient-button {
+  background: linear-gradient(to right, var(--dark-purple), var(--mid-purple), var(--darker-purple));
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.gradient-button:hover {
+  opacity: 0.9;
+}
+
+.btn-gold { /* standardized in base as well */
+  background: linear-gradient(to right, var(--gold), var(--golden-brown), var(--light-gold), var(--deep-brown));
+  color: white;
+  border: none;
+}
+
+.btn-purple {
+  background: linear-gradient(to right, var(--dark-purple), var(--light-purple));
+  color: white;
+  border: none;
+}
+
+/* FORM SECTIONS */
+.form-section,
+.selected-questions {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.form-section select,
+.form-section input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.selected-questions ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+  .content {
+    padding: 15px;
+  }
+  .welcome-image {
+    display: none;
+  }
+}
+
+/* ===========================
+   Assessment Table Styling
+   =========================== */
+.assessment-table {
+  width: 100%;
+  /* Use separate borders so we can add spacing between rows */
+  border-collapse: separate;
+  border-spacing: 0 10px; /* 10px vertical gap between rows */
+  margin-top: 20px;
+}
+
+.assessment-table thead th {
+  background-color: #f0f0f0;   /* light header background */
+  color: var(--dark-purple);    /* match your theme */
+  font-weight: 600;
+  padding: 12px 15px;
+  border-bottom: 2px solid #ddd;
+  text-align: left;
+}
+
+.assessment-table tbody td {
+  background-color: white;    /* each data-cell on a white card */
+  padding: 12px 15px;         /* add comfortable padding */
+  vertical-align: middle;     /* center vertically if multi-line */
+  border: 1px solid #eee;     /* light border for each cell */
+  border-radius: 4px;
+}
+
+/* If you want each row to look like a “card,” override the default table row background: */
+.assessment-table tbody tr {
+  /* No direct background color here—cells already have white backgrounds */
+}
+
+/* Optional: change the hover state on a row */
+.assessment-table tbody tr:hover td {
+  background-color: #fafafa;
+}
+
+/* Small utility to style the “View” button as a bit smaller */
+.assessment-table .gradient-button.small {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+}
+/* ===========================
+   Generate Tool: Nav-Tabs (Simplified)
+   =========================== */
+
+/* Remove default Bootstrap borders */
+#toolTabs {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Base style for every tab link */
+#toolTabs .nav-link {
+  background: var(--light-purple);
+  color: white;
+  border: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-right: 4px;
+  padding: 10px 15px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+/* Inactive‐tab hover: darken slightly */
+#toolTabs .nav-link:hover {
+  background: var(--dark-purple);
+}
+
+/* Active tab: white background, purple border */
+#toolTabs .nav-link.active {
+  background: white;
+  color: var(--dark-purple);
+  border: 2px solid var(--dark-purple);
+  border-bottom-color: white; /* merge with content below */
+}
+
+/* The content area under the tabs */
+#toolTabsContent {
+  border: 2px solid var(--dark-purple);
+  border-top: none;         /* remove top border so active tab’s border shows */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: white;
+  padding: 20px;
+  margin-top: -2px;         /* pull up to close gap under active tab */
+}
+
+/* On small screens, allow tabs to wrap neatly */
+@media (max-width: 576px) {
+  #toolTabs {
+    justify-content: center;
+  }
+  #toolTabs .nav-link {
+    margin-right: 2px;
+    margin-bottom: 4px;
+  }
+}
+/* Collapse any gap between the active tab and its panel */
+#toolTabsContent {
+  margin-top: -2px;      /* pull up so tab border blends into content */
+  padding-top: 0;        /* remove extra top padding */
+}
+
+/* If you still see a sliver of space, try -1px instead */
+#toolTabsContent {
+  margin-top: -1px;
+}
+
+/* Also ensure no top padding on the very first element inside the panel */
+#toolTabsContent > *:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+/* Remove underlines on sidebar nav links */
+.sidebar-nav .nav-link {
+  text-decoration: none;
+}
+
+/* Make sure hovering or focusing also doesn’t re-underline */
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link:focus {
+  text-decoration: none;
+}
+/* ===========================
+   Submitted / Upload Table
+   (same style as dashboard table)
+   =========================== */
+.submitted-section .assessment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;      /* bigger vertical gap */
+  margin-top: 20px;
+}
+
+.submitted-section .assessment-table thead th {
+  background-color: #f0f0f0;
+  color: var(--dark-purple);
+  font-weight: 600;
+  padding: 12px 16px;
+  border-bottom: 2px solid #ddd;
+  text-align: left;
+}
+
+.submitted-section .assessment-table tbody td {
+  background-color: white;
+  padding: 14px 16px;         /* generous padding */
+  vertical-align: middle;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.submitted-section .assessment-table tbody tr:hover td {
+  background-color: #fafafa;
+}
+
+/* shrink the view/edit button */
+.submitted-section .assessment-table .gradient-button.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}

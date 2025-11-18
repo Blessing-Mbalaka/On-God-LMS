@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View &amp; Edit Assessment | {{ assessment.eisa_id }} | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .content {
+      background-color: #efeaea;
+      background-image: url("{% static 'core/images/Frame.png' %}");
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: 30px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    .question-block {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .question-block h5 {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="graduate-icon text-center mb-4">
+        <a href="{% url 'assessor_dashboard' %}">
+          <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="max-width:120px;">
+        </a>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_dashboard' %} active{% endif %}"
+             href="{% url 'assessor_dashboard' %}">
+            <i class="fa fa-home"></i><span>Dashboard</span>
+          </a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_developer' %} active{% endif %}"
+             href="{% url 'assessor_developer' %}">
+            <i class="fa fa-cogs"></i><span>Generate Assessment</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessment_archive' %} active{% endif %}"
+             href="{% url 'assessment_archive' %}">
+            <i class="fa fa-archive"></i><span>Assessment History</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_reports' %} active{% endif %}"
+             href="{% url 'assessor_reports' %}">
+            <i class="fa fa-chart-bar"></i><span>Reports</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-footer mt-auto text-center">
+        <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art" style="max-width:100%;">
+        <button class="gradient-button w-100 mt-3"><i class="fa fa-cog"></i> Settings</button>
+        <a href="{% url 'logout' %}" class="fix">🚪 Log Out</a><br>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content flex-fill">
+      <div class="topbar mb-4">
+        <div class="search-container position-relative w-50">
+          <i class="fas fa-search position-absolute" style="top:10px; left:12px; color:#777;"></i>
+          <input type="search" class="form-control ps-5" placeholder="Search...">
+        </div>
+      </div>
+
+      <div class="welcome-box card mb-4 d-flex align-items-center">
+        <div class="d-flex align-items-center">
+          <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Illustration" style="height:80px; margin-right:20px;">
+          <div>
+            <h2>View &amp; Edit Assessment</h2>
+            <p class="mb-1 text-muted">Assessment Overview</p>
+            <button class="gradient-button btn-sm">Innovating for Impact</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <h4>Assessment Details</h4>
+        <p><strong>ID:</strong> {{ assessment.eisa_id }}</p>
+        <p><strong>Qualification:</strong> {{ assessment.qualification }}</p>
+        <p><strong>Paper Number:</strong> {{ assessment.paper }}</p>
+        {% if assessment.saqa_id %}
+          <p><strong>SAQA ID:</strong> {{ assessment.saqa_id }}</p>
+        {% endif %}
+      </div>
+
+      <div class="card mb-4">
+        <h4>Individually Added Questions</h4>
+        {% if questions %}
+          {% for q in questions %}
+            <div class="question-block">
+              <h5>Question {{ forloop.counter }}</h5>
+              <textarea rows="3" readonly>{{ q.text }}</textarea>
+              <p class="mb-0"><strong>Marks:</strong> {{ q.marks }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No individual questions found for this assessment.</p>
+        {% endif %}
+      </div>
+
+<!-- This is the reusable block with the paper -->
+ <div class="card mb-5">
+  <p>DEBUG: Paper Link = {{ assessment.paper_link }}</p>
+  {% include "core/components/paper_tile.html" with paper=assessment.paper_link randomized_assessments=randomized_assessments %}
+</div>
+<!-- This is the end of the reusable block with the paper -->
+
+
+      <form method="post" class="card mb-4">
+        {% csrf_token %}
+        <h4>Add Notes / Forward to Moderator</h4>
+        <textarea name="moderator_notes" rows="4" placeholder="Add notes here...">{{ assessment.moderator_notes }}</textarea>
+        <button type="submit" class="gradient-button mt-3">Forward to Moderator</button>
+        <a href="{% url 'assessor_dashboard' %}" class="btn btn-outline-secondary mt-3 ms-2">Back to Dashboard</a>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+qualifications:
+  Maintenance Planner:
+    modules:
+      "1A":
+        letters: ["A", "B"]
+        cover_title: "Maintenance Planner Module 1A"
+      "1B":
+        letters: ["A"]
+        cover_title: "Maintenance Planner Module 1B"
+  Quality Controller:
+    modules:
+      "1A":
+        letters: ["A", "B"]
+        cover_title: "Quality Controller Module 1A"
+      "1B":
+        letters: ["A"]
+        cover_title: "Quality Controller Module 1B"
+  Chemical Plant:
+    modules:
+      "1A":
+        letters: ["A"]
+        cover_title: "Chemical Plant Module 1A"
+      "2A":
+        letters: ["A"]
+        cover_title: "Chemical Plant Module 2A"

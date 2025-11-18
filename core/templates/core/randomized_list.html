@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📋 Randomized Papers</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Qualification</th>
+      <th>Total Marks</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for paper in papers %}
+    <tr>
+      <td>{{ paper.name }}</td>
+      <td>{{ paper.qualification.name }}</td>
+      <td>{{ paper.total_marks }}</td>
+      <td>
+        <a href="{% url 'review_paper' paper.id %}" class="btn btn-info btn-sm">👁 View</a>
+        <a href="{% url 'edit_structure_json' paper.id %}" class="btn btn-warning btn-sm">✏️ Edit</a>
+        <a href="{% url 'delete_paper' paper.id %}" class="btn btn-danger btn-sm">🗑 Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

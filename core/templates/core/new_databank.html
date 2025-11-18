@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Question Databank Preview</h2>
+
+    {% for question in questions %}
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-light">
+            <strong>Q{{ question.number }}</strong> — Marks: {{ question.marks|default:"N/A" }}
+        </div>
+        <div class="card-body">
+
+            {% if question.text %}
+                <p>{{ question.text }}</p>
+            {% endif %}
+
+            {% if question.content %}
+                {% for block in question.content %}
+                    {% if block.type == "question_text" %}
+                        <p>{{ block.text }}</p>
+                    {% elif block.type == "table" %}
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered table-sm">
+                                {% for row in block.rows %}
+                                    <tr>
+                                        {% for cell in row %}
+                                            <td>{{ cell }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% elif block.type == "figure" %}
+                        {% if block.data_uri %}
+                            <img src="{{ block.data_uri }}" alt="Figure" class="img-fluid mb-3" style="max-height:300px;">
+                        {% else %}
+                            <p><em>[Figure Placeholder]</em></p>
+                        {% endif %}
+                    {% else %}
+                        <p><em>Unknown Block Type: {{ block.type }}</em></p>
+                    {% endif %}
+                {% endfor %}
+            {% elif not question.text %}
+                <p><em>(No text available)</em></p>
+            {% endif %}
+
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-warning">No questions found.</div>
+    {% endfor %}
+</div>
+{% endblock %}

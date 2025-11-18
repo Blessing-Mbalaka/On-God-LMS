@@ -1,0 +1,96 @@
+@layer tokens, reset, base;
+
+@layer tokens {
+  :root {
+    /* Theme: Admin/Assessor (purple/gold) */
+    --dark-purple: #3d0b56;
+    --darker-purple: #360459;
+    --mid-purple: #552a74;
+    --light-purple: #734e94;
+
+    --gold: #a67c00;
+    --golden-brown: #8c6e0b;
+    --light-gold: #b68f40;
+    --deep-brown: #7a5303;
+
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --text: #333333;
+    --muted: #6c757d;
+
+    --primary: var(--dark-purple);
+    --primary-strong: var(--mid-purple);
+    --primary-alt: var(--darker-purple);
+    --primary-contrast: #ffffff;
+    --accent: var(--gold);
+
+    --radius: 8px;
+    --shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+
+    --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+}
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  a { color: var(--mid-purple); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--radius);
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+
+  button, .btn {
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(to right, var(--primary), var(--primary-strong), var(--primary-alt));
+    color: var(--primary-contrast);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  button:hover, .btn:hover { opacity: 0.92; }
+
+  .btn-gold {
+    background: linear-gradient(to right, var(--gold), var(--golden-brown), var(--light-gold), var(--deep-brown));
+    color: #fff;
+    border: none;
+  }
+
+  .navbar {
+    background-color: var(--primary);
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navbar .nav-brand { font-weight: 600; font-size: 1.2rem; }
+  .navbar nav a, .navbar nav span { color: #fff; margin-left: 1rem; }
+
+  .content { background-color: var(--bg); }
+
+  footer {
+    margin-top: 50px;
+    padding: 20px 0;
+    background-color: #eee;
+    text-align: center;
+    color: #666;
+  }
+}

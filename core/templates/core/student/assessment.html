@@ -1,0 +1,71 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EXAM center | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    
+    
+    table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    thead { background: #580658; color: #fff; }
+    .btn { display: inline-block; padding: 6px 12px; background: #552a74; color: #fff; border-radius: 4px; text-decoration: none; }
+    .btn:hover { opacity: 0.9; }
+    .no-data { text-align: center; padding: 20px; font-style: italic; }
+ 
+  
+
+    /***********new sidebar style and contnet*ggggg****************/
+ .main-content { flex: 1; margin-left: 280px; padding: 30px;   background-color: #efeaea;
+    background-image: url("{% static 'core/images/Frame.png' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;}
+
+    .sidebar { width: 280px; background: linear-gradient(to bottom, #f1f1f1, white, #e0e0e0, #f5f5f5, #3c1c53); padding: 20px; color: var(--dark-purple); border-right: 1px solid var(--gold); position: fixed; height: 100%; overflow-y: auto; }
+    .sidebar-header { text-align: center; margin-bottom: 30px; }
+    .sidebar-header img { max-width: 50%; margin-bottom: 15px; }
+    .sidebar-header h4 { color: var(--dark-purple); font-weight: 600; }
+    .sidebar-menu { list-style: none; padding: 0; }
+    .sidebar-menu li { margin-bottom: 5px; }
+    .sidebar-menu li a { display: block; padding: 10px 15px; color: var(--dark-purple); text-decoration: none; border-radius: 5px; transition: all 0.3s; }
+    .sidebar-menu li.active a { background-color: var(--dark-purple); color: white; }
+    .sidebar li {    margin-bottom: 10px;    /* optional spacing between items */  }
+    .sidebar li a:hover{ background: #613085; color: white;}
+    .sidebar ul {  list-style-type: none; padding-left: 0;    /* removes default padding */
+  }
+
+  /*********************end of new sid ebar************/
+  
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+     <div class="sidebar-header">
+      <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo">
+    </div>
+    <ul class="sidebar-menu">
+    <li ><a href="{% url 'student_dashboard' %}" ><i class="fas fa-check-square"></i> Assessments</a></li>
+
+    <li class="active"><a href="#" class="{% if request.resolver_match.url_name == 'qcto_dashboard' %}active{% endif %}"><i class="fas fa-tachometer-alt"></i> Exam Center</a></li>
+    <li><a href="#" class="{% if request.resolver_match.url_name == 'qcto_compliance' %}active{% endif %}"><i class="fas fa-clipboard-check"></i> Results</a></li>
+   <li><a href="{% url 'logout' %}" ><i class="logout fas fa-sign-out-alt"></i> Log Out</a></li>
+    </ul>
+        <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art" width="199px">
+
+  </div>
+  <div class="main">
+    <div class="main-content">
+      
+    {% include 'core/includes/exam.html' %}
+    </div>
+  </div>
+
+ </body>
+</html>
+
+

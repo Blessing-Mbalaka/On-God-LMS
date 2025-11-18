@@ -1,0 +1,92 @@
+@import "./base.css";
+
+    .upload-section label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .upload-section input,
+    .upload-section select,
+    .upload-section textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    /* Ensure form sections have consistent styling */
+    .form-section label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+      display: block;
+    }
+    .form-section input,
+    .form-section select,
+    .form-section textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+      background-color: #fff;
+      color: #000;
+    }
+    /* Specific fix for the qualification select */
+    select#qualification {
+      appearance: auto;
+      -webkit-appearance: auto;
+      background-color: #fff;
+      color: #000;
+      -webkit-text-fill-color: #000;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: .5em;
+      position: relative;
+      z-index: 1;
+    }
+
+    form#uploadForm {
+      background-color: var(--surface);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-md);
+    }
+    .generate-section,
+    .submitted-section {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    .gradient-button {
+      background: linear-gradient(to right, var(--dark-purple), var(--mid-purple), var(--darker-purple));
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .gradient-button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, var(--light-purple), var(--mid-purple));
+    }
+    .badge {
+      font-size: 13px;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .content {
+      background-color: #efeaea;
+      background-image: url("/images/Frame.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  

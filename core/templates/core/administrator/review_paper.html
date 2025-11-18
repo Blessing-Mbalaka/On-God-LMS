@@ -1,0 +1,292 @@
+<!-- core/templates/core/administrator/review_paper.html -->
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Review The Extracted Paper</h2>
+
+<!-- Upload form (if no paper) -->
+{% if not paper %}
+  <form method="post" enctype="multipart/form-data" class="mb-4">
+    {% csrf_token %}
+    <div class="row g-2 mb-3">
+      <div class="col-sm-4">
+        <input type="text" name="paper_number" class="form-control" placeholder="Paper Number (e.g. 1A)" required>
+      </div>
+      <div class="col-sm-4">
+        <select name="qualification_id" class="form-control" required>
+          <option value="">— Select Qualification —</option>
+          {% for q in qualifications %}
+            <option value="{{ q.id }}">{{ q.name }} ({{ q.code }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <input type="file" name="paper" class="form-control" accept=".docx" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload & Preview</button>
+  </form>
+{% endif %}
+
+
+  <!-- Block editor with AI/classification buttons -->
+  {% if paper and questions %}
+    <form id="blocks-form" method="post" action="{% url 'save_blocks' paper.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="nodes_json" id="nodes-json">
+
+      <div id="top-controls" class="d-flex justify-content-between mb-3 sticky-top bg-white py-2 border-bottom">
+        <div class="btn-group">
+          <button type="button" id="ai-classify-btn" class="btn btn-info">Auto-Classify with AI</button>
+          <button type="button" id="merge-text-btn" class="btn btn-warning">Merge Text</button>
+          <button type="button" id="merge-blocks-btn" class="btn btn-secondary">Merge Blocks</button>
+        </div>
+        <button type="submit" class="btn btn-success">Save Manual Edits</button>
+      </div>
+
+      <div class="blocks-container mt-3">
+        {% for q in questions %}
+          {% include "core/administrator/partials/question_block.html" with q=q %}
+
+          {% if q.children %}
+            <div class="children ms-4 mt-3">
+              {% for child in q.children %}
+                {% include "core/administrator/partials/question_block.html" with q=child %}
+                {% if child.children %}
+                  <div class="children ms-4 mt-3">
+                    {% for grandchild in child.children %}
+                      {% include "core/administrator/partials/question_block.html" with q=grandchild %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </form>
+  {% else %}
+    <div class="alert alert-warning">
+        No questions found for this paper. 
+        Paper ID: {{ paper.id }}
+    </div>
+  {% endif %}
+
+  <!-- Debug Info -->
+  <div class="alert alert-info mt-4">
+    <h5>Debug Info:</h5>
+    <p>Paper ID: {{ paper.pk }}</p>
+    <p>Paper Name: {{ paper.name }}</p>
+    <p>Questions count: {{ questions|length }}</p>
+    <p>Questions object type: 
+  {% if questions %}
+    {% if questions|length > 0 %}List with {{ questions|length }} items{% else %}Empty list{% endif %}
+  {% else %}
+    None
+  {% endif %}
+</p>
+    
+    {% if questions %}
+      <ul>
+      {% for q in questions %}
+        <li>Q{{ q.number }}: {{ q.type }} - {{ q.marks }} marks 
+          (Content items: {{ q.content|length }})
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p><strong>No questions found!</strong></p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";").map(c => c.trim());
+    for (const cookie of cookies) {
+      if (cookie.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const blocks = Array.from(document.querySelectorAll('.block'));
+  const mapByQn = {};
+  const parents = {};
+  const childrenCount = {};
+
+  // Map question numbers to DOM blocks
+  blocks.forEach(b => {
+    const qn = b.dataset.qn;
+    if (qn) mapByQn[qn] = b;
+  });
+
+  // Build parent-child structure
+  blocks.forEach(b => {
+    if (b.dataset.type !== 'question') return;
+    const parts = (b.dataset.qn || "").split('.');
+    if (parts.length < 2) return;
+
+    const parentKey = parts.slice(0, -1).join('.');
+    const parentEl = mapByQn[parentKey];
+    if (!parentEl) return;
+
+    parents[b.dataset.id] = parentEl.dataset.id;
+    childrenCount[parentEl.dataset.id] = (childrenCount[parentEl.dataset.id] || 0) + 1;
+
+    let wrap = parentEl.querySelector('.children');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = 'children ms-4 mt-2';
+      parentEl.appendChild(wrap);
+    }
+
+    wrap.appendChild(b);
+  });
+
+  // Add "Parent of X" and "Child of Y" badges
+  blocks.forEach(b => {
+    const id = b.dataset.id;
+    const header = b.querySelector('.d-flex') || b;
+    let badge = null;
+
+    if (childrenCount[id]) {
+      badge = document.createElement('span');
+      badge.textContent = `Parent of ${childrenCount[id]}`;
+      badge.className = 'badge bg-primary text-white ms-2';
+    } else if (parents[id]) {
+      const pEl = document.querySelector(`.block[data-id="${parents[id]}"]`);
+      const pQn = pEl?.dataset.qn || '';
+      badge = document.createElement('span');
+      badge.textContent = `Child of ${pQn}`;
+      badge.className = 'badge bg-secondary text-white ms-2';
+    }
+
+    if (badge) header.appendChild(badge);
+  });
+
+  // Serialize all blocks on form submit
+  const form = document.getElementById('blocks-form');
+  if (form) {
+    form.addEventListener('submit', () => {
+      const blocksData = Array.from(document.querySelectorAll('.block')).map(b => {
+        const type = b.dataset.type || '';
+        const id = b.dataset.id;
+        const text = b.querySelector('.block-text')?.value?.trim()
+                  || b.querySelector('.block-text')?.textContent?.trim()
+                  || '';
+
+        const content = Array.from(b.querySelectorAll('.block-content')).map(el => {
+          // Check for table inside block-content
+          const table = el.querySelector('table');
+          if (table) {
+            const rows = Array.from(table.querySelectorAll('tr')).map(row =>
+              Array.from(row.querySelectorAll('td')).map(cell => cell.innerText.trim())
+            );
+            return { type: 'table', rows };
+          }
+          
+          // Check for image inside block-content
+          const img = el.querySelector('img');
+          if (img) {
+            return { type: 'figure', images: [img.src.split('/').pop()] };
+          }
+          
+          // Other content types
+          if (el.closest('.border.bg-light')) {
+            return { type: 'case_study', text: el.innerText.trim() };
+          }
+          return { type: 'question_text', text: el.innerText.trim() };
+        });
+
+        return {
+          id,
+          number: b.dataset.qn || '',
+          type,
+          marks: b.dataset.marks || '',
+          parent_id: parents[id] || null,
+          text,
+          content,
+          ...(type === 'figure' ? { data_uri: b.querySelector('img')?.src || '' } : {})
+        };
+      });
+
+      const outputField = document.getElementById('nodes-json');
+      if (outputField) {
+        outputField.value = JSON.stringify(blocksData);
+      }
+    });
+  }
+
+  // Optional: handle delete-block buttons
+  document.querySelectorAll('.delete-block-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const block = btn.closest('.block');
+      const hasChildren = block.querySelector('.children');
+      if (hasChildren) {
+        const confirmed = confirm('This block has child questions. Delete all?');
+        if (!confirmed) return;
+        hasChildren.remove();
+      }
+      block.remove();
+    });
+  });
+
+  // Auto-Classify with AI button
+  document.getElementById('ai-classify-btn').addEventListener('click', () => {
+    const blocks = Array.from(document.querySelectorAll('.block')).map(b => {
+      return {
+        id: b.dataset.id,
+        text: b.querySelector('.block-text')?.value?.trim() || b.querySelector('.block-text')?.textContent?.trim() || '',
+        type: b.dataset.type || 'paragraph'
+      };
+    });
+
+    const paperPk = window.location.pathname.match(/\/review-paper\/(\d+)\//)?.[1];
+    if (!paperPk) {
+      alert("❌ Error: paper ID not found in URL.");
+      return;
+    }
+
+    fetch(`/administrator/review-paper/${paperPk}/classify/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken")
+      },
+      body: JSON.stringify({ blocks })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) throw new Error(data.error);
+      const types = data.types;
+      if (!Array.isArray(types)) throw new Error("Response format invalid");
+
+      // Update DOM with new types
+      document.querySelectorAll('.block').forEach((b, i) => {
+        b.dataset.type = types[i] || 'paragraph';
+        const badge = b.querySelector('.type-badge');
+        if (badge) badge.textContent = types[i];
+      });
+
+      alert("✅ Classification updated.");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("❌ Classification failed.");
+    });
+  });
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moderate Assessment | QCTO | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .content {
+      padding: 30px;
+      background-color: #efeaea;
+      background-image: url("{% static 'core/images/Frame.png' %}");
+      background-repeat: no-repeat;
+      background-size: cover;
+      max-width: 800px;
+      margin: auto;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    textarea, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background: linear-gradient(to right, #552a74, #360459);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover { opacity: 0.9; }
+
+    .sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+    /* removes default padding */
+  }
+
+  .sidebar li {
+    margin-bottom: 10px;
+    /* optional spacing between items */
+  }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <div class="graduate-icon">
+        <a href="{% url 'qcto_dashboard' %}">
+          <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width:130px;">
+        </a>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="{% url 'qcto_dashboard' %}" class="{% if request.resolver_match.url_name == 'qcto_dashboard' %}active{% endif %}"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{% url 'qcto_assessment_review' %}" class="{% if request.resolver_match.url_name == 'qcto_assessment_review' %}active{% endif %}"><i class="fa fa-check-square"></i> Review Final</a></li>
+        <li><a href="{% url 'qcto_compliance' %}" class="{% if request.resolver_match.url_name == 'qcto_compliance' %}active{% endif %}"><i class="fa fa-clipboard-check"></i> Compliance</a></li>
+        <li><a href="{% url 'qcto_reports' %}" class="{% if request.resolver_match.url_name == 'qcto_reports' %}active{% endif %}"><i class="fa fa-chart-line"></i> Reports</a></li>
+        <li><a href="{% url 'qcto_archive' %}" class="{% if request.resolver_match.url_name == 'qcto_archive' %}active{% endif %}"><i class="fa fa-archive"></i> Archive</a></li>
+        <a href="{% url 'logout' %}" class="fix">🚪 Log Out</a><br>
+      </ul>
+    </div>
+
+    <!-- main content -->
+    <div class="content">
+      <h2>Moderate Assessment {{ assessment.eisa_id }}</h2>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_notes">QCTO Notes</label>
+          <textarea id="id_notes" name="qcto_notes" rows="4" placeholder="Enter your review notes…">{{ assessment.qcto_notes }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="id_decision">Decision</label>
+          <select id="id_decision" name="decision">
+  {% for value, label in decision_choices %}
+    <option value="{{ value }}">{{ label }}</option>
+  {% endfor %}
+</select>
+
+        </div>
+
+        <button type="submit">Submit Decision</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

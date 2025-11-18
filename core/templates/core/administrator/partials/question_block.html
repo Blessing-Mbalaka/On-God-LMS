@@ -1,0 +1,76 @@
+{# core/templates/core/administrator/partials/question_block.html #}
+{% load uuid_extras %}
+
+
+<div class="block card mb-3" 
+     data-id="{{ q.id }}" 
+     data-type="{{ q.type }}" 
+     data-qn="{{ q.number }}"
+     data-marks="{{ q.marks }}">
+  
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div>
+      <span class="badge bg-secondary type-badge">{{ q.type }}</span>
+      {% if q.number %}<strong>Q{{ q.number }}</strong>{% endif %}
+      {% if q.marks %}<span class="badge bg-success ms-2">{{ q.marks }} marks</span>{% endif %}
+    </div>
+    <div class="btn-group btn-group-sm">
+      <button type="button" class="btn btn-outline-danger delete-block-btn">Delete</button>
+    </div>
+  </div>
+  
+  <div class="card-body">
+    {% if q.text %}
+      <div class="mb-3">
+        <textarea class="form-control block-text" rows="3">{{ q.text }}</textarea>
+      </div>
+    {% endif %}
+    
+    <!-- Content rendering with proper debugging -->
+    {% if q.content %}
+      {% for item in q.content %}
+        <!-- Debug info -->
+        <!-- <div class="alert alert-secondary mb-2">Item type: {{ item.type }}</div> -->
+        
+        <!-- Table content -->
+        {% if item.type == 'table' and item.rows %}
+          <div class="table-responsive mt-3 block-content">
+            <table class="table table-bordered table-sm">
+              {% for row in item.rows %}
+                <tr>
+                  {% for cell in row %}
+                    <td>{{ cell }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        {% endif %}
+        
+        <!-- Figure content -->
+        {% if item.type == 'figure' %}
+          <div class="mt-3 block-content">
+            {% if item.images %}
+              {% for img in item.images %}
+                <img src="/media/{{ img }}" class="img-fluid mb-2" alt="Question image">
+              {% endfor %}
+            {% elif item.data_uri %}
+              <img src="{{ item.data_uri }}" class="img-fluid mb-2" alt="Question image">
+            {% elif item.image %}
+              <img src="/media/{{ item.image }}" class="img-fluid mb-2" alt="Question image">
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- Render children recursively -->
+  {% if q.children %}
+    <div class="children ms-4 mt-2">
+      {% for child in q.children %}
+        {% include "core/administrator/partials/question_block.html" with q=child %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

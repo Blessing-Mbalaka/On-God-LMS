@@ -1,0 +1,56 @@
+{% load exam_extras %}
+<div class="snapshot-node snapshot-node--{{ node.node_type }}">
+  <div class="snapshot-node__header">
+    <div class="snapshot-node__label">
+      {% if node.node_type %}<span class="snapshot-node__type-badge">{{ node.node_type|title }}</span>{% endif %}
+      {% if node.number %}<span class="snapshot-node__number">#{{ node.number }}</span>{% endif %}
+      {% if node.parent_number %}<span class="snapshot-node__parent">Parent {{ node.parent_number }}</span>{% endif %}
+      {% if node.id %}<span class="snapshot-node__meta">Node {{ node.id }}</span>{% endif %}
+    </div>
+    <div class="snapshot-node__controls">
+      {% if node.marks %}<span class="snapshot-node__marks">{{ node.marks }} marks</span>{% endif %}
+      <div class="snapshot-node__actions">
+        <form method="post" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="node_id" value="{{ node.id }}">
+          <button type="submit" name="action" value="delete_node" class="btn btn-sm btn-outline-danger">Delete</button>
+        </form>
+        {% if node.node_type != 'instruction' %}
+          <form method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="node_id" value="{{ node.id }}">
+            <input type="hidden" name="target_type" value="instruction">
+            <button type="submit" name="action" value="convert_node" class="btn btn-sm btn-outline-secondary">Mark Instruction</button>
+          </form>
+        {% elif node.node_type != 'question' %}
+          <form method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="node_id" value="{{ node.id }}">
+            <input type="hidden" name="target_type" value="question">
+            <button type="submit" name="action" value="convert_node" class="btn btn-sm btn-outline-secondary">Mark Question</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if node.text %}
+    <p class="snapshot-node__text">{{ node.text }}</p>
+  {% endif %}
+
+  {% if node.content %}
+    <div class="snapshot-node__content">
+      {% for block in node.content %}
+        {{ block|render_block }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if node.children %}
+    <div class="snapshot-node__children">
+      {% for child in node.children %}
+        {% include 'core/assessor-developer/_snapshot_node.html' with node=child %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

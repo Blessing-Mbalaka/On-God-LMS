@@ -1,0 +1,779 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Offline Exam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #ecf0f1;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar ul li {
+            transition: background-color 0.3s ease;
+            border-top: 1.5px solid #580658;
+            border-radius: 10px;
+            color: #580658;
+        }
+
+        .fixy {
+            border-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 10px;
+            margin-bottom: -2px;
+            background-color: #8f6620;
+        }
+
+        .fix {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            color: whitesmoke;
+            border-color: #f9f9f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #4d4747;
+            border-color: #007BFF;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #8f6620;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: rgb(81, 3, 102);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+        .nav-item:hover{
+            color: rgb(249, 249, 249);
+            transition: color 0.3s;
+        }
+
+        .sidebar {
+            width: 210px;
+            min-height: 100vh;
+            font-size: 13px;
+            background: linear-gradient(to bottom, rgb(195, 193, 193),white,rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239),rgb(91, 60, 131));
+            padding: 20px;
+            border-radius: 0px 0px 0px 0px;
+            border-right: 1px solid #8f6620;
+            box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar .graduate-icon {
+            border-radius: 20px;
+            height: 110px;
+            width: 105px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            background-color: #efeaea;
+            background-image: url("{% static 'core/images/Frame.png' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.9;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar input[type="search"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239),rgb(91, 60, 131));
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4d4747;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            min-height: 25vh;
+            position: relative;
+            border-left: 4px solid rgb(81, 3, 102);
+        }
+
+        .welcome-box .date {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .date {
+            font-size: 16px;
+            color: grey;
+        }
+
+        .gradient-button {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #8f6620;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .welcome-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container {
+            position: absolute;
+            top: -37px;
+            right: 0;
+            z-index: 2;
+        }
+
+        /* Card and table styling updates */
+        .card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+            font-weight: bold;
+            border-bottom: 1px solid #8f6620;
+        }
+
+        .table-dark {
+            background: linear-gradient(to right, #3a063a, #580658) !important;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(143, 102, 32, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #3a063a;
+            color: #3a063a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .btn-outline-success {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-success:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-outline-warning {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-primary:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .badge.bg-primary {
+            background-color: #3a063a !important;
+        }
+
+        .badge.bg-success {
+            background-color: #8f6620 !important;
+        }
+
+        .alert-info {
+            background-color: rgba(143, 102, 32, 0.1);
+            border-color: #8f6620;
+            color: #3a063a;
+        }
+
+        /* Badge status colors */
+        .badge-finalized {
+            background-color: #28a745;
+        }
+        .badge-reviewed {
+            background-color: #17a2b8;
+        }
+        .badge-graded {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-pending {
+            background-color: #6c757d;
+        }
+
+        /* External paper button */
+        .external-paper-btn {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+        }
+        .external-paper-btn:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            padding: 3rem 1rem;
+            text-align: center;
+            color: #6c757d;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Table responsive */
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Button group styling */
+        .btn-group-vertical .btn {
+            margin-bottom: 2px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+            
+            .image-container {
+                position: relative;
+                top: 0;
+                margin-bottom: 15px;
+            }
+            
+            .welcome-box {
+                height: auto;
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+            
+            .content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+            
+            .image-container img {
+                width: 300px;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+                padding: 10px;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .topbar input[type="search"] {
+                width: 90%;
+            }
+            
+            .welcome-box {
+                height: auto;
+                padding: 15px;
+            }
+            
+            .image-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+            }
+            
+            .image-container img {
+                width: 250px;
+                height: auto;
+            }
+            
+            .gradient-button {
+                display: flex;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                padding: 10px 5px;
+            }
+            
+            .sidebar .graduate-icon {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .topbar input[type="search"] {
+                width: 80%;
+            }
+            
+            .sidebar ul li {
+                margin: 10px 0;
+                justify-content: center;
+            }
+            
+            .welcome-box {
+                font-size: 18px;
+                height: auto;
+                padding: 10px;
+            }
+            
+            .table-responsive {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                padding: 5px;
+            }
+            
+            .sidebar ul li {
+                font-size: 12px;
+            }
+            
+            .fixy, .fix {
+                font-size: 12px;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .welcome-box {
+                font-size: 16px;
+            }
+            
+            .gradient-button {
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="graduate-icon">
+                <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width: 130px;">
+            </div>
+            <br><br>
+            <ul>
+                <li class="nav-item">
+                    <a href="{% url 'assessment_center' %}" class="nav-item">
+                        <i class="fa fa-home me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'create_student_by_assessment_center' %}" class="nav-item">
+                        <i class="fa fa-cogs me-2"></i>Student Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'upload_student_register' %}" class="nav-item">
+                        <i class="fa fa-upload me-2"></i>Upload Offline Student Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'upload_offline_exam' %}" class="nav-item">
+                        <i class="fa fa-upload me-2"></i>Upload Offline Exam
+                    </a>
+                </li>
+
+                <button class="gradient-button w-100 py-0">
+                    <a href="{% url 'logout' %}" class="fix"> Log Out</a>
+                </button>
+            </ul>
+            <img src="{% static 'core/images/rb_2149331949.png' %}" alt="" width="199px">
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+           
+
+            <!-- Welcome Box -->
+            <div class="welcome-container">
+                <div class="image-container">
+                    <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+                </div>
+                <div class="welcome-box">
+                    <h2><i class="fas fa-upload me-2"></i>Upload Offline Exam</h2>
+                    <div class="date">
+                        Upload offline exam submissions for registered students.
+                        <br>Manage exam attempts, track submission status, and monitor external moderation progress.
+                        <span class="highlight">Efficient exam management!</span>
+                        <br>
+                    </div>
+                    <button class="gradient-button">Upload Exams</button>
+                </div>
+            </div>
+
+            <!-- Upload Form Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-upload me-2"></i>Upload Offline Exam Submission</h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        <div class="mb-3">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="offline_student" class="form-label">Select Student *</label>
+                                <select class="form-select" id="offline_student" name="offline_student" required>
+                                    <option value="">Select a student</option>
+                                    {% for student in offline_students %}
+                                    <option value="{{ student.id }}" data-qualification="{{ student.qualification.name|default:'Not assigned' }}">
+                                        {{ student.student_number }} - {{ student.first_name }} {{ student.last_name }}
+                                    </option>
+                                    {% empty %}
+                                    <option value="" disabled>No offline students available</option>
+                                    {% endfor %}
+                                </select>
+                                {% if not offline_students %}
+                                <div class="form-text text-danger">
+                                    No offline students available. Please upload students first.
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="attempt_number" class="form-label">Attempt Number *</label>
+                                <input type="number" class="form-control" id="attempt_number" name="attempt_number" 
+                                       min="1" value="1" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Qualification</label>
+                            <div class="form-control-plaintext" id="qualification-display">
+                                <em>Select a student to see their qualification</em>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pdf_file" class="form-label">Upload Exam Paper (PDF) *</label>
+                            <input type="file" class="form-control" id="pdf_file" name="pdf_file" accept=".pdf" required>
+                            <div class="form-text">Maximum file size: 10MB. Only PDF files are accepted.</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success" {% if not offline_students %}disabled{% endif %}>
+                                <i class="fas fa-upload me-1"></i> Upload Submission
+                            </button>
+                            <a href="{% url 'upload_student_register' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-users me-1"></i> Upload Students First
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Uploaded Exams Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-file-pdf me-2"></i>Uploaded Offline Exams</h5>
+                </div>
+                <div class="card-body">
+                    {% if exam_submissions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Student Number</th>
+                                    <th>Student Name</th>
+                                    <th>Qualification</th>
+                                    <th>Attempt</th>
+                                    <th>Status</th>
+                                    <th>External Moderator Mark</th>
+                                    <th>Upload Date</th>
+                                    <th>File Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for submission in exam_submissions %}
+                                <tr>
+                                    <td class="fw-bold">{{ submission.student_number }}</td>
+                                    <td>{{ submission.student_name }}</td>
+                                    <td>
+                                        {% if submission.offline_student.qualification %}
+                                            {{ submission.offline_student.qualification.name }}
+                                        {% else %}
+                                            <span class="text-muted">Not assigned</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><span class="badge bg-primary">Attempt {{ submission.attempt_number }}</span></td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if submission.status == 'Finalized' %}badge-finalized
+                                            {% elif submission.status == 'Reviewed' %}badge-reviewed
+                                            {% elif submission.status == 'Graded by Marker' %}badge-graded
+                                            {% else %}badge-pending{% endif %}">
+                                            {{ submission.status }}
+                                        </span>
+                                    </td>
+                                    <!-- External Moderator Mark -->
+                                    <td>
+                                        {% if submission.external_marks %}
+                                            {% if submission.external_marks >= 50 %}
+                                                <span class="badge bg-success">{{ submission.external_marks }}/{{ submission.external_total_marks }}</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">{{ submission.external_marks }}/{{ submission.external_total_marks }}</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ submission.submitted_at|date:"M d, Y H:i" }}</td>
+                                    <td>
+                                        <small class="text-muted" title="{{ submission.pdf_file.name }}">
+                                            {{ submission.pdf_file.name|slice:":40" }}{% if submission.pdf_file.name|length > 40 %}...{% endif %}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group-vertical btn-group-sm">
+                                            <!-- Original Submission Actions -->
+                                            <div class="btn-group btn-group-sm mb-1">
+                                                <a href="{{ submission.pdf_file.url }}" target="_blank" class="btn btn-outline-primary btn-sm" title="View Original PDF">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{{ submission.pdf_file.url }}" download class="btn btn-outline-success btn-sm" title="Download Original PDF">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                            </div>
+                                            
+                                            <!-- Externally Moderated Paper Actions -->
+                                            {% if submission.external_marked_paper %}
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{ submission.external_marked_paper.url }}" target="_blank" class="btn external-paper-btn btn-sm" title="View Externally Moderated PDF">
+                                                    <i class="fas fa-eye"></i> External
+                                                </a>
+                                                <a href="{{ submission.external_marked_paper.url }}" download class="btn btn-outline-info btn-sm" title="Download Externally Moderated PDF">
+                                                    <i class="fas fa-download"></i> External
+                                                </a>
+                                            </div>
+                                            {% else %}
+                                            <div class="text-center">
+                                                <small class="text-muted">No external paper</small>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-file-pdf"></i>
+                        <h5>No Offline Exam Submissions Yet</h5>
+                        <p class="text-muted">Uploaded exams will appear here once you submit them using the form above.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentSelect = document.getElementById('offline_student');
+        const qualificationDisplay = document.getElementById('qualification-display');
+
+        studentSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                const qualification = selectedOption.getAttribute('data-qualification');
+                qualificationDisplay.textContent = qualification;
+            } else {
+                qualificationDisplay.innerHTML = '<em>Select a student to see their qualification</em>';
+            }
+        });
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    setTimeout(function() {
+                        const uploadedExamsSection = document.querySelector('.card-header');
+                        if (uploadedExamsSection) {
+                            uploadedExamsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

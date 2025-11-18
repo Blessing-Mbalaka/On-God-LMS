@@ -1,0 +1,19 @@
+{% load exam_extras %}
+
+{% with allow_text=allow_text|default:True %}
+  {% if allow_text and node.text %}
+    <p>{{ node.text }}</p>
+  {% endif %}
+
+  {% if node.content %}
+    {% for block in node.content %}
+      {{ block|render_block }}
+    {% endfor %}
+  {% endif %}
+
+  {% if node.children %}
+    {% for child in node.children %}
+      {% include 'core/student/_node_content.html' with node=child %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}

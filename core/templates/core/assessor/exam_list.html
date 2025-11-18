@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessor marker Dashboard</title>
+</head>
+<body>
+  <!-- templates/marker/exam_list.html -->
+<h2>Available Exams</h2>
+<ul>
+  {% for exam in exams %}
+    <li>
+      {{ exam.name }} ({{ exam.subject }}) – {{ exam.date }}
+      <a href="{% url 'marker:learner_list' exam.id %}">View Learners</a>
+      <a href="{{ exam.question_paper.url }}">Download Question Paper</a>
+    </li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>

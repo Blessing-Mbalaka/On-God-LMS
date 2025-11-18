@@ -1,0 +1,162 @@
+﻿{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2 class="mb-1">{{ paper.name|default:"Reconstructed Paper" }}</h2>
+      <div class="text-muted">
+        {% if paper.qualification %}Qualification: {{ paper.qualification.name }}{% endif %}
+        {% if assessment %} - EISA: {{ assessment.eisa_id }}{% endif %}
+      </div>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-primary" id="test-preview-toggle" data-mode="off">Test Preview</button>
+      <a class="btn btn-outline-secondary" href="?editor=1">Open Editor</a>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body" id="paper-preview">
+      {% if node_sequence %}
+        {% for node in node_sequence %}
+          {% include 'core/administrator/_readonly_node.html' with node=node %}
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">No structured nodes available to preview.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<style>
+  #paper-preview.test-mode {
+    background-color: #f4f8ff;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  #paper-preview.test-mode table {
+    width: 100%;
+  }
+  #paper-preview.test-mode [contenteditable="true"]:focus {
+    outline: 2px solid #0d6efd;
+    background-color: #f0f6ff;
+  }
+  #paper-preview.test-mode tbody td {
+    min-height: 2.5rem;
+    vertical-align: top;
+  }
+  #paper-preview.test-mode .answer-field {
+    min-height: 2.5rem;
+    border: 1px dashed #6ea8ff;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+    background-color: #ffffff;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('test-preview-toggle');
+    const preview = document.getElementById('paper-preview');
+    if (!toggle || !preview) {
+      return;
+    }
+
+    const ANSWER_CLASS = 'test-answer-field';
+
+    const ensureAfterBlock = (element) => {
+      let field = element.nextElementSibling;
+      while (field && !(field.classList && field.classList.contains(ANSWER_CLASS))) {
+        field = field.nextElementSibling;
+      }
+      if (!field) {
+        field = document.createElement('div');
+        field.className = `answer-field ${ANSWER_CLASS}`;
+        element.insertAdjacentElement('afterend', field);
+      }
+      return field;
+    };
+
+    const ensureInsideBlock = (element) => {
+      let field = Array.from(element.children).find((child) => child.classList && child.classList.contains(ANSWER_CLASS));
+      if (!field) {
+        field = document.createElement('div');
+        field.className = `answer-field ${ANSWER_CLASS}`;
+        element.appendChild(field);
+      }
+      return field;
+    };
+
+    const enterTestMode = () => {
+      preview.classList.add('test-mode');
+
+      preview.querySelectorAll('p').forEach((paragraph) => {
+        const field = ensureAfterBlock(paragraph);
+        field.setAttribute('contenteditable', 'true');
+      });
+
+      preview.querySelectorAll('.case-study').forEach((block) => {
+        const field = ensureInsideBlock(block);
+        field.setAttribute('contenteditable', 'true');
+      });
+
+      preview.querySelectorAll('tbody td').forEach((cell) => {
+        if (!cell.dataset.originalText) {
+          cell.dataset.originalText = (cell.textContent || '').trim();
+        }
+        const originalText = cell.dataset.originalText;
+        if (!originalText) {
+          cell.setAttribute('contenteditable', 'true');
+          cell.classList.add('test-editable-cell');
+        } else {
+          cell.removeAttribute('contenteditable');
+          cell.classList.remove('test-editable-cell');
+          const field = ensureInsideBlock(cell);
+          field.setAttribute('contenteditable', 'true');
+        }
+      });
+    };
+
+    const exitTestMode = () => {
+      preview.classList.remove('test-mode');
+      preview.querySelectorAll('tbody td').forEach((cell) => {
+        cell.removeAttribute('contenteditable');
+        cell.classList.remove('test-editable-cell');
+        const field = Array.from(cell.children).find((child) => child.classList && child.classList.contains(ANSWER_CLASS));
+        if (field) {
+          field.removeAttribute('contenteditable');
+          if (!field.textContent.trim()) {
+            field.remove();
+          }
+        }
+      });
+      preview.querySelectorAll(`.${ANSWER_CLASS}`).forEach((field) => {
+        if (field.closest('td')) {
+          return;
+        }
+        field.removeAttribute('contenteditable');
+        if (!field.textContent.trim()) {
+          field.remove();
+        }
+      });
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOn = toggle.dataset.mode === 'on';
+      if (isOn) {
+        toggle.dataset.mode = 'off';
+        toggle.textContent = 'Test Preview';
+        exitTestMode();
+      } else {
+        toggle.dataset.mode = 'on';
+        toggle.textContent = 'Exit Test Preview';
+        enterTestMode();
+      }
+    });
+  });
+</script>
+{% endblock %}

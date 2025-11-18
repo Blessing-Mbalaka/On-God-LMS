@@ -1,0 +1,32 @@
+
+    .content {
+      background-color: #efeaea;
+      background-image: url("/images/Frame.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: 30px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: var(--shadow-md);
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    .question-block {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .question-block h5 {
+      margin-bottom: 8px;
+    }
+@import "./base.css";

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QCTO Reports | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .dashboard-content {
+      padding: 30px;
+    }
+
+    .content {
+      background-color: #efeaea;
+      background-image: url("{% static 'core/images/Frame.png' %}");
+      background-repeat: no-repeat;
+      background-size: cover;
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .reports-container h2 {
+      color: #552a74;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    table.report-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    table.report-table th {
+      background-color: #552a74;
+      color: white;
+      text-align: left;
+      padding: 14px;
+    }
+
+    table.report-table td {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+    }
+
+    table.report-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+    /* removes default padding */
+  }
+
+  .sidebar li {
+    margin-bottom: 10px;
+    /* optional spacing between items */
+  }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- SIDEBAR (Identical to Dashboard) -->
+    <div class="sidebar">
+      <div class="graduate-icon">
+        <a href="{% url 'qcto_dashboard' %}">
+          <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width: 130px;">
+        </a>
+      </div><br><br>
+      <ul>
+        <li><a href="{% url 'qcto_dashboard' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_dashboard' %} active{% endif %}"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li><a href="{% url 'qcto_assessment_review' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_assessment_review' %} active{% endif %}"><i class="fa fa-check"></i> Final Assessment Review</a></li>
+        <li><a href="{% url 'qcto_compliance' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_compliance' %} active{% endif %}"><i class="fa fa-clipboard-check"></i> Compliance Check</a></li>
+        <li><a href="{% url 'qcto_reports' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_reports' %} active{% endif %}"><i class="fa fa-chart-line"></i> Reports</a></li>
+        <li><a href="{% url 'qcto_archive' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_archive' %} active{% endif %}"><i class="fa fa-archive"></i> Assessment Archive</a></li>
+        <li>🔔 Notifications</li>
+        <li>🛠️ Help & Support</li><br><br><br><br>
+        <button class="fixy">⚙️ Settings</button>
+        <a href="{% url 'logout' %}" class="fix">🚪 Log Out</a><br>
+      </ul>
+      <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art" width="199px">
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+      <div class="dashboard-content reports-container">
+        <h2>QCTO Reports</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Qualification</th>
+              <th>Validated Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in stats %}
+              <tr>
+                <td>{{ row.qualification }}</td>
+                <td>{{ row.validated_count }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="2">No validated assessments yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

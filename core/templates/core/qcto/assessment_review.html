@@ -1,0 +1,1042 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCTO Final Assessment Review | CHIETA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #ecf0f1;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar ul li {
+            transition: background-color 0.3s ease;
+            border-top: 1.5px solid #580658;
+            border-radius: 10px;
+            color: #580658;
+        }
+
+        .fixy {
+            border-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 10px;
+            margin-bottom: -2px;
+            background-color: #8f6620;
+        }
+
+        .fix {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            color: whitesmoke;
+            border-color: #f9f9f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #4d4747;
+            border-color: #007BFF;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #8f6620;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: rgb(81, 3, 102);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            color: rgb(249, 249, 249);
+            transition: color 0.3s;
+        }
+
+        .sidebar {
+            width: 210px;
+            min-height: 100vh;
+            font-size: 13px;
+            background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
+            padding: 20px;
+            border-radius: 0px 0px 0px 0px;
+            border-right: 1px solid #8f6620;
+            box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar .graduate-icon {
+            border-radius: 20px;
+            height: 110px;
+            width: 105px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar input[type="search"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4d4747;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            min-height: 25vh;
+            position: relative;
+            border-left: 4px solid rgb(81, 3, 102);
+        }
+
+        .welcome-box .date {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .date {
+            font-size: 16px;
+            color: grey;
+        }
+
+        .gradient-button {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #8f6620;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .welcome-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container {
+            position: absolute;
+            top: -37px;
+            right: 0;
+            z-index: 2;
+        }
+
+        /* Table and grading styles */
+        .grading-cell {
+            min-width: 250px;
+        }
+
+        .feedback-box {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .badge-count {
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .upload-marked-btn {
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .upload-marked-btn:hover {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .marked-paper-badge {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .grade-form {
+            transition: all 0.3s ease;
+        }
+
+        .grade-form:focus-within {
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8fff9;
+        }
+
+        /* Card and table styling updates */
+        .card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-dark {
+            background: linear-gradient(to right, #3a063a, #580658) !important;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(143, 102, 32, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #3a063a;
+            color: #3a063a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .btn-outline-success {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-success:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-outline-warning {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .badge.bg-primary {
+            background-color: #3a063a !important;
+        }
+
+        .badge.bg-success {
+            background-color: #8f6620 !important;
+        }
+
+        .alert-info {
+            background-color: rgba(143, 102, 32, 0.1);
+            border-color: #8f6620;
+            color: #3a063a;
+        }
+
+        /* NEW: Memo button styling */
+        .btn-memo {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-memo:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+            color: white;
+        }
+
+        .btn-memo-outline {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .btn-memo-outline:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        /* Modal styling */
+        .modal-header {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+        }
+
+        .modal-content {
+            border: 2px solid #8f6620;
+            border-radius: 10px;
+        }
+
+        /* Celebration animation */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        /* QCTO specific styles */
+        .qcto-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .upload-btn {
+            border: 1px solid #3a063a;
+            color: #3a063a;
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .upload-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-name {
+            font-size: 11px;
+            margin-top: 4px;
+            text-align: center;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-approve {
+            background-color: #198754;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve:hover,
+        .btn-reject:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .qcto-form {
+            display: none;
+        }
+
+        .btn-advanced {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 5px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-advanced:hover {
+            background: linear-gradient(to right, #8f6620, #a67c00);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                margin-bottom: 15px;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .image-container img {
+                width: 300px;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+                padding: 10px;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar input[type="search"] {
+                width: 90%;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding: 15px;
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+            }
+
+            .image-container img {
+                width: 250px;
+                height: auto;
+            }
+
+            .gradient-button {
+                display: flex;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+
+            .qcto-controls {
+                min-width: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                padding: 10px 5px;
+            }
+
+            .sidebar .graduate-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .topbar input[type="search"] {
+                width: 80%;
+            }
+
+            .sidebar ul li {
+                margin: 10px 0;
+                justify-content: center;
+            }
+
+            .welcome-box {
+                font-size: 18px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .table-responsive {
+                font-size: 14px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .sidebar ul li {
+                font-size: 12px;
+            }
+
+            .fixy,
+            .fix {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .welcome-box {
+                font-size: 16px;
+            }
+
+            .gradient-button {
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="graduate-icon">
+                <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo"
+                    style="width: 130px;">
+            </div>
+            <br><br>
+            <ul>
+                <li class="nav-item">
+                    <a href="{% url 'qcto_dashboard' %}"
+                        class="nav-item{% if request.resolver_match.url_name == 'qcto_dashboard' %} active{% endif %}"
+                        style="color: inherit; text-decoration: none;">
+                        <i class="fas fa-home me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'qcto_assessment_review' %}"
+                        class="nav-item{% if request.resolver_match.url_name == 'qcto_assessment_review' %} active{% endif %}"
+                        style="color: inherit; text-decoration: none;">
+                        <i class="fas fa-check me-2"></i> Final Review
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="{% url 'qcto_compliance' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_compliance' %} active{% endif %}">
+                        <i class="fas fa-clipboard-check me-2"></i> Compliance
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'qcto_reports' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_reports' %} active{% endif %}">
+                        <i class="fas fa-chart-line me-2"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'qcto_archive' %}" class="nav-item{% if request.resolver_match.url_name == 'qcto_archive' %} active{% endif %}">
+                        <i class="fas fa-archive me-2"></i> Archive
+                    </a>
+                </li> -->
+
+                <button class="gradient-button w-100 py-0">
+                    <a href="{% url 'logout' %}" class="fix">
+                        <i class="fas fa-sign-out-alt me-1"></i>Log Out
+                    </a>
+                </button>
+            </ul>
+            <img src="{% static 'core/images/rb_2149331949.png' %}" alt="" width="199px">
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+           
+
+            <!-- Welcome Box -->
+            <div class="welcome-container">
+                <div class="image-container">
+                    <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+                </div>
+                <div class="welcome-box">
+                    <h2><i class="fas fa-check-square me-2"></i> QCTO Final Assessment Review</h2>
+                    <div class="date">
+                        Review and validate final assessments, upload QCTO reports, and make approval decisions.
+                        <br>Ensure compliance with regulatory standards and maintain assessment quality.
+                        <span class="highlight">Uphold assessment excellence!</span>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display messages -->
+            {% if messages %}
+            <div class="messages mt-3">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
+                    role="alert">
+                    <i
+                        class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% else %}check-circle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Assessments Table -->
+            <div class="card shadow mt-3">
+                <div class="card-header" style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                    <h5 class="mb-0"><i class="fas fa-list-ol me-2"></i> Assessments Pending Final Review</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Assessment ID</th>
+                                    <th>Qualification</th>
+                                    <th>Paper Type</th>
+                                    <th>View Paper</th>
+                                    <th>Download Memo</th>
+                                    <th>Moderator Report</th>
+                                    <th>QCTO Decision</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in assessments %}
+                                <tr>
+                                    <td class="fw-semibold">{{ a.eisa_id }}</td>
+                                    <td>{{ a.qualification.name }}</td>
+                                    <td>
+                                        <span class="badge {% if a.paper_type == 'randomized' %}bg-info{% else %}bg-warning{% endif %}">
+                                            {{ a.paper_type|title }}
+                                        </span>
+                                    </td>
+
+                                    <!-- View Paper -->
+                                    <td>
+                                        <div style="display: flex; flex-direction: column; gap: 5px;">
+                                            {% if a.paper_type == 'randomized' %}
+                                            <a href="{% url 'assessor_randomized_snapshot' a.id %}"
+                                                class="btn btn-outline-success btn-sm">
+                                                <i class="fas fa-project-diagram me-1"></i> View Randomised
+                                            </a>
+                                            <a href="{% url 'download_randomized_pdf' a.id %}?format=docx"
+                                                class="btn btn-outline-secondary btn-sm">
+                                                <i class="fas fa-download me-1"></i> Download Word
+                                            </a>
+                                            {% elif a.file %}
+                                            <a href="{{ a.file.url }}" class="btn btn-outline-secondary btn-sm"
+                                                target="_blank">
+                                                <i class="fas fa-download me-1"></i> Download Paper
+                                            </a>
+                                            {% else %}
+                                            <span class="text-muted small">No paper available</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+
+                                    <!-- NEW: Download Memo Column -->
+                                    <td>
+                                        {% if a.paper_type == 'randomized' and a.memo_file or a.memo %}
+                                        <a href="{% url 'download_memo' a.id %}" 
+                                           class="btn btn-memo btn-sm text-nowrap" 
+                                           target="_blank"
+                                           title="Download memo submitted by assessor">
+                                            <i class="fas fa-file-alt me-1"></i> Download Memo
+                                        </a>
+                                        {% elif a.memo %}
+                                        <a href="{% url 'download_memo' a.id %}" 
+                                           class="btn btn-memo btn-sm text-nowrap" 
+                                           target="_blank"
+                                           title="Download memo submitted by assessor">
+                                            <i class="fas fa-file-alt me-1"></i> Download Memo
+                                        </a>
+                                        {% else %}
+                                        <span class="text-muted small">No memo available</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- Moderator Report -->
+                                    <td>
+                                        {% if a.moderator_report %}
+                                        <a href="{{ a.moderator_report.url }}" class="btn btn-outline-success btn-sm"
+                                            target="_blank">
+                                            <i class="fas fa-download me-1"></i> Download Report
+                                        </a>
+                                        {% else %}
+                                        <span class="text-muted small">No report uploaded</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <!-- QCTO Decision -->
+                                    <td>
+                                        <div class="qcto-controls">
+                                            <div class="upload-wrapper">
+                                                <div class="upload-btn">
+                                                    <i class="fas fa-upload me-1"></i> Upload QCTO Report
+                                                </div>
+                                                <input type="file" id="qcto-report-{{ a.id }}" data-asmt-id="{{ a.id }}"
+                                                    accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                    class="qcto-upload">
+                                                <div class="file-name" id="qcto-file-name-{{ a.id }}">No file chosen
+                                                </div>
+                                            </div>
+
+                                            <!-- Hidden form for submission -->
+                                            <form method="post" action="{% url 'qcto_assessment_review' %}"
+                                                class="qcto-form" id="qcto-form-{{ a.id }}"
+                                                enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="eisa_id" value="{{ a.eisa_id }}">
+                                                <input type="hidden" name="action" id="qcto-action-{{ a.id }}">
+                                                <input type="file" name="qcto_report" id="qcto-hidden-report-{{ a.id }}"
+                                                    style="display: none;">
+                                            </form>
+
+                                            <div class="action-buttons">
+                                                <button class="btn-approve" data-asmt-id="{{ a.id }}">
+                                                    <i class="fas fa-check me-1"></i> Approve
+                                                </button>
+                                                <button class="btn-reject" data-asmt-id="{{ a.id }}">
+                                                    <i class="fas fa-times me-1"></i> Reject
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>No assessments to review.
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for confirmation messages -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    Please upload a QCTO report before taking action.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Animation Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle file input changes
+            const fileInputs = document.querySelectorAll('.qcto-upload');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    const asmtId = this.getAttribute('data-asmt-id');
+                    const fileName = this.files[0] ? this.files[0].name : 'No file chosen';
+                    document.getElementById(`qcto-file-name-${asmtId}`).textContent = fileName;
+
+                    // Also update the hidden form input
+                    const hiddenInput = document.getElementById(`qcto-hidden-report-${asmtId}`);
+                    // Create a new FileList-like object using DataTransfer
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(this.files[0]);
+                    hiddenInput.files = dataTransfer.files;
+                });
+            });
+
+            // Handle approve button clicks
+            const approveButtons = document.querySelectorAll('.btn-approve');
+            approveButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const asmtId = this.getAttribute('data-asmt-id');
+                    const fileInput = document.querySelector(`#qcto-report-${asmtId}`);
+
+                    if (!fileInput.files[0]) {
+                        showModal('Action Required', 'Please upload a QCTO report before approving.');
+                        return;
+                    }
+
+                    // Set the action and submit the form
+                    document.getElementById(`qcto-action-${asmtId}`).value = 'approve';
+                    document.getElementById(`qcto-form-${asmtId}`).submit();
+                });
+            });
+
+            // Handle reject button clicks
+            const rejectButtons = document.querySelectorAll('.btn-reject');
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const asmtId = this.getAttribute('data-asmt-id');
+                    const fileInput = document.querySelector(`#qcto-report-${asmtId}`);
+
+                    if (!fileInput.files[0]) {
+                        showModal('Action Required', 'Please upload a QCTO report before rejecting.');
+                        return;
+                    }
+
+                    // Set the action and submit the form
+                    document.getElementById(`qcto-action-${asmtId}`).value = 'reject';
+                    document.getElementById(`qcto-form-${asmtId}`).submit();
+                });
+            });
+
+            // Function to show modal
+            function showModal(title, message) {
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalBody').textContent = message;
+                const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                modal.show();
+            }
+
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+
+                row.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('input[type="search"]');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('.table tbody tr');
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Add active state to current page in sidebar
+            const currentPath = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                    link.parentElement.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                    link.parentElement.classList.remove('active');
+                }
+            });
+
+            // Celebration animation
+            function triggerCelebration() {
+                const container = document.getElementById('confettiContainer');
+                container.style.display = 'block';
+
+                for (let i = 0; i < 100; i++) {
+                    createConfetti();
+                }
+
+                setTimeout(() => {
+                    container.style.display = 'none';
+                    container.innerHTML = '';
+                }, 3000);
+            }
+
+            function createConfetti() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+
+                const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                confetti.style.backgroundColor = randomColor;
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                const animation = confetti.animate([
+                    { top: '-10px', opacity: 1, transform: `rotate(0deg) scale(1)` },
+                    { top: '100vh', opacity: 0, transform: `rotate(${Math.random() * 360}deg) scale(0.5)` }
+                ], {
+                    duration: 3000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+                });
+
+                document.getElementById('confettiContainer').appendChild(confetti);
+
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        });
+    </script>
+</body>
+
+</html>

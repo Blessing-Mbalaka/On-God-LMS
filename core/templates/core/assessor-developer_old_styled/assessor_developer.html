@@ -1,0 +1,1428 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessor Developer | CHIETA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #ecf0f1;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar ul li {
+            transition: background-color 0.3s ease;
+            border-top: 1.5px solid #580658;
+            border-radius: 10px;
+            color: #580658;
+        }
+
+        .fixy {
+            border-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 10px;
+            margin-bottom: -2px;
+            background-color: #8f6620;
+        }
+
+        .fix {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            color: whitesmoke;
+            border-color: #f9f9f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #4d4747;
+            border-color: #007BFF;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #8f6620;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: rgb(81, 3, 102);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            color: rgb(249, 249, 249);
+            transition: color 0.3s;
+        }
+
+        .sidebar {
+            width: 210px;
+            min-height: 100vh;
+            font-size: 13px;
+            background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
+            padding: 20px;
+            border-radius: 0px 0px 0px 0px;
+            border-right: 1px solid #8f6620;
+            box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar .graduate-icon {
+            border-radius: 20px;
+            height: 110px;
+            width: 105px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar input[type="search"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4d4747;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            min-height: 25vh;
+            position: relative;
+            border-left: 4px solid rgb(81, 3, 102);
+        }
+
+        .welcome-box .date {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .date {
+            font-size: 16px;
+            color: grey;
+        }
+
+        .gradient-button {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #8f6620;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .welcome-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container {
+            position: absolute;
+            top: -37px;
+            right: 0;
+            z-index: 2;
+        }
+
+        .grading-cell {
+            min-width: 250px;
+        }
+
+        .feedback-box {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .badge-count {
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .upload-marked-btn {
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .upload-marked-btn:hover {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .marked-paper-badge {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .grade-form {
+            transition: all 0.3s ease;
+        }
+
+        .grade-form:focus-within {
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8fff9;
+        }
+
+        .card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-dark {
+            background: linear-gradient(to right, #3a063a, #580658) !important;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(143, 102, 32, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #3a063a;
+            color: #3a063a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .btn-outline-success {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-success:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-outline-warning {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .badge.bg-primary {
+            background-color: #3a063a !important;
+        }
+
+        .badge.bg-success {
+            background-color: #8f6620 !important;
+        }
+
+        .alert-info {
+            background-color: rgba(143, 102, 32, 0.1);
+            border-color: #8f6620;
+            color: #3a063a;
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+        }
+
+        .modal-content {
+            border: 2px solid #8f6620;
+            border-radius: 10px;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        .assessment-card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            gap: 0.4rem;
+            align-items: center;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pill.pending {
+            background: rgba(251, 191, 36, 0.18);
+            color: #b45309;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-pill.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #047857;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-pill.info {
+            background: rgba(59, 130, 246, 0.18);
+            color: #1d4ed8;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .status-pill.danger {
+            background: rgba(239, 68, 68, 0.18);
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-light {
+            background: rgba(61, 11, 86, 0.1);
+            color: #3a063a;
+            padding: 0.5rem 0.8rem;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .pool-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            margin-bottom: 1.5rem;
+        }
+
+        .pool-tile {
+            border: 1px solid #8f6620;
+            border-radius: 12px;
+            padding: 1rem;
+            background: linear-gradient(to right, #f8f9fa, white);
+            cursor: pointer;
+            text-align: center;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .pool-tile:hover,
+        .pool-tile.active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(143, 102, 32, 0.3);
+            background: linear-gradient(to right, #e9ecef, #f8f9fa);
+            border-color: #3a063a;
+        }
+
+        .pool-tile-module {
+            font-size: .95rem;
+            color: #3a063a;
+            margin-bottom: .35rem;
+            font-weight: 600;
+        }
+
+        .pool-tile-letter {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            color: #580658;
+        }
+
+        .pool-tile-count {
+            font-size: .85rem;
+            color: #6c757d;
+            margin-top: .35rem;
+        }
+
+        .pool-detail-table tbody tr:nth-child(odd) {
+            background: #f9fafb;
+        }
+
+        @media (max-width: 1200px) {
+            .content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                margin-bottom: 15px;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .image-container img {
+                width: 300px;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+                padding: 10px;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar input[type="search"] {
+                width: 90%;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding: 15px;
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+            }
+
+            .image-container img {
+                width: 250px;
+                height: auto;
+            }
+
+            .gradient-button {
+                display: flex;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+
+            .pool-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                padding: 10px 5px;
+            }
+
+            .sidebar .graduate-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .topbar input[type="search"] {
+                width: 80%;
+            }
+
+            .sidebar ul li {
+                margin: 10px 0;
+                justify-content: center;
+            }
+
+            .welcome-box {
+                font-size: 18px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .table-responsive {
+                font-size: 14px;
+            }
+
+            .pool-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .sidebar ul li {
+                font-size: 12px;
+            }
+
+            .fixy,
+            .fix {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .welcome-box {
+                font-size: 16px;
+            }
+
+            .gradient-button {
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="graduate-icon">
+                <!-- <a href="{% url 'assessor_dashboard' %}">
+                    <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width: 130px;">
+                </a> -->
+            </div>
+            <br><br>
+            <ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'assessor_developer' %}">
+                        <i class="fas fa-home me-2"></i>Dashboard
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'assessor_developer' %}">
+                        <i class="fas fa-cogs me-2"></i>Assessor Developer
+                    </a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'assessment_archive' %}">
+                        <i class="fas fa-archive me-2"></i>Assessment History
+                    </a>
+                </li>
+
+                <button class="gradient-button w-100 py-0">
+                    <a href="{% url 'logout' %}" class="fix">
+                        <i class="fas fa-sign-out-alt me-1"></i>Log Out
+                    </a>
+                </button>
+            </ul>
+            <img src="{% static 'core/images/rb_2149331949.png' %}" alt="" width="199px">
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+           
+
+            <!-- Welcome Box -->
+            <div class="welcome-container">
+                <div class="image-container">
+                    <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+                </div>
+                <div class="welcome-box">
+                    <h2><i class="fas fa-cogs me-2"></i> Assessor Developer Pipeline</h2>
+                    <div class="date">
+                        Welcome, {{ user.get_full_name|default:user.username }}<br>
+                        Qualification: <strong>{{ request.user.qualification.name|default:"Not Assigned" }}</strong>
+                        <br>
+                        Manage assessment development, create randomized papers, and track your pipeline progress.
+                        <span class="highlight">Build exceptional assessments!</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if messages %}
+            <div class="messages mt-3">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}info{% endif %} alert-dismissible fade show"
+                    role="alert">
+                    <i
+                        class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Uploaded Assessments -->
+            <div class="card shadow mt-3">
+                <div class="card-header" style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-upload me-2"></i>Uploaded Assessments</h5>
+                        <span class="badge badge-light">{{ assessments|length }} items</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if assessments %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th scope="col">EISA ID</th>
+                                    <th scope="col">Qualification</th>
+                                    <th scope="col">Paper</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Paper Bank</th>
+                                    <th scope="col">Advanced Paper</th>
+                                    <th scope="col" class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for assessment in assessments %}
+                                <tr>
+                                    <td><strong>{{ assessment.eisa_id }}</strong></td>
+                                    <td>{{ assessment.qualification.name|default:"-" }}</td>
+                                    <td>{{ assessment.paper }}</td>
+                                    <td>
+                                        {% with status=assessment.status %}
+                                        {% if "ETQA" in status %}<span class="status-pill info"><i
+                                                class="fas fa-paper-plane me-1"></i>{{ status }}</span>
+                                        {% elif "QCTO" in status %}<span class="status-pill pending"><i
+                                                class="fas fa-user-check me-1"></i>{{ status }}</span>
+                                        {% elif "Approved" in status %}<span class="status-pill success"><i
+                                                class="fas fa-check me-1"></i>{{ status }}</span>
+                                        {% elif "Rejected" in status %}<span class="status-pill danger"><i
+                                                class="fas fa-times me-1"></i>{{ status }}</span>
+                                        {% else %}<span class="status-pill pending">{{ status }}</span>{% endif %}
+                                        {% endwith %}
+                                    </td>
+                                    <td>
+                                        {% if assessment.paper_bank_entry and assessment.paper_bank_entry.original_file
+                                        %}
+                                        <span class="badge bg-success"><i class="fas fa-file-word me-1"></i>
+                                            Ready</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary"><i class="fas fa-exclamation-circle me-1"></i>
+                                            Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if assessment.extractor_paper %}
+                                        <span class="badge bg-primary"><i class="fas fa-project-diagram me-1"></i> #{{
+                                            assessment.extractor_paper.id }}</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary"><i class="fas fa-spinner me-1"></i> Not
+                                            generated</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <form method="post" class="d-inline-flex align-items-center gap-2">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="assessment_id" value="{{ assessment.id }}">
+                                            <input type="hidden" name="refresh" value="0">
+                                            {% if assessment.paper_link and assessment.paper_type != 'randomized' %}
+                                            <span class="text-muted small">Randomize via snapshots</span>
+                                            {% endif %}
+                                            <button type="submit" name="action" value="open_pipeline"
+                                                class="btn btn-success btn-sm">
+                                                <i class="fas fa-external-link-alt me-1"></i>Advanced View
+                                            </button>
+                                            <button type="submit" name="action" value="open_pipeline"
+                                                class="btn btn-outline-warning btn-sm"
+                                                onclick="this.form.refresh.value='1'">
+                                                <i class="fas fa-sync-alt me-1"></i>Rebuild & Open
+                                            </button>
+                                            <button type="submit" name="action" value="forward_etqa"
+                                                class="btn btn-warning btn-sm text-white">
+                                                <i class="fas fa-share me-1"></i>Forward ETQA
+                                            </button>
+                                            <button type="submit" name="action" value="forward_qcto"
+                                                class="btn btn-outline-warning btn-sm">
+                                                <i class="fas fa-share me-1"></i>Forward QCTO
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0"><i class="fas fa-info-circle me-2"></i>No assessments uploaded yet. Once
+                        you upload a paper it will appear here for processing.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Captured Snapshots -->
+            <div class="card shadow mt-3">
+                <div class="card-header" style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-camera me-2"></i>Captured Snapshots</h5>
+                        <span class="badge badge-light">{{ randomized_snapshots|length }} saved</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if randomized_snapshots %}
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-9">
+                            <label for="snapshot-select" class="form-label">Select a randomized snapshot to
+                                review</label>
+                            <select id="snapshot-select" class="form-select"
+                                onchange="if (this.value) { window.location.href = this.value; }">
+                                <option value="">-- Choose a snapshot --</option>
+                                {% for snap in randomized_snapshots %}
+                                <option value="{% url 'assessor_randomized_snapshot' snap.id %}">
+                                    {{ snap.eisa_id }} - {{ snap.paper }} ({{ snap.status }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 text-md-end">
+                            <small class="text-muted">Snapshots are randomized reconstructions generated via the
+                                advanced pipeline.</small>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0"><i class="fas fa-info-circle me-2"></i>No randomized snapshots captured
+                        yet. Build one from the advanced extractor to see it here.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Randomization Pools -->
+            <div class="card shadow mt-3">
+                <div class="card-header" style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-random me-2"></i>Randomization Pools</h5>
+                        <button type="button" class="btn btn-outline-light btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#assessorPoolModal">
+                            <i class="fas fa-eye me-1"></i>View Pools
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-0"><i class="fas fa-info-circle me-2"></i>Audit captured blocks per module
+                        letter before generating randomized papers.</p>
+                </div>
+            </div>
+
+            <!-- Status Cards -->
+            <div class="row g-3 mt-3">
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-header"
+                            style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                            <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Awaiting ETQA</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if awaiting_etqa %}
+                            <ul class="list-group list-group-flush">
+                                {% for item in awaiting_etqa %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ item.eisa_id }}</strong><br>
+                                        <small class="text-muted">{{ item.qualification.name|default:"-" }}</small>
+                                    </div>
+                                    <span class="badge bg-info">{{ item.status }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p class="text-muted mb-0"><i class="fas fa-check-circle me-2"></i>No assessments waiting on
+                                ETQA right now.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow">
+                        <div class="card-header"
+                            style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                            <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Awaiting QCTO</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if awaiting_qcto %}
+                            <ul class="list-group list-group-flush">
+                                {% for item in awaiting_qcto %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ item.eisa_id }}</strong><br>
+                                        <small class="text-muted">{{ item.qualification.name|default:"-" }}</small>
+                                    </div>
+                                    <span class="badge bg-warning">{{ item.status }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p class="text-muted mb-0"><i class="fas fa-check-circle me-2"></i>No assessments waiting on
+                                QCTO right now.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="assessorPoolModal" tabindex="-1" aria-hidden="true"
+        data-url="{% url 'assessor_pool_data' %}" data-randomize-url="{% url 'assessor_pool_randomize' %}">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-random me-2"></i>Randomization Pools</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2 align-items-end mb-3">
+                        <div class="col-md-5">
+                            <label class="form-label mb-1">Module</label>
+                            <select class="form-select" data-role="pool-filter-module">
+                                <option value="">All modules</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label mb-1">Letter</label>
+                            <select class="form-select" data-role="pool-filter-letter">
+                                <option value="">All letters</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 text-md-end">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-role="pool-refresh">Refresh</button>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="poolUseBase"
+                                    data-role="pool-use-base">
+                                <label class="form-check-label" for="poolUseBase">Use base blueprint</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info d-none" data-role="pool-status"></div>
+                    <div class="pool-grid" data-role="pool-grid"></div>
+                    <div class="mt-3" data-role="pool-detail"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="poolPreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-eye me-2"></i>Captured Block Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" data-role="pool-preview-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Animation Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+
+                row.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('input[type="search"]');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('.table tbody tr');
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Add active state to current page in sidebar
+            const currentPath = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                    link.parentElement.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                    link.parentElement.classList.remove('active');
+                }
+            });
+
+            // Original form handling
+            document.querySelectorAll('button[name="action"]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const form = btn.form;
+                    if (btn.value !== 'open_pipeline') {
+                        form.querySelector('input[name="refresh"]').value = '0';
+                    }
+                });
+            });
+
+            // Modal functionality
+            (function () {
+                const modalEl = document.getElementById('assessorPoolModal');
+                if (!modalEl) return;
+
+                const endpoint = modalEl.getAttribute('data-url');
+                const statusEl = modalEl.querySelector('[data-role="pool-status"]');
+                const gridEl = modalEl.querySelector('[data-role="pool-grid"]');
+                const detailEl = modalEl.querySelector('[data-role="pool-detail"]');
+                const moduleSelect = modalEl.querySelector('[data-role="pool-filter-module"]');
+                const letterSelect = modalEl.querySelector('[data-role="pool-filter-letter"]');
+                const refreshBtn = modalEl.querySelector('[data-role="pool-refresh"]');
+                const randomizeUrl = modalEl.getAttribute('data-randomize-url');
+                const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]')?.value || '';
+                const previewModalEl = document.getElementById('poolPreviewModal');
+                const previewModal = previewModalEl ? new bootstrap.Modal(previewModalEl) : null;
+                const previewBody = previewModalEl?.querySelector('[data-role="pool-preview-body"]');
+
+                let tiles = [];
+                let rawModules = [];
+                let activeTile = null;
+
+                const naturalKey = (value) => {
+                    const text = (value || '').toString();
+                    return text.split(/(\d+)/).map(part => (part.match(/^\d+$/) ? Number(part) : part.toLowerCase()));
+                };
+
+                const escapeHtml = (value) => {
+                    const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "\'": "&#39;" };
+                    return (value || '').toString().replace(/[&<>\"']/g, char => map[char] || char);
+                };
+
+                const openPreview = (content, label) => {
+                    if (!previewModal || !previewBody) return;
+                    previewBody.innerHTML = '';
+
+                    const title = document.createElement('h6');
+                    title.className = 'fw-semibold mb-3';
+                    title.textContent = label ? `Block Preview · ${label}` : 'Block Preview';
+                    previewBody.appendChild(title);
+
+                    if (!content) {
+                        previewBody.innerHTML += '<p class="text-muted mb-0">No content captured for this block yet.</p>';
+                        previewModal.show();
+                        return;
+                    }
+
+                    let payload;
+                    try {
+                        payload = JSON.parse(content);
+                    } catch (err) {
+                        previewBody.innerHTML += '<p class="text-muted">Unable to parse captured content.</p>';
+                        previewModal.show();
+                        return;
+                    }
+
+                    const items = Array.isArray(payload) ? payload : (payload.items || []);
+                    if (!items.length) {
+                        previewBody.innerHTML += '<p class="text-muted mb-0">No structured content was captured for this block.</p>';
+                        previewModal.show();
+                        return;
+                    }
+
+                    items.forEach(item => {
+                        if (typeof item !== 'object' || !item) return;
+                        const type = (item.type || '').toLowerCase();
+                        if (type === 'text' || type === 'question_text' || type === 'instruction' || type === 'case_study' || type === 'heading') {
+                            const p = document.createElement('p');
+                            p.textContent = item.text || '';
+                            previewBody.appendChild(p);
+                        } else if (type === 'table') {
+                            const div = document.createElement('div');
+                            div.className = 'table-responsive mb-3';
+                            div.innerHTML = item.html || '';
+                            previewBody.appendChild(div);
+                        } else if (type === 'image') {
+                            (item.images || []).forEach(src => {
+                                const img = document.createElement('img');
+                                img.src = src;
+                                img.className = 'img-fluid rounded border mb-2';
+                                previewBody.appendChild(img);
+                            });
+                        }
+                    });
+
+                    previewModal.show();
+                };
+
+                const setStatus = (message, variant = 'info') => {
+                    if (!statusEl) return;
+                    if (!message) {
+                        statusEl.classList.add('d-none');
+                        statusEl.textContent = '';
+                        return;
+                    }
+                    statusEl.className = `alert alert-${variant}`;
+                    statusEl.textContent = message;
+                };
+
+                const buildTiles = (modules) => {
+                    const list = [];
+                    modules.forEach(module => {
+                        (module.letters || []).forEach(letter => {
+                            list.push({
+                                module: module.name || 'Unknown Module',
+                                letter: letter.letter || '-',
+                                count: letter.count || 0,
+                                entries: letter.entries || [],
+                            });
+                        });
+                    });
+                    list.sort((a, b) => {
+                        const modA = a.module.toLowerCase();
+                        const modB = b.module.toLowerCase();
+                        if (modA !== modB) return modA < modB ? -1 : 1;
+                        if (a.letter !== b.letter) return a.letter < b.letter ? -1 : 1;
+                        return 0;
+                    });
+                    return list;
+                };
+
+                const runRandomize = async (tile) => {
+                    if (!randomizeUrl) {
+                        setStatus('Randomization endpoint unavailable.', 'danger');
+                        return;
+                    }
+                    setStatus(`Randomizing ${tile.module} · ${tile.letter}…`, 'info');
+                    try {
+                        const useBase = modalEl.querySelector('[data-role="pool-use-base"]') ? modalEl.querySelector('[data-role="pool-use-base"]').checked : false;
+                        const mode = useBase ? 'base' : 'pool';
+                        const body = new URLSearchParams({ module: tile.module, letter: tile.letter, mode });
+                        const headers = csrfToken ? { 'X-CSRFToken': csrfToken } : {};
+                        const response = await fetch(randomizeUrl, {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers,
+                            body,
+                        });
+                        const data = await response.json().catch(() => ({}));
+                        if (!response.ok || !data.ok) {
+                            const message = data.message || 'Failed to build randomized paper.';
+                            const missing = Array.isArray(data.missing) && data.missing.length ? ` Missing: ${data.missing.join(', ')}` : '';
+                            setStatus(`${message}${missing}`, 'warning');
+                            return;
+                        }
+                        setStatus(data.message || 'Randomized paper ready.', 'success');
+                        if (data.snapshot_url) {
+                            setTimeout(() => { window.location.href = data.snapshot_url; }, 1000);
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        setStatus('Unexpected error during randomization. Please try again.', 'danger');
+                    }
+                };
+
+                const renderDetail = (tile) => {
+                    detailEl.innerHTML = '';
+                    const heading = document.createElement('h6');
+                    heading.className = 'fw-semibold mb-2';
+                    heading.textContent = `${tile.module} · ${tile.letter}`;
+                    detailEl.appendChild(heading);
+
+                    if (!tile.entries.length) {
+                        const empty = document.createElement('p');
+                        empty.className = 'text-muted';
+                        empty.textContent = 'No captured blocks for this letter yet.';
+                        detailEl.appendChild(empty);
+                        return;
+                    }
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'table-responsive';
+                    const table = document.createElement('table');
+                    table.className = 'table table-sm align-middle pool-detail-table';
+                    table.innerHTML = '<thead><tr><th>Question</th><th>Parent</th><th>Type</th><th>Marks</th><th>Preview</th><th>Captured</th></tr></thead>';
+                    const tbody = document.createElement('tbody');
+
+                    const makeCell = (value) => {
+                        const td = document.createElement('td');
+                        td.textContent = value || '-';
+                        return td;
+                    };
+
+                    tile.entries.forEach(entry => {
+                        const row = document.createElement('tr');
+                        const captured = entry.created_at ? new Date(entry.created_at).toLocaleString() : '-';
+
+                        row.appendChild(makeCell(entry.question_number));
+                        row.appendChild(makeCell(entry.parent_number));
+                        row.appendChild(makeCell(entry.qtype));
+                        row.appendChild(makeCell(entry.marks));
+
+                        const previewCell = document.createElement('td');
+                        const previewBtn = document.createElement('button');
+                        previewBtn.type = 'button';
+                        previewBtn.className = 'btn btn-sm btn-outline-secondary';
+                        previewBtn.setAttribute('data-role', 'pool-preview');
+                        previewBtn.dataset.content = entry.content || '';
+                        previewBtn.dataset.label = entry.question_number || entry.qtype || 'Block';
+                        previewBtn.innerHTML = '<i class="fa fa-eye"></i>';
+                        previewCell.appendChild(previewBtn);
+                        if (entry.content_preview) {
+                            const previewText = document.createElement('span');
+                            previewText.className = 'ms-2 text-muted small';
+                            previewText.textContent = entry.content_preview;
+                            previewCell.appendChild(previewText);
+                        }
+                        row.appendChild(previewCell);
+
+                        row.appendChild(makeCell(captured));
+                        tbody.appendChild(row);
+                    });
+
+                    table.appendChild(tbody);
+                    wrapper.appendChild(table);
+                    detailEl.appendChild(wrapper);
+
+                    tbody.querySelectorAll('[data-role="pool-preview"]').forEach(btn => {
+                        btn.addEventListener('click', () => openPreview(btn.dataset.content, btn.dataset.label));
+                    });
+
+                    const actions = document.createElement('div');
+                    actions.className = 'd-flex justify-content-between align-items-center mt-3';
+                    const note = document.createElement('small');
+                    note.className = 'text-muted';
+                    note.textContent = 'Randomize will create a new paper from this module and letter. Ensure all question numbers are captured.';
+                    const randomizeBtn = document.createElement('button');
+                    randomizeBtn.type = 'button';
+                    randomizeBtn.className = 'btn btn-primary';
+                    randomizeBtn.textContent = 'Randomize From This Pool';
+                    randomizeBtn.addEventListener('click', () => runRandomize(tile));
+                    actions.appendChild(note);
+                    actions.appendChild(randomizeBtn);
+                    detailEl.appendChild(actions);
+                };
+
+                const activateTile = (tile, button) => {
+                    gridEl.querySelectorAll('.pool-tile').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    activeTile = tile;
+                    renderDetail(tile);
+                };
+
+                const renderTiles = (tileList) => {
+                    gridEl.innerHTML = '';
+                    detailEl.innerHTML = '';
+                    activeTile = null;
+
+                    if (!tileList.length) {
+                        setStatus('No pools match this filter. Capture blocks in the extractor to build the pool.', 'warning');
+                        return;
+                    }
+
+                    setStatus('', 'info');
+
+                    tileList.forEach(tile => {
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'pool-tile';
+                        btn.innerHTML = `
+                            <div class="pool-tile-module">${escapeHtml(tile.module)}</div>
+                            <div class="pool-tile-letter">${escapeHtml(tile.letter)}</div>
+                            <div class="pool-tile-count">${tile.count} block${tile.count === 1 ? '' : 's'}</div>`;
+                        btn.addEventListener('click', () => activateTile(tile, btn));
+                        gridEl.appendChild(btn);
+                    });
+
+                    const firstTile = gridEl.querySelector('.pool-tile');
+                    if (firstTile) {
+                        firstTile.click();
+                    }
+                };
+
+                const populateModuleSelect = () => {
+                    if (!moduleSelect) return;
+                    const current = moduleSelect.value;
+                    const modules = rawModules.map(mod => mod.name || 'Unknown Module').sort((a, b) => a.localeCompare(b));
+                    const unique = Array.from(new Set(modules));
+                    moduleSelect.innerHTML = '';
+                    const allOption = document.createElement('option');
+                    allOption.value = '';
+                    allOption.textContent = 'All modules';
+                    moduleSelect.appendChild(allOption);
+                    unique.forEach(name => {
+                        const opt = document.createElement('option');
+                        opt.value = name;
+                        opt.textContent = name;
+                        if (current && current === name) {
+                            opt.selected = true;
+                        }
+                        moduleSelect.appendChild(opt);
+                    });
+                };
+
+                const populateLetterSelect = () => {
+                    if (!letterSelect) return;
+                    const currentModule = moduleSelect?.value || '';
+                    const letters = new Set();
+                    rawModules.forEach(mod => {
+                        if (currentModule && (mod.name || 'Unknown Module') !== currentModule) return;
+                        (mod.letters || []).forEach(letter => {
+                            const val = (letter.letter || '').toUpperCase();
+                            if (val) letters.add(val);
+                        });
+                    });
+                    const sortedLetters = Array.from(letters).sort();
+                    const currentLetter = letterSelect.value;
+                    letterSelect.innerHTML = '';
+                    const allOption = document.createElement('option');
+                    allOption.value = '';
+                    allOption.textContent = 'All letters';
+                    letterSelect.appendChild(allOption);
+                    sortedLetters.forEach(letter => {
+                        const opt = document.createElement('option');
+                        opt.value = letter;
+                        opt.textContent = letter;
+                        if (currentLetter && currentLetter === letter) {
+                            opt.selected = true;
+                        }
+                        letterSelect.appendChild(opt);
+                    });
+                };
+
+                const getFilteredTiles = () => {
+                    const moduleVal = moduleSelect?.value || '';
+                    const letterVal = (letterSelect?.value || '').toUpperCase();
+                    return tiles.filter(tile => {
+                        if (moduleVal && tile.module !== moduleVal) return false;
+                        if (letterVal && tile.letter !== letterVal) return false;
+                        return true;
+                    });
+                };
+
+                const fetchData = async () => {
+                    gridEl.innerHTML = '';
+                    detailEl.innerHTML = '';
+                    setStatus('Loading pool entries…', 'info');
+                    try {
+                        const response = await fetch(endpoint, { credentials: 'same-origin' });
+                        if (!response.ok) throw new Error('Request failed');
+                        const data = await response.json();
+                        rawModules = data.modules || [];
+                        tiles = buildTiles(rawModules);
+                        populateModuleSelect();
+                        populateLetterSelect();
+                        const filtered = getFilteredTiles();
+                        if (!tiles.length) {
+                            setStatus('No captured blocks found yet. Capture boxes in the extractor to build the pool.', 'warning');
+                            return;
+                        }
+                        renderTiles(filtered);
+                    } catch (err) {
+                        console.error(err);
+                        setStatus('Failed to load pool data. Please try again.', 'danger');
+                    }
+                };
+
+                modalEl.addEventListener('show.bs.modal', () => {
+                    if (!rawModules.length) {
+                        fetchData();
+                    }
+                });
+
+                refreshBtn?.addEventListener('click', () => {
+                    rawModules = [];
+                    tiles = [];
+                    fetchData();
+                });
+
+                moduleSelect?.addEventListener('change', () => {
+                    populateLetterSelect();
+                    if (!tiles.length) return;
+                    renderTiles(getFilteredTiles());
+                });
+
+                letterSelect?.addEventListener('change', () => {
+                    if (!tiles.length) return;
+                    renderTiles(getFilteredTiles());
+                });
+            })();
+        });
+
+        // Celebration animation
+        function triggerCelebration() {
+            const container = document.getElementById('confettiContainer');
+            container.style.display = 'block';
+
+            for (let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+
+            setTimeout(() => {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            }, 3000);
+        }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            confetti.style.backgroundColor = randomColor;
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+            const animation = confetti.animate([
+                { top: '-10px', opacity: 1, transform: `rotate(0deg) scale(1)` },
+                { top: '100vh', opacity: 0, transform: `rotate(${Math.random() * 360}deg) scale(0.5)` }
+            ], {
+                duration: 3000,
+                easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+            });
+
+            document.getElementById('confettiContainer').appendChild(confetti);
+
+            animation.onfinish = () => {
+                confetti.remove();
+            };
+        }
+    </script>
+</body>
+
+</html>

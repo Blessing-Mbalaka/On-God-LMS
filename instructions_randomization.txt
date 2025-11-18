@@ -1,0 +1,76 @@
+CHIETA LMS Randomization: How It Works Now
+
+Overview
+- Randomized papers are built ONLY from captured snapshots (Extractor UserBoxes), not from classification fallbacks.
+- Selection pulls content from different paper letters than the base (e.g., if base is letter A, picks come from B/C/D).
+- Both module name and module letter are mandatory to run randomization.
+
+Key Terms
+- Module Name: Qualification module name (e.g., “Electrical Safety”).
+- Module Letter (Number): Parallel paper letter (A, B, C, D). We call it the “module number” in code.
+- Snapshots / Boxes: User‑captured blocks in the Extractor UI (question, heading, instruction, case study, etc.).
+
+What Changed
+1) Cross-letter pooling only
+   - Pool includes boxes for the same module name but from letters different to the one supplied.
+   - Example: base = 1A → pool sources from 1B/1C/1D (if available), not 1A.
+
+2) Snapshot-only materialization
+   - Every node in the randomized paper must have a corresponding captured box in the pool.
+   - If any required node has no candidate box in alternate letters, randomization fails with a clear error.
+
+3) Mandatory metadata
+   - Module name and module letter must be set before randomizing or refreshing a snapshot.
+   - The UI will show an error if they’re missing.
+
+Where The Logic Lives
+- Builder: core/paper_utils.py: build_randomized_structure_from_pool
+- Pooling: core/paper_utils.py: collect_randomization_pool
+- Views: core/views.py (assessor_randomized_snapshot view and randomize_paper_structure_view)
+
+Prerequisites (Before Randomizing)
+1) Capture snapshots (boxes) in the Extractor for at least two letters of the same module.
+   - Upload Paper A, set module name and letter=A; draw and save boxes (questions, instructions, etc.).
+   - Upload Paper B (and/or C/D), set same module name and letter=B; draw and save boxes.
+2) Ensure module name and letter are recorded on the source assessment or in the paper’s randomization meta.
+
+How To Create A New Randomized Snapshot (Assessor Developer)
+1) Open the base assessment/paper in Assessor Developer.
+2) Confirm module name and module letter fields are set (e.g., “1A”).
+3) Click “Create Snapshot”.
+   - The system builds a new Paper using only boxes from other letters (B/C/D) with the same module name.
+   - If any required content is missing in alternate letters, you’ll get a descriptive error.
+4) The snapshot can be opened in the Extractor view for editing/annotation if needed.
+
+How To Refresh An Existing Snapshot
+1) Open the existing randomized snapshot in Assessor Developer.
+2) Ensure module name and letter are set on the snapshot metadata.
+3) Click “Update Snapshot”.
+   - The snapshot is rebuilt from cross‑letter pools only.
+   - If modules/letters are missing or items are not available in alternate letters, you’ll see an error.
+
+How To Prepare The Pool (Extractor)
+1) Go to the Extractor UI (exam_extractor/paper view) for each lettered paper.
+2) Set module name and paper letter on the paper.
+3) Draw boxes for:
+   - Question (and question_part where applicable)
+   - Instruction / Heading / Case Study / Rubric (as needed)
+4) Save boxes. Repeat for other letters.
+
+Troubleshooting
+- Error: “Module name is required…”: Set module name on the snapshot/assessment before running.
+- Error: “Module letter is required…”: Set the paper letter (A/B/C/D) before running.
+- Error: “No captured snapshots found for alternate letters.”: Capture boxes for at least one other letter.
+- Error: “No captured snapshot available for …”: A specific node (e.g., Question 2.1) has no alternate-letter box; capture it in another lettered paper.
+
+Notes
+- Question order is still randomized within sections, but all content comes from snapshots only.
+- Base-extractor boxes join the pool only if they belong to a different letter than the supplied module letter.
+
+Formating
+-The saving done by the admin, and all responsibility for correct snapshot saving is the responsibility of the admin.
+-There should be an effort to ensure question blocks are captured to the system correctly, so that the logic works as planned. 
+
+
+Emergencies:
+bjmbalaka@gmail.com 

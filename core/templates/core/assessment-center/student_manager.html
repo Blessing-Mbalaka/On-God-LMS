@@ -1,0 +1,671 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #ecf0f1;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar ul li {
+            transition: background-color 0.3s ease;
+            border-top: 1.5px solid #580658;
+            border-radius: 10px;
+            color: #580658;
+        }
+
+        .fixy {
+            border-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 10px;
+            margin-bottom: -2px;
+            background-color: #8f6620;
+        }
+
+        .fix {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            color: whitesmoke;
+            border-color: #f9f9f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #4d4747;
+            border-color: #007BFF;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #8f6620;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: rgb(81, 3, 102);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            color: rgb(249, 249, 249);
+            transition: color 0.3s;
+        }
+
+        .sidebar {
+            width: 210px;
+            min-height: 100vh;
+            font-size: 13px;
+            background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
+            padding: 20px;
+            border-radius: 0px 0px 0px 0px;
+            border-right: 1px solid #8f6620;
+            box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar .graduate-icon {
+            border-radius: 20px;
+            height: 110px;
+            width: 105px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            background-color: #efeaea;
+            background-image: url("{% static 'core/images/Frame.png' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.9;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar input[type="search"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4d4747;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            min-height: 25vh;
+            position: relative;
+            border-left: 4px solid rgb(81, 3, 102);
+        }
+
+        .welcome-box .date {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .date {
+            font-size: 16px;
+            color: grey;
+        }
+
+        .gradient-button {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #8f6620;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .welcome-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container {
+            position: absolute;
+            top: -37px;
+            right: 0;
+            z-index: 2;
+        }
+
+        /* Card and table styling updates */
+        .card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+            font-weight: bold;
+            border-bottom: 1px solid #8f6620;
+        }
+
+        .table-dark {
+            background: linear-gradient(to right, #3a063a, #580658) !important;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(143, 102, 32, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #3a063a;
+            color: #3a063a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .btn-outline-success {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-success:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-outline-warning {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-primary:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .badge.bg-primary {
+            background-color: #3a063a !important;
+        }
+
+        .badge.bg-success {
+            background-color: #8f6620 !important;
+        }
+
+        .alert-info {
+            background-color: rgba(143, 102, 32, 0.1);
+            border-color: #8f6620;
+            color: #3a063a;
+        }
+
+        /* Form container styling */
+        .form-container {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Table styling */
+        .table-bordered {
+            border: 1px solid #8f6620;
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #8f6620;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                margin-bottom: 15px;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .image-container img {
+                width: 300px;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+                padding: 10px;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar input[type="search"] {
+                width: 90%;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding: 15px;
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+            }
+
+            .image-container img {
+                width: 250px;
+                height: auto;
+            }
+
+            .gradient-button {
+                display: flex;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                padding: 10px 5px;
+            }
+
+            .sidebar .graduate-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .topbar input[type="search"] {
+                width: 80%;
+            }
+
+            .sidebar ul li {
+                margin: 10px 0;
+                justify-content: center;
+            }
+
+            .welcome-box {
+                font-size: 18px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .table-responsive {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .sidebar ul li {
+                font-size: 12px;
+            }
+
+            .fixy,
+            .fix {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .welcome-box {
+                font-size: 16px;
+            }
+
+            .gradient-button {
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="graduate-icon">
+                <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo"
+                    style="width: 130px;">
+            </div>
+            <br><br>
+            <ul>
+                <li class="nav-item">
+                    <a href="{% url 'assessment_center' %}" class="nav-item">
+                        <i class="fa fa-home me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'create_student_by_assessment_center' %}" class="nav-item">
+                        <i class="fa fa-cogs me-2"></i>Student Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'upload_student_register' %}" class="nav-item">
+                        <i class="fa fa-upload me-2"></i>Upload Offline Student Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'upload_offline_exam' %}" class="nav-item">
+                        <i class="fa fa-upload me-2"></i>Upload Offline Exam
+                    </a>
+                </li>
+
+                <button class="gradient-button w-100 py-0">
+                    <a href="{% url 'logout' %}" class="fix"> Log Out</a>
+                </button>
+            </ul>
+            <img src="{% static 'core/images/rb_2149331949.png' %}" alt="" width="199px">
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+           
+
+            <!-- Welcome Box -->
+            <div class="welcome-container">
+                <div class="image-container">
+                    <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+                </div>
+                <div class="welcome-box">
+                    <h2><i class="fas fa-user-graduate me-2"></i>Student Management</h2>
+                    <div class="date">
+                        Welcome, {{ user.get_full_name|default:user.username }}<br>
+                        Center: <strong>{{ assessment_center.name }}</strong><br>
+                        Qualification: <strong>{{ qualification.name }}</strong>
+                        <br><br>
+                        Create and manage student accounts, activate or deactivate student access,
+                        and maintain student records for your assessment center.
+                        <span class="highlight">Empowering student success!</span>
+                        <br>
+                    </div>
+                    <button class="gradient-button">Manage Students</button>
+                </div>
+            </div>
+
+            <!-- Create Student Form -->
+            <div class="form-container">
+                <h2><i class="fas fa-user-plus me-2"></i>Create Student Account</h2>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_name" class="form-label">Full Name</label>
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_student_number" class="form-label">Student Number</label>
+                            {{ form.student_number }}
+                            {{ form.student_number.errors }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Assessment Center</label>
+                            <input type="text" class="form-control" value="{{ assessment_center.name }}" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Qualification</label>
+                            <input type="text" class="form-control" value="{{ qualification.name }}" disabled>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary gradient-button">
+                        <i class="fas fa-save me-1"></i>Create Student
+                    </button>
+                </form>
+            </div>
+
+            <!-- Student List with Activation/Deactivation -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Student Accounts</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Student Number</th>
+                                    <th>Date Created</th>
+                                    <th>Assessment Center</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td><strong>{{ student.get_full_name }}</strong></td>
+                                    <td>{{ student.email }}</td>
+                                    <td>{{ student.student_number }}</td>
+                                    <td>{{ student.created_at|date:"Y-m-d" }}</td>
+                                    <td>{{ student.assessment_centre.name }}</td>
+                                    <td>
+                                        {% if student.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Inactive</span>
+                                        <small class="text-muted d-block">
+                                            {{ student.deactivated_at|date:"Y-m-d" }}
+                                        </small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form method="post" action="{% url 'toggle_student_status' student.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="student_id" value="{{ student.id }}">
+                                            {% if student.is_active %}
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-times me-1"></i>Deactivate
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="fas fa-check me-1"></i>Activate
+                                            </button>
+                                            {% endif %}
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-3">No students found for your center.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+Randomization pool filtering appeared to be broken for Maintenance Planner users because the API endpoint that populates the assessor pool (`assessor_pool_data`) only returned extractor boxes whose `ExtractorPaper` is linked to an `Assessment` via the `assessment_record` one-to-one. Most captured boxes in the environment live on extractor papers that have never been attached to an assessment, so the queryset filter
+
+    paper__assessment_record__qualification=restrict_to_qualification
+
+removed nearly every box. Superusers and admins could still see the pool because their requests skipped this qualification filter entirely. Regular users, on the other hand, were left with an empty result set, which made the modal show “No pools match this filter…”.
+
+Until we either (1) link every extractor paper to its corresponding assessment or (2) relax the filter to handle unlinked papers (for example, by joining through `module_name` metadata), Maintenance Planner users will continue to see an empty randomization pool even though captured boxes exist.

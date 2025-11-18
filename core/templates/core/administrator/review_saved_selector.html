@@ -1,0 +1,165 @@
+﻿{% extends "core/base.html" %}
+{% load static %}
+{% load smart_media %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2>Select a Saved Paper</h2>
+
+  <form method="get" class="mb-4">
+    <label for="type" class="form-label">Filter by Type:</label>
+    <select name="type" id="type" onchange="this.form.submit()" class="form-select w-auto d-inline-block ms-2">
+      <option value="">All Papers</option>
+      <option value="original" {% if filter_type == 'original' %}selected{% endif %}>Original</option>
+      <option value="randomized" {% if filter_type == 'randomized' %}selected{% endif %}>Randomized</option>
+    </select>
+  </form>
+
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="row g-2">
+      <div class="col-sm-8">
+        <label for="paper-select" class="form-label">Select a Paper to Load or Randomize:</label>
+        <select name="paper_id" id="paper-select" class="form-select">
+          <option value="">-- Choose a Paper --</option>
+          {% for paper in papers %}
+          <option value="{{ paper.pk }}">
+            {{ paper.name }}{% if paper.is_randomized %} [RANDOMIZED]{% endif %} - {{ paper.qualification.code|default:"No Code" }} (ID: {{ paper.pk }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-4 d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Load Paper</button>
+      </div>
+    </div>
+  </form>
+
+  {% if selected_paper %}
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Selected Paper: {{ selected_paper.name }}</h4>
+    </div>
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <h5>Paper Information</h5>
+          <table class="table table-bordered">
+            <tr>
+              <th>Qualification</th>
+              <td>{{ selected_paper.qualification.name|default:"-" }}</td>
+            </tr>
+            <tr>
+              <th>Total Marks</th>
+              <td>{{ selected_paper.total_marks|default:"-" }}</td>
+            </tr>
+            <tr>
+              <th>Created</th>
+              <td>{{ selected_paper.created_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h5>Extraction Stats</h5>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Questions
+              <span class="badge bg-primary rounded-pill">{{ node_stats.questions|default:"0" }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Tables
+              <span class="badge bg-primary rounded-pill">{{ node_stats.tables|default:"0" }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Images
+              <span class="badge bg-primary rounded-pill">{{ node_stats.images|default:"0" }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {% if node_sequence %}
+      <h5 class="mt-4">Paper Preview</h5>
+      <div class="paper-preview">
+        {% for node in node_sequence %}
+          {% include 'core/administrator/_readonly_node.html' with node=node %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="alert alert-warning mt-3">No structured nodes available for this paper.</div>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <hr class="my-5">
+
+  <h4>All Original Papers</h4>
+  {% if original_papers %}
+  <table class="table table-bordered table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Qualification</th>
+        <th>Total Marks</th>
+        <th>Questions</th>
+        <th>ID</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paper in original_papers %}
+      <tr>
+        <td>{{ paper.name }}</td>
+        <td>{{ paper.qualification.name|default:"-" }}</td>
+        <td>{{ paper.total_marks }}</td>
+        <td>{{ paper.question_count|default:"-" }}</td>
+        <td>{{ paper.id }}</td>
+        <td>{{ paper.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+          <a href="{% url 'load_saved_paper' paper.pk %}" class="btn btn-sm btn-outline-primary w-100 text-nowrap">View / Update</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-muted">No original papers yet.</p>
+  {% endif %}
+
+  <hr class="my-5">
+
+  <h4>Randomized Papers</h4>
+  {% if randomized_papers %}
+  <table class="table table-bordered table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Qualification</th>
+        <th>Total Marks</th>
+        <th>ID</th>
+        <th>Action</th>
+        <th>Created At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paper in randomized_papers %}
+      <tr>
+        <td>{{ paper.name }}</td>
+        <td>{{ paper.qualification.name|default:"-" }}</td>
+        <td>{{ paper.total_marks }}</td>
+        <td>{{ paper.id }}</td>
+        <td>
+          <a href="{% url 'load_saved_paper' paper.pk %}" class="btn btn-sm btn-outline-primary w-100 text-nowrap">View / Update</a>
+        </td>
+        <td>{{ paper.created_at|date:"Y-m-d H:i" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-muted">No randomized papers yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

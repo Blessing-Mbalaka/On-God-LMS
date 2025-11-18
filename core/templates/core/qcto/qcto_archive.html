@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QCTO Archive | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .content {
+      padding: 30px;
+      background-color: #efeaea;
+      background-image: url("{% static 'core/images/Frame.png' %}");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .filter-section {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .filter-section input,
+    .filter-section select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 200px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      margin-top: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    thead {
+      background-color: #552a74;
+      color: white;
+    }
+
+    .export-btn {
+      background: #552a74;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      float: right;
+      margin-top: 10px;
+    }
+
+    .export-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="graduate-icon">
+        <a href="{% url 'qcto_dashboard' %}">
+          <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width:130px;">
+        </a>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="nav-item">
+          <a href="{% url 'qcto_dashboard' %}" class="nav-link{% if request.resolver_match.url_name == 'qcto_dashboard' %} active{% endif %}">
+            <i class="fa fa-tachometer-alt"></i><span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'qcto_assessment_review' %}" class="nav-link{% if request.resolver_match.url_name == 'qcto_assessment_review' %} active{% endif %}">
+            <i class="fa fa-check-square"></i><span>Review Final Assessments</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'qcto_compliance' %}" class="nav-link{% if request.resolver_match.url_name == 'qcto_compliance' %} active{% endif %}">
+            <i class="fa fa-clipboard-check"></i><span>Compliance & Reports</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'qcto_archive' %}" class="nav-link{% if request.resolver_match.url_name == 'qcto_archive' %} active{% endif %}">
+            <i class="fa fa-archive"></i><span>Assessment Archive</span>
+          </a>
+        </li>
+      </ul>
+      <a href="{% url 'logout' %}" class="fix">🚪 Log Out</a><br>
+      <div class="sidebar-footer">
+        <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art">
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <h2 style="text-align:center;">QCTO Review Archive</h2>
+      <div class="filter-section">
+        <input type="text" id="filterID" placeholder="Search by ID">
+        <select id="filterDecision">
+          <option value="">All Decisions</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <input type="text" id="filterComment" placeholder="Search comments">
+        <button class="export-btn" onclick="exportArchive()">📤 Export CSV</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Assessment ID</th>
+            <th>Decision</th>
+            <th>Comment</th>
+            <th>Date Reviewed</th>
+          </tr>
+        </thead>
+        <tbody id="archiveTableBody">
+          {% for entry in archives %}
+            <tr>
+              <td>{{ entry.eisa_id }}</td>
+              <td>{{ entry.status }}</td>
+              <td>{{ entry.qcto_notes|default:"-" }}</td>
+              <td>{{ entry.created_at|date:"Y-m-d" }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4">No archive entries.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function exportArchive() {
+      alert("CSV export triggered.");
+      // Hook into backend logic later
+    }
+  </script>
+</body>
+</html>

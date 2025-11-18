@@ -1,0 +1,984 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIETA Moderator Developer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #ecf0f1;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar ul li {
+            transition: background-color 0.3s ease;
+            border-top: 1.5px solid #580658;
+            border-radius: 10px;
+            color: #580658;
+        }
+
+        .fixy {
+            border-color: #ffffff;
+            width: 100%;
+            height: 40px;
+            color: whitesmoke;
+            border-radius: 10px;
+            margin-bottom: -2px;
+            background-color: #8f6620;
+        }
+
+        .fix {
+            width: 100%;
+            height: 40px;
+            border-radius: 10px;
+            color: whitesmoke;
+            border-color: #f9f9f9;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #ffffff;
+            color: #4d4747;
+            border-color: #007BFF;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #8f6620;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            height: 30px;
+            list-style: none;
+        }
+
+        .nav-item {
+            color: rgb(81, 3, 102);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-item:hover {
+            color: rgb(249, 249, 249);
+            transition: color 0.3s;
+        }
+
+        .sidebar {
+            width: 210px;
+            min-height: 100vh;
+            font-size: 13px;
+            background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
+            padding: 20px;
+            border-radius: 0px 0px 0px 0px;
+            border-right: 1px solid #8f6620;
+            box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar .graduate-icon {
+            border-radius: 20px;
+            height: 110px;
+            width: 105px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 240px;
+            width: calc(100% - 240px);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar input[type="search"] {
+            padding: 10px;
+            width: 70%;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .welcome-box {
+            background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4d4747;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            min-height: 25vh;
+            position: relative;
+            border-left: 4px solid rgb(81, 3, 102);
+        }
+
+        .welcome-box .date {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .date {
+            font-size: 16px;
+            color: grey;
+        }
+
+        .gradient-button {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 12px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .gradient-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background-color: #8f6620;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .welcome-container {
+            position: relative;
+            margin: 20px;
+        }
+
+        .image-container {
+            position: absolute;
+            top: -37px;
+            right: 0;
+            z-index: 2;
+        }
+
+        /* Tab Navigation */
+        .nav-tabs {
+            border-bottom: 2px solid #3a063a;
+        }
+
+        .nav-tabs .nav-link {
+            color: #3a063a;
+            font-weight: bold;
+            border: none;
+            padding: 12px 20px;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+        }
+
+        .nav-tabs .nav-link:hover {
+            border: none;
+            color: #8f6620;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        /* Table and grading styles */
+        .grading-cell {
+            min-width: 250px;
+        }
+
+        .feedback-box {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .badge-count {
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        .upload-marked-btn {
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .upload-marked-btn:hover {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .marked-paper-badge {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .grade-form {
+            transition: all 0.3s ease;
+        }
+
+        .grade-form:focus-within {
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25);
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8fff9;
+        }
+
+        /* Card and table styling updates */
+        .card {
+            background: linear-gradient(to right, white, rgb(240, 239, 239));
+            border: 1px solid #8f6620;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-dark {
+            background: linear-gradient(to right, #3a063a, #580658) !important;
+            color: white;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(143, 102, 32, 0.1);
+        }
+
+        .btn-outline-primary {
+            border-color: #3a063a;
+            color: #3a063a;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3a063a;
+            color: white;
+        }
+
+        .btn-outline-success {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #3a063a;
+            border-color: #3a063a;
+        }
+
+        .btn-success:hover {
+            background-color: #8f6620;
+            border-color: #8f6620;
+        }
+
+        .btn-outline-warning {
+            border-color: #8f6620;
+            color: #8f6620;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #8f6620;
+            color: white;
+        }
+
+        .badge.bg-primary {
+            background-color: #3a063a !important;
+        }
+
+        .badge.bg-success {
+            background-color: #8f6620 !important;
+        }
+
+        .alert-info {
+            background-color: rgba(143, 102, 32, 0.1);
+            border-color: #8f6620;
+            color: #3a063a;
+        }
+
+        /* NEW: Memo button styling */
+        .btn-memo {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-memo:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+            color: white;
+        }
+
+        .btn-memo-outline {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .btn-memo-outline:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        /* Modal styling */
+        .modal-header {
+            background: linear-gradient(to right, #3a063a, #580658);
+            color: white;
+        }
+
+        .modal-content {
+            border: 2px solid #8f6620;
+            border-radius: 10px;
+        }
+
+        /* Celebration animation */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        /* Status badge styling */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .moderation-inline-form {
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .moderation-inline-form {
+                align-items: stretch;
+            }
+        }
+
+        /* Paper View Button Styling */
+        .btn-advanced {
+            background-color: #3a063a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-advanced:hover {
+            background-color: #8f6620;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                margin-bottom: 15px;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .content {
+                margin-left: 190px;
+                width: calc(100% - 190px);
+            }
+
+            .image-container img {
+                width: 300px;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+                height: auto;
+                padding: 10px;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .topbar input[type="search"] {
+                width: 90%;
+            }
+
+            .welcome-box {
+                height: auto;
+                padding: 15px;
+            }
+
+            .image-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+            }
+
+            .image-container img {
+                width: 250px;
+                height: auto;
+            }
+
+            .gradient-button {
+                display: flex;
+                justify-content: center;
+                margin-left: 0;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                padding: 10px 5px;
+            }
+
+            .sidebar .graduate-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .topbar input[type="search"] {
+                width: 80%;
+            }
+
+            .sidebar ul li {
+                margin: 10px 0;
+                justify-content: center;
+            }
+
+            .welcome-box {
+                font-size: 18px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .table-responsive {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                padding: 5px;
+            }
+
+            .sidebar ul li {
+                font-size: 12px;
+            }
+
+            .fixy,
+            .fix {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .welcome-box {
+                font-size: 16px;
+            }
+
+            .gradient-button {
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="graduate-icon">
+                <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo"
+                    style="width: 130px;">
+            </div>
+            <br><br>
+            <ul>
+                <li class="nav-item">
+                    <a href="#" class="nav-item"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+                </li>
+                <button class="gradient-button w-100 py-0">
+                    <a href="{% url 'logout' %}" class="fix">
+                        <i class="fas fa-sign-out-alt me-1"></i>Log Out
+                    </a>
+                </button>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+         
+            <!-- Welcome Box -->
+            <div class="welcome-container">
+                <div class="image-container">
+                    <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+                </div>
+                <div class="welcome-box">
+                    <h2><i class="fas fa-user-shield me-2"></i> Moderator Developer</h2>
+                    <div class="date">
+                        Manage assessment moderation, review submissions, and ensure quality standards.
+                        <br>Stay updated with pending moderation tasks and completed reviews.
+                        <span class="highlight">Maintain assessment excellence!</span>
+                        <br>
+                        <div class="date">{{ today|date:"l, F j, Y" }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display messages -->
+            {% if messages %}
+            <div class="messages mt-3">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
+                    role="alert">
+                    <i
+                        class="fas fa-{% if message.tags == 'error' %}exclamation-triangle{% else %}check-circle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Tab Navigation -->
+            <div class="card shadow mt-3">
+                <div class="card-header" style="background: linear-gradient(to right, #3a063a, #580658); color: white;">
+                    <ul class="nav nav-tabs card-header-tabs" id="assessmentTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="moderation-tab" data-bs-toggle="tab" data-bs-target="#moderation" type="button" role="tab" aria-controls="moderation" aria-selected="true">
+                                <i class="fas fa-list-ol me-2"></i> Assessments Requiring Moderation
+                                {% if pending_assessments %}
+                                <span class="badge badge-count bg-danger">{{ pending_assessments|length }}</span>
+                                {% endif %}
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="achieved-tab" data-bs-toggle="tab" data-bs-target="#achieved" type="button" role="tab" aria-controls="achieved" aria-selected="false">
+                                <i class="fas fa-check-circle me-2"></i> Archived Assessments
+                                {% if achieved_assessments %}
+                                <span class="badge badge-count bg-success">{{ achieved_assessments|length }}</span>
+                                {% endif %}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="assessmentTabsContent">
+                        <!-- Moderation Tab -->
+                        <div class="tab-pane fade show active" id="moderation" role="tabpanel" aria-labelledby="moderation-tab">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th scope="col">EISA ID</th>
+                                            <th scope="col">Qualification</th>
+                                            <th scope="col">Paper</th>
+                                            <th scope="col">Submitted</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col" class="text-nowrap">Moderation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for asmt in pending_assessments %}
+                                        <tr>
+                                            <td class="fw-semibold">{{ asmt.eisa_id }}</td>
+                                            <td>{{ asmt.qualification.name|default:"-" }}</td>
+                                            <td>{{ asmt.paper }}</td>
+                                            <td>{{ asmt.created_at|date:"M j, Y H:i" }}</td>
+                                            <td><span class="badge bg-secondary">{{ asmt.status }}</span></td>
+                                            <td>
+                                                <div class="d-flex flex-column gap-2">
+                                                    <!-- NEW: Memo Download Button -->
+                                                    {% if asmt.paper_type == 'randomized' and asmt.memo_file or asmt.memo %}
+                                                    <a href="{% url 'download_memo' asmt.id %}" 
+                                                       class="btn btn-sm btn-memo text-nowrap" 
+                                                       target="_blank"
+                                                       title="Download memo submitted by assessor">
+                                                        <i class="fas fa-file-alt me-1"></i> Download Memo
+                                                    </a>
+                                                    {% elif asmt.memo %}
+                                                    <a href="{% url 'download_memo' asmt.id %}" 
+                                                       class="btn btn-sm btn-memo text-nowrap" 
+                                                       target="_blank"
+                                                       title="Download memo submitted by assessor">
+                                                        <i class="fas fa-file-alt me-1"></i> Download Memo
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="text-muted small">No memo available</span>
+                                                    {% endif %}
+
+                                                    <form method="post" style="margin: 0;">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="assessment_id" value="{{ asmt.id }}">
+                                                        <!-- <button type="submit" name="action" value="open_pipeline"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-eye me-1"></i> View Paper
+                                                        </button> -->
+                                                    </form>
+                                                    {% if asmt.paper_type == 'randomized' %}
+                                                    <a href="{% url 'assessor_randomized_snapshot' asmt.id %}"
+                                                        class="btn btn-sm btn-outline-success text-nowrap">
+                                                        <i class="fas fa-project-diagram me-1"></i> View Randomised
+                                                    </a>
+                                                    <a href="{% url 'download_randomized_pdf' asmt.id %}?format=docx"
+                                                        class="btn btn-sm btn-outline-secondary text-nowrap">
+                                                        <i class="fas fa-download me-1"></i> Download Word
+                                                    </a>
+                                                    {% elif asmt.paper_link %}
+                                                    <a href="{% url 'load_saved_paper' asmt.paper_link.pk %}"
+                                                        class="btn btn-sm btn-outline-primary text-nowrap">
+                                                        <i class="fas fa-eye me-1"></i> View Paper
+                                                    </a>
+                                                    {% elif asmt.file %}
+                                                    <a href="{{ asmt.file.url }}" target="_blank"
+                                                        class="btn btn-sm btn-outline-secondary text-nowrap">
+                                                        <i class="fas fa-download me-1"></i> Download Paper
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="text-muted small">No paper available</span>
+                                                    {% endif %}
+                                                    <form method="post" action="{% url 'moderate_assessment' asmt.eisa_id %}"
+                                                        enctype="multipart/form-data"
+                                                        class="d-flex flex-column flex-lg-row gap-2 moderation-inline-form">
+                                                        {% csrf_token %}
+                                                        <input type="file" name="moderator_report"
+                                                            accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                            class="form-control form-control-sm" required>
+                                                        <div class="d-flex gap-2">
+                                                            <button type="submit" name="action" value="approve"
+                                                                class="btn btn-sm btn-success text-nowrap">
+                                                                <i class="fas fa-check me-1"></i> Approve
+                                                            </button>
+                                                            <button type="submit" name="action" value="return"
+                                                                class="btn btn-sm btn-outline-danger text-nowrap">
+                                                                <i class="fas fa-undo me-1"></i> Return
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">No assessments pending moderation.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Achieved Assessments Tab -->
+                        <div class="tab-pane fade" id="achieved" role="tabpanel" aria-labelledby="achieved-tab">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th scope="col">EISA ID</th>
+                                            <th scope="col">Qualification</th>
+                                            <th scope="col">Paper</th>
+                                            <th scope="col">Moderated Date</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col" class="text-nowrap">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for asmt in achieved_assessments %}
+                                        <tr>
+                                            <td class="fw-semibold">{{ asmt.eisa_id }}</td>
+                                            <td>{{ asmt.qualification.name|default:"-" }}</td>
+                                            <td>{{ asmt.paper }}</td>
+                                            <td>{{ asmt.status_changed_at|date:"M j, Y H:i"|default:"-" }}</td>
+                                            <td>
+                                                <span class="badge {% if asmt.status == 'Submitted to QCTO' %}bg-success{% else %}bg-warning{% endif %}">
+                                                    {{ asmt.status }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column gap-2">
+                                                    <!-- NEW: Memo Download Button -->
+                                                    {% if asmt.paper_type == 'randomized' and asmt.memo_file or asmt.memo %}
+                                                    <a href="{% url 'download_memo' asmt.id %}" 
+                                                       class="btn btn-sm btn-memo-outline text-nowrap" 
+                                                       target="_blank"
+                                                       title="Download memo submitted by assessor">
+                                                        <i class="fas fa-file-alt me-1"></i> Download Memo
+                                                    </a>
+                                                    {% elif asmt.memo %}
+                                                    <a href="{% url 'download_memo' asmt.id %}" 
+                                                       class="btn btn-sm btn-memo-outline text-nowrap" 
+                                                       target="_blank"
+                                                       title="Download memo submitted by assessor">
+                                                        <i class="fas fa-file-alt me-1"></i> Download Memo
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="text-muted small">No memo available</span>
+                                                    {% endif %}
+
+                                                    <!-- View Paper Options -->
+                                                    {% if asmt.paper_type == 'randomized' %}
+                                                    <a href="{% url 'assessor_randomized_snapshot' asmt.id %}"
+                                                        class="btn btn-sm btn-outline-success text-nowrap">
+                                                        <i class="fas fa-project-diagram me-1"></i> View Randomised
+                                                    </a>
+                                                    <a href="{% url 'download_randomized_pdf' asmt.id %}?format=docx"
+                                                        class="btn btn-sm btn-outline-secondary text-nowrap">
+                                                        <i class="fas fa-download me-1"></i> Download Word
+                                                    </a>
+                                                    {% elif asmt.paper_link %}
+                                                    <a href="{% url 'load_saved_paper' asmt.paper_link.pk %}"
+                                                        class="btn btn-sm btn-outline-primary text-nowrap">
+                                                        <i class="fas fa-eye me-1"></i> View Paper
+                                                    </a>
+                                                    {% elif asmt.file %}
+                                                    <a href="{{ asmt.file.url }}" target="_blank"
+                                                        class="btn btn-sm btn-outline-secondary text-nowrap">
+                                                        <i class="fas fa-download me-1"></i> Download Paper
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="text-muted small">No paper available</span>
+                                                    {% endif %}
+
+                                                    <!-- Download Moderator Report -->
+                                                    {% if asmt.moderator_report %}
+                                                    <a href="{{ asmt.moderator_report.url }}" target="_blank"
+                                                        class="btn btn-sm btn-outline-info text-nowrap">
+                                                        <i class="fas fa-file-word me-1"></i> Download Report
+                                                    </a>
+                                                    {% else %}
+                                                    <span class="text-muted small">No report available</span>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4">
+                                                <i class="fas fa-check-circle fa-3x text-muted mb-3"></i>
+                                                <h5 class="text-muted">No archived assessments yet.</h5>
+                                                <p class="text-muted">Approved or returned assessments will appear here.</p>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for confirmation messages -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Animation Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Search functionality
+            const searchInput = document.querySelector('input[type="search"]');
+            searchInput.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const tables = document.querySelectorAll('.tab-pane.active .table tbody tr');
+                
+                tables.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Add hover effects to table rows
+            const tableRows = document.querySelectorAll('tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+
+                row.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Tab change event to reset search
+            const tabButtons = document.querySelectorAll('[data-bs-toggle="tab"]');
+            tabButtons.forEach(tab => {
+                tab.addEventListener('shown.bs.tab', function () {
+                    searchInput.value = '';
+                    const currentTable = document.querySelector('.tab-pane.active .table tbody');
+                    const rows = currentTable.querySelectorAll('tr');
+                    rows.forEach(row => row.style.display = '');
+                });
+            });
+
+            // Function to show modal
+            function showModal(title, message) {
+                document.getElementById('modalTitle').textContent = title;
+                document.getElementById('modalBody').textContent = message;
+                const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                modal.show();
+            }
+
+            // Celebration animation
+            function triggerCelebration() {
+                const container = document.getElementById('confettiContainer');
+                container.style.display = 'block';
+
+                for (let i = 0; i < 100; i++) {
+                    createConfetti();
+                }
+
+                setTimeout(() => {
+                    container.style.display = 'none';
+                    container.innerHTML = '';
+                }, 3000);
+            }
+
+            function createConfetti() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+
+                const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                confetti.style.backgroundColor = randomColor;
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                const animation = confetti.animate([
+                    { top: '-10px', opacity: 1, transform: `rotate(0deg) scale(1)` },
+                    { top: '100vh', opacity: 0, transform: `rotate(${Math.random() * 360}deg) scale(0.5)` }
+                ], {
+                    duration: 3000,
+                    easing: 'cubic-bezier(0.1, 0.8, 0.9, 1)'
+                });
+
+                document.getElementById('confettiContainer').appendChild(confetti);
+
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        });
+    </script>
+</body>
+
+</html>

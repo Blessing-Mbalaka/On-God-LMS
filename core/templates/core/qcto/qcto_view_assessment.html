@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QCTO - View EISA Assessment | CHIETA</title>
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .content { padding:30px; }
+    .assessment-detail {
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      max-width:800px;
+      margin:auto;
+    }
+    .assessment-detail h2 { text-align:center; margin-bottom:20px; }
+    .detail-row { margin-bottom:15px; }
+    .detail-row label { font-weight:bold; display:block; margin-bottom:5px; }
+    .file-links a { display:inline-block; margin-right:15px; color:#552a74; }
+    .question-box {
+      margin-top:25px;
+      background:#f9f9f9;
+      padding:15px;
+      border-radius:8px;
+      max-height:300px;
+      overflow-y:auto;
+    }
+    .question-box li { margin-bottom:10px; }
+    .back-btn {
+      margin-top:20px;
+      background:linear-gradient(to right,#552a74,#360459);
+      color:#fff;
+      padding:10px 20px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      float:right;
+    }
+    .back-btn:hover { opacity:0.9; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="graduate-icon">
+        <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo" style="width: 130px;">
+      </div><br><br>
+      <ul>
+        <li><a href="{% url 'qcto_dashboard' %}" class="nav-item"><i class="fa fa-home"></i> Dashboard</a></li>
+        <li><a href="{% url 'qcto_assessment_review' %}" class="nav-item"><i class="fa fa-check"></i> Final Assessment Review</a></li>
+        <li><a href="{% url 'qcto_compliance' %}" class="nav-item"><i class="fa fa-clipboard-check"></i> Compliance Check</a></li>
+        <li><a href="{% url 'qcto_reports' %}" class="nav-item"><i class="fa fa-chart-line"></i> Reports</a></li>
+        <li><a href="{% url 'qcto_archive' %}" class="nav-item"><i class="fa fa-archive"></i> Assessment Archive</a></li>
+        <li>🔔 Notifications</li>
+        <li>🛠️ Help & Support</li><br><br><br><br>
+        <button class="fixy">⚙️ Settings</button>
+        <a href="{% url 'logout' %}" class="fix">🚪 Log Out</a><br>
+      </ul>
+      <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art" width="199px">
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="assessment-detail">
+        <h2>Assessment Details</h2>
+        <div class="detail-row"><label>EISA ID:</label><span>{{ assessment.eisa_id }}</span></div>
+        <div class="detail-row"><label>Qualification:</label><span>{{ assessment.qualification }}</span></div>
+        <div class="detail-row"><label>Paper Number:</label><span>{{ assessment.paper }}</span></div>
+        <div class="detail-row"><label>SAQA ID:</label><span>{{ assessment.saqa_id }}</span></div>
+        <div class="detail-row file-links"><label>Submitted Documents:</label>
+          {% if assessment.file %}<a href="{{ assessment.file.url }}" target="_blank">📄 View Assessment</a>{% endif %}
+          {% if assessment.memo %}<a href="{{ assessment.memo.url }}" target="_blank">📑 View Memo</a>{% endif %}
+        </div>
+        <div class="detail-row">
+          <label>Generated Questions:</label>
+          <ul class="question-box">
+            {% for q in generated_questions %}
+              <li>{{ q.text }} ({{ q.marks }} marks)</li>
+            {% empty %}
+              <li>No generated questions</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="detail-row"><label>QCTO Decision:</label><span>{{ assessment.qcto_notes|default:"Not reviewed" }}</span></div>
+        <button class="back-btn" onclick="window.history.back()">⬅ Back</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

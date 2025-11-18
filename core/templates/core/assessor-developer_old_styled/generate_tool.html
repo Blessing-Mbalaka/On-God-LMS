@@ -1,0 +1,284 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Generate Assessment Tool | CHIETA</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .content {
+      flex: 1;
+      padding: 20px;
+      background-color: #efeaea;
+      /* background-image: url("{% static 'core/images/Frame.png' %}"); */
+      /* background-repeat: no-repeat; */
+      /* background-size: cover; */
+    }
+
+    .gradient-button {
+      background: linear-gradient(to right, rgb(77, 8, 112), #4a1272, #360459);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .gradient-button:hover {
+      opacity: 0.9;
+    }
+
+    .form-section,
+    .selected-questions {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .form-section select,
+    .form-section input,
+    .form-section textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .nav-tabs .nav-link {
+      color: #495057;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 500;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .nav-tabs .nav-link:hover {
+      color: rgb(61, 11, 86);
+      background-color: rgba(61, 11, 86, 0.05);
+    }
+
+    .nav-tabs .nav-link.active {
+      color: rgb(61, 11, 86);
+      background-color: rgba(61, 11, 86, 0.1);
+      border-bottom: 3px solid rgb(61, 11, 86);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+
+    <!-- ======================= -->
+    <!-- ====== SIDEBAR ======= -->
+    <!-- ======================= -->
+    <div class="sidebar">
+      <div class="graduate-icon">
+        <a href="{% url 'assessor_dashboard' %}">
+          <img src="{% static 'core/images/logo_simplebbbbbbbbbbbbbb.png' %}" alt="CHIETA Logo">
+        </a>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_dashboard' %} active{% endif %}"
+            href="{% url 'assessor_dashboard' %}">
+            <i class="fa fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_developer' %} active{% endif %}"
+            href="{% url 'assessor_developer' %}">
+            <i class="fa fa-cogs"></i>
+            <span>Generate Assessment</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessment_archive' %} active{% endif %}"
+            href="{% url 'assessment_archive' %}">
+            <i class="fa fa-archive"></i>
+            <span>Assessment History</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'assessor_reports' %} active{% endif %}"
+             href="{% url 'assessor_reports' %}">
+            <i class="fa fa-chart-bar"></i>
+            <span>Reports</span>
+          </a>
+        </li> -->
+
+        <!-- Placeholder items (Notifications / Help) -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fa fa-bell"></i>
+            <span>Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="fa fa-life-ring"></i>
+            <span>Help &amp; Support</span>
+          </a>
+        </li> -->
+
+        <!-- Settings / Logout Buttons -->
+        <!-- <li class="nav-item mt-4">
+          <button class="gradient-button w-100">
+            <i class="fa fa-cog"></i>
+            <span>Settings</span>
+          </button>
+        </li> -->
+        <li class="nav-item mt-2">
+          <button class="gradient-button w-100">
+            <i class="fa fa-sign-out-alt"></i>
+            <a href="{% url 'logout' %}" class="fix"> Log Out</a><br>
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <img src="{% static 'core/images/rb_2149331949.png' %}" alt="Sidebar Art">
+      </div>
+    </div>
+
+    <!-- ======================= -->
+    <!-- ====== CONTENT ======= -->
+    <!-- ======================= -->
+    <div class="content p-4">
+      <h2>Generate EISA Assessment Tool</h2>
+
+      <div class="welcome-box mb-3">
+        Welcome, {{ user.get_full_name|default:user.username }}<br>
+        Qualification: <strong>{{ request.user.qualification.name|default:"Not Assigned" }}</strong>
+      </div>
+
+
+
+      <ul class="nav nav-tabs mt-4" id="toolTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tab-random-btn" data-bs-toggle="tab" data-bs-target="#tab-random"
+            type="button" role="tab">Compile from Question Bank</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-awaiting-btn" data-bs-toggle="tab" data-bs-target="#tab-awaiting"
+            type="button" role="tab">Awaiting Approval</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-approved-btn" data-bs-toggle="tab" data-bs-target="#tab-approved"
+            type="button" role="tab">Approved Papers</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-compiled-btn" data-bs-toggle="tab" data-bs-target="#tab-compiled"
+            type="button" role="tab">Pre-Approved Uploaded Papers</button>
+        </li>
+      </ul>
+
+      <div class="mt-3">
+        {% if success %}<div class="alert alert-success">{{ success }}</div>{% endif %}
+        {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+      </div>
+
+      <div class="tab-content mt-4" id="toolTabsContent">
+        <!-- Compile -->
+        <div class="tab-pane fade show active" id="tab-random" role="tabpanel">
+          <div class="form-section">
+            <h4>Compile Paper from Question Bank</h4>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="compile_from_bank">
+              <label>Qualification:</label>
+              <select name="qualification" required>
+                <option value="">-- Select Qualification --</option>
+                {% for q in qualifications %}
+                {% if q.id == request.user.qualification.id %}
+                <option value="{{ q.code }}" selected>{{ q.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+              <label>Mark Target:</label>
+              <input type="number" name="mark_target" value="100" required>
+              <label>Number of Questions:</label>
+              <input type="number" name="num_questions" required>
+              <button type="submit" class="gradient-button">Compile Paper</button>
+            </form>
+
+            {% if compiled_questions %}
+            <hr>
+            <h5>Review and Submit</h5>
+            <p><strong>Total Questions: {{ compiled_questions|length }}</strong></p>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="save">
+              <input type="hidden" name="qualification" value="{{ selected_qualification }}">
+              <label>Case Study (Optional):</label>
+              <select name="case_study_id" class="form-control mb-3">
+                <option value="">-- None --</option>
+                {% for cs in case_study_list %}
+                <option value="{{ cs.id }}">{{ cs.title }}</option>
+                {% endfor %}
+              </select>
+              <textarea name="question_block" class="form-control" rows="8">{% for q in compiled_questions %}{{ q.text }} ({{ q.marks }} marks)
+{% endfor %}</textarea>
+              <button type="submit" class="gradient-button mt-2">Submit to Moderator</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Awaiting -->
+        <div class="tab-pane fade" id="tab-awaiting" role="tabpanel">
+          <div class="form-section">
+            <h4>Awaiting Approval</h4>
+            <ul>{% for a in awaiting_assessments %}
+              <li>{{ a.qualification.name }} - {{ a.eisa_id }} ({{ a.created_at|date:"Y-m-d" }})</li>
+              {% empty %}
+              <li>No assessments awaiting approval.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Approved -->
+        <div class="tab-pane fade" id="tab-approved" role="tabpanel">
+          <div class="form-section">
+            <h4>Approved Papers</h4>
+            <ul>{% for a in approved_assessments %}
+              <li>{{ a.qualification.name }} - {{ a.eisa_id }} ({{ a.status }})</li>
+              {% empty %}
+              <li>No approved assessments.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Compiled -->
+        <div class="tab-pane fade" id="tab-compiled" role="tabpanel">
+          <div class="form-section">
+            <h4>Compiled Papers</h4>
+            <ul>{% for a in assessments %}
+              <li>{{ a.qualification.name }} - {{ a.eisa_id }} ({{ a.created_at|date:"Y-m-d" }}) [<a
+                  href="{% url 'view_assessment' a.eisa_id %}">View</a>]</li>
+              {% empty %}
+              <li>No compiled assessments available.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

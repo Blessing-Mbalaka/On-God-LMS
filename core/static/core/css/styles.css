@@ -1,0 +1,334 @@
+
+@import "./base.css";
+
+/* styles.css */
+/* base: reset body via base.css */
+
+/* navbar styled via base.css */
+
+.navbar .nav-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* navbar links via base.css */
+
+.upload-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.upload-container h2 {
+  margin-bottom: 1.5rem;
+  color: #002c57;
+}
+
+.upload-section, .generate-section, .preview-section {
+  margin-bottom: 1.5rem;
+}
+
+.upload-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+input[type="text"],
+input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button, .btn-generate {
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .btn-generate:hover { opacity: 0.92; }
+
+.preview-section ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+  
+  
+  /* learner.css */
+  .container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  #questionNav button {
+    margin: 2px;
+  }
+  #questionArea {
+    margin-top: 20px;
+  }
+
+  /* assessor_upload.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.navbar {
+  background-color: #002c57;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .nav-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar nav a {
+  color: #fff;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.upload-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.upload-container h2 {
+  margin-bottom: 1.5rem;
+  color: #002c57;
+}
+
+.upload-section {
+  margin-bottom: 1.5rem;
+}
+
+.upload-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+input[type="file"] {
+  display: block;
+  width: 100%;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #f26522;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #d35400;
+}
+
+/* Theme overrides to align with admin/assessor */
+.navbar { background-color: var(--primary) !important; color: #fff !important; }
+.navbar .nav-brand, .navbar nav a, .navbar nav span { color: #fff !important; }
+button, .btn, .btn-generate, .start-btn, .submit-btn, .question-nav button {
+  background: linear-gradient(to right, var(--primary), var(--primary-strong), var(--primary-alt)) !important;
+  color: var(--primary-contrast) !important;
+  border: none !important;
+}
+h2 { color: var(--dark-purple) !important; }
+body { background-color: var(--bg) !important; color: var(--text) !important; font-family: var(--font-sans) !important; }
+
+/* generate_tool.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+.navbar {
+  background-color: #002c57;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar .nav-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+
+.generator-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.filters {
+  margin-bottom: 1.5rem;
+}
+
+.filters label, .filters input {
+  margin-right: 1rem;
+}
+
+.question-bank, .selected-questions {
+  margin-top: 2rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  background: linear-gradient(to right, var(--primary), var(--primary-strong), var(--primary-alt));
+  color: var(--primary-contrast);
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.92; }
+
+.btn-generate {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+.btn-generate:hover {
+  background-color: #003e78;
+}
+
+/* marking_grading.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+}
+
+.navbar {
+  background-color: #002c57;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .nav-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+}
+
+.grading-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #002c57;
+  margin-bottom: 1.5rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.filters label {
+  font-weight: bold;
+}
+
+.filters select, .filters input {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+  resize: vertical;
+}
+
+button {
+  background-color: #f26522;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #d35400;
+}

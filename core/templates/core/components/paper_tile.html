@@ -1,0 +1,39 @@
+<!-- reusable_paper_tile.html using this for all pages that need to view the paper-->
+{% if paper %}
+<div class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Paper {{ paper.name }}</h5>
+    <p class="card-text mb-3">
+      <strong>Qualification:</strong> {{ paper.qualification.name }}<br>
+      {% if paper.qualification and paper.qualification.saqa_id %}
+        <strong>SAQA ID:</strong> {{ paper.qualification.saqa_id }}<br>
+      {% endif %}
+      <strong>Total Marks:</strong> {{ paper.total_marks|default:"Not Set" }}<br>
+      <strong>Status:</strong> {{ paper.status|title|default:"Pending" }}
+    </p>
+    <div class="d-flex flex-wrap gap-2">
+      {% if paper.pk %}
+        <a href="{% url 'load_saved_paper' paper.pk %}" class="btn btn-outline-primary btn-sm">
+          <i class="fa fa-eye"></i> View EISA
+        </a>
+        {% if randomized_assessments %}
+          {% with latest=randomized_assessments|first %}
+            <a href="{% url 'assessor_randomized_snapshot' latest.id %}" class="btn btn-outline-success btn-sm">
+              <i class="fa fa-project-diagram"></i> View Randomised
+            </a>
+          {% endwith %}
+        {% endif %}
+        <a href="{% url 'randomize_paper_structure' paper.pk %}" class="btn btn-outline-warning btn-sm">
+          <i class="fa fa-random"></i> Randomize Top-Level Questions
+        </a>
+      {% else %}
+        <button class="btn btn-outline-secondary btn-sm" disabled>
+          <i class="fa fa-eye-slash"></i> Not Saved
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% else %}
+  <p class="text-muted">No paper information available.</p>
+{% endif %}

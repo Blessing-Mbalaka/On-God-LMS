@@ -1,0 +1,8 @@
+{# core/templates/core/includes/_question_list.html #}
+<ul>
+  {% for q in assessment.generated_questions.all %}
+    <li>{{ q.text }} ({{ q.marks }} marks)</li>
+  {% empty %}
+    <li><em>No questions.</em></li>
+  {% endfor %}
+</ul>

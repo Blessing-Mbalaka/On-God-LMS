@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Generate Assessment Tool | CHIETA{% endblock %}
+{% block extra_head %}
+{{ block.super }}
+<style>
+  /* ================================
+   CHIETA Generate Assessment Styling
+   (Assessor Developer Dashboard)
+   ================================ */
+  @layer tokens, reset, base;
+
+  @layer tokens {
+    :root {
+      --dark-purple: #3d0b56;
+      --darker-purple: #360459;
+      --mid-purple: #552a74;
+      --light-purple: #734e94;
+
+      --gold: #a67c00;
+      --golden-brown: #8c6e0b;
+      --light-gold: #b68f40;
+      --deep-brown: #7a5303;
+
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --text: #333;
+      --muted: #6c757d;
+
+      --radius: 8px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  }
+
+  @layer reset {
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  @layer base {
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .page-heading {
+      color: var(--dark-purple);
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .welcome-box {
+      background: var(--surface);
+      border-left: 6px solid var(--mid-purple);
+      padding: 15px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .tab-group {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #ddd;
+      gap: 5px;
+    }
+
+    .tab-button {
+      background: transparent;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--muted);
+      border-radius: 5px 5px 0 0;
+      transition: all 0.2s ease;
+    }
+
+    .tab-button:hover {
+      background-color: rgba(61, 11, 86, 0.05);
+      color: var(--dark-purple);
+    }
+
+    .tab-button.is-active {
+      color: var(--dark-purple);
+      background-color: rgba(61, 11, 86, 0.1);
+      border-bottom: 3px solid var(--dark-purple);
+    }
+
+    .tab-panel {
+      display: none;
+      padding-top: 15px;
+    }
+
+    .tab-panel.is-active {
+      display: block;
+    }
+
+    .card-header {
+      color: var(--mid-purple);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: var(--dark-purple);
+    }
+
+    .form-select,
+    .form-control,
+    .form-textarea {
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: var(--radius);
+      color: #fff;
+      background: linear-gradient(to right, var(--dark-purple), var(--mid-purple), var(--darker-purple));
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(to right, var(--mid-purple), var(--darker-purple));
+    }
+
+    .messages .alert {
+      border-radius: var(--radius);
+      padding: 10px 15px;
+      margin: 10px 0;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #eafaf1;
+      border-left: 5px solid #28a745;
+      color: #155724;
+    }
+
+    .alert-danger {
+      background: #fdecea;
+      border-left: 5px solid #dc3545;
+      color: #721c24;
+    }
+
+    .list-unstyled li {
+      padding: 8px 0;
+      border-bottom: 1px dashed #ddd;
+    }
+
+    .list-unstyled a {
+      color: var(--mid-purple);
+      font-weight: 500;
+    }
+
+    .list-unstyled a:hover {
+      text-decoration: underline;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block sidebar_nav %}
+{% include "core/includes/nav_assessor_developer.html" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="page-heading">Generate EISA Assessment Tool</h1>
+
+<div class="welcome-box mb-3">
+  Welcome, {{ user.get_full_name|default:user.username }}<br>
+  Qualification: <strong>{{ request.user.qualification.name|default:"Not Assigned" }}</strong>
+</div>
+
+{% if success %}
+<div class="messages">
+  <div class="alert alert-success">{{ success }}</div>
+</div>
+{% endif %}
+{% if error %}
+<div class="messages">
+  <div class="alert alert-danger">{{ error }}</div>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="tab-group" data-role="tab-group">
+    <button type="button" class="tab-button is-active" data-target="tab-random">
+      Compile from Question Bank
+    </button>
+    <button type="button" class="tab-button" data-target="tab-awaiting">
+      Awaiting Approval
+    </button>
+    <button type="button" class="tab-button" data-target="tab-approved">
+      Approved Papers
+    </button>
+    <button type="button" class="tab-button" data-target="tab-compiled">
+      Pre-Approved Uploaded Papers
+    </button>
+  </div>
+
+  <div id="tab-random" class="tab-panel is-active" data-role="tab-panel">
+    <h2 class="card-header">Compile Paper from Question Bank</h2>
+    <form method="post" class="form-grid">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="compile_from_bank">
+
+      <label class="form-label" for="qualification-select">Qualification</label>
+      <select id="qualification-select" class="form-select" name="qualification" required>
+        <option value="">-- Select Qualification --</option>
+        {% for q in qualifications %}
+        <option value="{{ q.code }}" {% if request.user.qualification and q.id==request.user.qualification.id
+          %}selected{% endif %}>
+          {{ q.name }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label class="form-label" for="mark-target-input">Mark Target</label>
+      <input id="mark-target-input" type="number" class="form-control" name="mark_target" value="100" required>
+
+      <label class="form-label" for="question-count-input">Number of Questions</label>
+      <input id="question-count-input" type="number" class="form-control" name="num_questions" required>
+
+      <button type="submit" class="btn btn-secondary">Compile Paper</button>
+    </form>
+
+    {% if compiled_questions %}
+    <hr>
+    <h3 class="card-header">Review and Submit</h3>
+    <p class="card-subtitle">
+      <strong>Total Questions:</strong> {{ compiled_questions|length }}
+    </p>
+    <form method="post" class="form-grid">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="save">
+      <input type="hidden" name="qualification" value="{{ selected_qualification }}">
+
+      <label class="form-label" for="case-study-select">Case Study (Optional)</label>
+      <select id="case-study-select" name="case_study_id" class="form-select">
+        <option value="">-- None --</option>
+        {% for cs in case_study_list %}
+        <option value="{{ cs.id }}">{{ cs.title }}</option>
+        {% endfor %}
+      </select>
+
+      <label class="form-label" for="question-block-textarea">Question Block</label>
+      <textarea id="question-block-textarea" name="question_block" class="form-textarea" rows="8">{% for q in compiled_questions %}{{ q.text }} ({{ q.marks }} marks)
+{% endfor %}</textarea>
+
+      <button type="submit" class="btn btn-secondary">Submit to Moderator</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <div id="tab-awaiting" class="tab-panel" data-role="tab-panel">
+    <h2 class="card-header">Awaiting Approval</h2>
+    <ul class="list-unstyled">
+      {% for a in awaiting_assessments %}
+      <li>{{ a.qualification.name }} &ndash; {{ a.eisa_id }} ({{ a.created_at|date:"Y-m-d" }})</li>
+      {% empty %}
+      <li>No assessments awaiting approval.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div id="tab-approved" class="tab-panel" data-role="tab-panel">
+    <h2 class="card-header">Approved Papers</h2>
+    <ul class="list-unstyled">
+      {% for a in approved_assessments %}
+      <li>{{ a.qualification.name }} &ndash; {{ a.eisa_id }} ({{ a.status }})</li>
+      {% empty %}
+      <li>No approved assessments.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div id="tab-compiled" class="tab-panel" data-role="tab-panel">
+    <h2 class="card-header">Compiled Papers</h2>
+    <ul class="list-unstyled">
+      {% for a in assessments %}
+      <li>
+        {{ a.qualification.name }} &ndash; {{ a.eisa_id }} ({{ a.created_at|date:"Y-m-d" }})
+        [<a href="{% url 'view_assessment' a.eisa_id %}">View</a>]
+      </li>
+      {% empty %}
+      <li>No compiled assessments available.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('[data-role="tab-group"] .tab-button');
+    const panels = document.querySelectorAll('[data-role="tab-panel"]');
+
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.dataset.target;
+        if (!targetId) {
+          return;
+        }
+
+        tabButtons.forEach((btn) => btn.classList.remove('is-active'));
+        panels.forEach((panel) => panel.classList.remove('is-active'));
+
+        button.classList.add('is-active');
+        const panel = document.getElementById(targetId);
+        if (panel) {
+          panel.classList.add('is-active');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

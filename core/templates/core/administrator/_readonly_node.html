@@ -1,0 +1,20 @@
+﻿{% load exam_extras %}
+{% with kind=node.node_type|default_if_none:''|lower %}
+  {% if kind == 'pagebreak' %}
+    <hr class="my-4 page-break">
+  {% else %}
+    <div class="mb-3">
+      {% if node.text %}<p>{{ node.text }}</p>{% endif %}
+      {% if node.content %}
+        {% for item in node.content %}
+          {{ item|render_block }}
+        {% endfor %}
+      {% endif %}
+      {% if node.children %}
+        {% for child in node.children %}
+          {% include 'core/administrator/_readonly_node.html' with node=child %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endwith %}

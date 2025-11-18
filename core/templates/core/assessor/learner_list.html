@@ -1,0 +1,51 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>learner list</title>
+</head>
+<body>
+  <!-- templates/marker/learner_list.html -->
+<h2>Learners for {{ exam.name }}</h2>
+
+<table border="1">
+  <tr>
+    <th>Learner</th>
+    <th>Mode</th>
+    <th>Submission</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  {% for learner_exam in learner_exams %}
+  <tr>
+    <td>{{ learner_exam.learner.username }}</td>
+    <td>{{ learner_exam.mode }}</td>
+    <td>
+      {% if learner_exam.submission_file %}
+        <a href="{{ learner_exam.submission_file.url }}">Download Submission</a>
+      {% else %}
+        No submission
+      {% endif %}
+    </td>
+    <td>
+      {% if learner_exam.mark %}
+        Marked: {{ learner_exam.mark.total_score }}
+      {% else %}
+        Not Marked
+      {% endif %}
+    </td>
+    <td>
+      {% if learner_exam.mark %}
+        <a href="{% url 'marker:mark_exam' learner_exam.id %}">Edit Mark</a>
+      {% else %}
+        <a href="{% url 'marker:mark_exam' learner_exam.id %}">Mark</a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>

@@ -326,42 +326,67 @@ def handle_user_creation(request):
         # Assign assessment center if applicable
         if role == "assessment_center":
             user.assessment_centre = center
-
+            
         user.save()
 
-        # Send email
-        try:
-            send_mail(
-                "Your CHIETA LMS Account",
-                f"Hello {first_name},\n\nYour account has been created.\n\n"
-                f"Username: {email}\n"
-                f"Password: {pwd}\n\n"
-                "Please change your password after logging in.",
-                "noreply@chieta.co.za",
-                [email],
-                fail_silently=False,
-            )
-            print(
-                f"[AccountEmail] Credentials sent to {email} with temporary password.",
-                flush=True,
-            )
+        # Send email using new email module
+        email_sent = send_account_creation_email(email, first_name, pwd)
+        
+        if email_sent:
             messages.success(
                 request, f"User {email} created successfully. Password emailed."
             )
-        except Exception as e:
+        else:
             messages.warning(
-                request, f"User created but email failed to send: {str(e)}"
-            )
-            print(
-                f"[AccountEmail] Failed to send credentials to {email}: {e}",
-                flush=True,
+                request, 
+                f"User created but email failed to send. Please check logs or contact the user directly."
             )
 
         return redirect("user_management")
 
-    except Exception as e:
-        messages.error(request, f"An error occurred: {str(e)}")
-        return redirect("user_management")
+        #user.save()
+
+        # Send email
+       # try:
+          #  send_mail(
+           #     "Your CHIETA LMS Account",
+           #     f"Hello {first_name},\n\nYour account has been created.\n\n"
+            #    f"Username: {email}\n"
+             #   f"Password: {pwd}\n\n"
+             #   "Please change your password after logging in.",
+              #  "noreply@chieta.co.za",
+             #   [email],
+              #  fail_silently=False,
+           # )
+           ## print(
+               ## f"[AccountEmail] Credentials sent to {email} with temporary password.",
+               # flush=True,
+          #  )
+          #  messages.success(
+                request, f"User {email} created successfully. Password emailed."
+            )
+      #  except Exception as e:
+         #   messages.warning(
+              #  request, f"User created but email failed to send: {str(e)}"
+           # )
+           # print(
+             #   f"[AccountEmail] Failed to send credentials to {email}: {e}",
+               # flush=True,
+           # )
+
+        #return redirect("user_management")
+
+   # except Exception as e:
+        #messages.error(request, f"An error occurred: {str(e)}")
+       # return redirect("user_management")
+
+
+
+
+
+
+########################################################################################################
+
 
 
 # *******************************************************************************************************

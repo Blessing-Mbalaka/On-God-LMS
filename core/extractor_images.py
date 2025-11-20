@@ -1,13 +1,15 @@
 # extractor_images.py
 import os, shutil, subprocess
+
 from pathlib import Path
 import docx
 from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 def _media_outdir() -> Path:
-    out = Path(settings.MEDIA_ROOT) / "question_images"
-    out.mkdir(parents=True, exist_ok=True)
-    return out
+    # Deprecated: local storage. Now using S3 via Django storage backend.
+    return "question_images"
 
 def convert_emf_to_png(emf_path, output_path):
     try:
@@ -42,23 +44,35 @@ def extract_images_with_emf_fallback(docx_path: str) -> list[str]:
         stem, ext = os.path.splitext(name)
         raw = rel_obj.target_part.blob
 
-        # write the original
-        target = outdir / name
-        target.write_bytes(raw)
+        # Save the original image to S3
+        s3_path = f"{outdir}/{name}"
+        if not default_storage.exists(s3_path):
+            default_storage.save(s3_path, ContentFile(raw))
         saved.add(name.lower())
 
         # if EMF/WMF try to create a PNG sibling and use that
         if ext.lower() in (".emf", ".wmf"):
-            png_path = outdir / f"{stem}.png"
-            if convert_emf_to_png(str(target), str(png_path)) and png_path.exists():
-                rel = f"question_images/{png_path.name}"
-                urls.append(rel)   # prefer png
+            # Download the file locally for conversion
+            local_emf = f"/tmp/{name}"
+            with open(local_emf, "wb") as f:
+                f.write(raw)
+            png_name = f"{stem}.png"
+            local_png = f"/tmp/{png_name}"
+            if convert_emf_to_png(local_emf, local_png) and os.path.exists(local_png):
+                # Upload PNG to S3
+                s3_png_path = f"{outdir}/{png_name}"
+                with open(local_png, "rb") as f:
+                    default_storage.save(s3_png_path, ContentFile(f.read()))
+                rel = f"question_images/{png_name}"
+                urls.append(rel)
+                os.remove(local_png)
             else:
-                rel = f"question_images/{target.name}"
-                urls.append(rel)   # fallback emf (won’t render, but link exists)
+                rel = f"question_images/{name}"
+                urls.append(rel)
+            os.remove(local_emf)
         else:
             # non-emf: just use what we saved
-            rel = f"question_images/{target.name}"
+            rel = f"question_images/{name}"
             urls.append(rel)
 
     # return RELATIVE media paths, e.g. "question_images/file.png"

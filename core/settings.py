@@ -263,7 +263,7 @@ AWS_SECRET_ACCESS_KEY = 'qhwFYIR8p3Ghk/NDMw5TbmSH47iKP5BRsviJNyl2'
 AWS_STORAGE_BUCKET_NAME = 'chieta-media'
 AWS_S3_REGION_NAME = 'us-west-2'
 AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
+AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False
 
 # Default file storage to S3

@@ -454,12 +454,15 @@
   </div>
 
  <script>
-  // ==================== SUBMISSION PROTECTION ====================
+   // ==================== SUBMISSION PROTECTION ====================
   const examForm = document.getElementById('exam-form');
   const submissionOverlay = document.getElementById('submissionOverlay');
   const warningBanner = document.getElementById('warningBanner');
   const submitBtn = document.getElementById('submitBtn');
   const examContainer = document.getElementById('examContainer');
+
+  // Get CSRF token from the form
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
   let isSubmitting = false;
   let hasChanges = false;
@@ -502,8 +505,27 @@
     syncOverlaysToHidden();
     clearAutosave();
 
+    // Ensure CSRF token is present for programmatic submission
+    ensureCSRFToken();
+
     // Submit the form normally - let Django handle the redirect
     examForm.submit();
+  }
+
+  // Function to ensure CSRF token is present
+  function ensureCSRFToken() {
+    let csrfField = examForm.querySelector('[name=csrfmiddlewaretoken]');
+    if (!csrfField) {
+      // Create CSRF token field if it doesn't exist
+      csrfField = document.createElement('input');
+      csrfField.type = 'hidden';
+      csrfField.name = 'csrfmiddlewaretoken';
+      csrfField.value = csrfToken;
+      examForm.appendChild(csrfField);
+    } else if (!csrfField.value && csrfToken) {
+      // Ensure the CSRF token has a value
+      csrfField.value = csrfToken;
+    }
   }
 
   // Prevent back button
@@ -518,9 +540,23 @@
   // Handle page refresh/reload
   window.addEventListener('beforeunload', function (e) {
     if (hasChanges && !isSubmitting && !forceSubmitted) {
+      // For beforeunload, we need to use fetch API to submit
       e.preventDefault();
-      // Don't show confirmation, just submit
+      
+      // Use fetch to submit form data before leaving
+      const formData = new FormData(examForm);
+      ensureCSRFToken(); // Make sure CSRF token is included
+      
+      // Use navigator.sendBeacon for more reliable submission during page unload
+      if (navigator.sendBeacon) {
+        syncOverlaysToHidden();
+        const data = new FormData(examForm);
+        navigator.sendBeacon(examForm.action, data);
+      }
+      
+      // Still call submitExam for the UI feedback
       submitExam();
+      
       // Return nothing to prevent the default dialog
       return undefined;
     }
@@ -557,6 +593,7 @@
       // Just do the final preparations, then let the form submit normally
       syncOverlaysToHidden();
       clearAutosave();
+      ensureCSRFToken(); // Ensure CSRF token is present
       isSubmitting = true;
       forceSubmitted = true;
       submissionOverlay.style.display = 'flex';

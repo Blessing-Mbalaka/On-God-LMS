@@ -15,32 +15,83 @@
     --chi-sand: #b8832a;
     --chi-slate: #403675;
 }
+
 body {
     margin: 0;
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #ecf0f1;
 }
-main.container {
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-}
-button:hover {
-    background-color: #ffffff;
-    color: #4d4747;
-    border-color: #007BFF;
-}
+
 .dashboard-container {
     display: flex;
     flex-direction: row;
     min-height: 100vh;
 }
+
+.sidebar ul li {
+    transition: background-color 0.3s ease;
+    border-top: 1.5px solid #580658;
+    border-radius: 10px;
+    color: #580658;
+}
+
+.fixy {
+    border-color: #ffffff;
+    width: 100%;
+    height: 40px;
+    color: whitesmoke;
+    border-radius: 10px;
+    margin-bottom: -2px;
+    background-color: #8f6620;
+}
+
+.fix {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    color: whitesmoke;
+    border-color: #f9f9f9;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+button:hover {
+    background-color: #ffffff;
+    color: #4d4747;
+    border-color: #007BFF;
+}
+
+.sidebar ul li:hover {
+    background-color: #8f6620;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 30px;
+    list-style: none;
+}
+
+.nav-item {
+    color: rgb(81, 3, 102);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+}
+
+.nav-item:hover {
+    color: rgb(249, 249, 249);
+    transition: color 0.3s;
+}
+
 .sidebar {
     width: 210px;
     min-height: 100vh;
     font-size: 13px;
     background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
     padding: 20px;
+    border-radius: 0px 0px 0px 0px;
     border-right: 1px solid #8f6620;
     box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
     position: fixed;
@@ -49,6 +100,7 @@ button:hover {
     z-index: 1000;
     overflow-y: auto;
 }
+
 .sidebar .graduate-icon {
     border-radius: 20px;
     height: 110px;
@@ -59,47 +111,76 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
 }
+
 .sidebar ul li {
     margin: 20px 0;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease;
-    border-top: 1.5px solid #580658;
-    border-radius: 10px;
-    color: #580658;
 }
+
 .sidebar ul li i {
     margin-right: 10px;
 }
-.sidebar ul li:hover {
-    background-color: #8f6620;
-    color: white;
-    cursor: pointer;
-    border-radius: 10px;
-    height: 30px;
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    background-color: #efeaea;
+    background-image: url("{% static 'core/images/Frame.png' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
 }
-.nav-link {
-    color: rgb(81, 3, 102);
-    text-decoration: none;
+
+.topbar {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 10px 14px;
-    width: 100%;
-    transition: color 0.3s;
+    margin-bottom: 20px;
 }
-.nav-link:hover,
-.nav-link.active,
-.sidebar ul li:hover .nav-link {
-    color: rgb(249, 249, 249);
+
+.topbar input[type="search"] {
+    padding: 10px;
+    width: 70%;
+    border-radius: 20px;
+    border: 1px solid #ccc;
 }
-.nav-link.active {
-    background-color: #8f6620;
+
+.welcome-box {
+    background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4d4747;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    min-height: 25vh;
+    position: relative;
+    border-left: 4px solid rgb(81, 3, 102);
 }
+
+.welcome-box .date {
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+.date {
+    font-size: 16px;
+    color: grey;
+}
+
 .gradient-button {
     background-color: #3a063a;
     color: white;
@@ -113,63 +194,163 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .gradient-button:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     background-color: #8f6620;
 }
-.fix {
-    width: 100%;
-    height: 40px;
+
+.highlight {
+    color: red;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.welcome-container {
+    position: relative;
+    margin: 20px;
+}
+
+.image-container {
+    position: absolute;
+    top: -37px;
+    right: 0;
+    z-index: 2;
+}
+
+/* Card and table styling updates */
+.card {
+    background: linear-gradient(to right, white, rgb(240, 239, 239));
+    border: 1px solid #8f6620;
     border-radius: 10px;
-    color: whitesmoke;
-    border-color: #f9f9f9;
-    background-color: #3a063a;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-}
-.content {
-    flex-grow: 1;
-    padding: 20px;
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    background-color: #efeaea;
-    background-image: url("{% static 'core/images/Frame.png' %}");
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 100vh;
-    opacity: 0.9;
-}
-.topbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
-.topbar input[type="search"] {
-    padding: 10px;
-    width: 70%;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.92);
+
+.card-header {
+    background: linear-gradient(to right, #3a063a, #580658);
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid #8f6620;
 }
+
+.table-dark {
+    background: linear-gradient(to right, #3a063a, #580658) !important;
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(143, 102, 32, 0.1);
+}
+
+.btn-outline-primary {
+    border-color: #3a063a;
+    color: #3a063a;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3a063a;
+    color: white;
+}
+
+.btn-outline-success {
+    border-color: #8f6620;
+    color: #8f6620;
+}
+
+.btn-outline-success:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+.btn-success {
+    background-color: #3a063a;
+    border-color: #3a063a;
+}
+
+.btn-success:hover {
+    background-color: #8f6620;
+    border-color: #8f6620;
+}
+
+.btn-outline-warning {
+    border-color: #8f6620;
+    color: #8f6620;
+}
+
+.btn-outline-warning:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+.badge.bg-primary {
+    background-color: #3a063a !important;
+}
+
+.badge.bg-success {
+    background-color: #8f6620 !important;
+}
+
+.alert-info {
+    background-color: rgba(143, 102, 32, 0.1);
+    border-color: #8f6620;
+    color: #3a063a;
+}
+
+/* Admin specific styles */
+.btn-etqa {
+    background-color: #3a063a;
+    border-color: #3a063a;
+    color: white;
+}
+
+.btn-etqa:hover {
+    background-color: #8f6620;
+    border-color: #8f6620;
+    color: white;
+}
+
+.logout-btn {
+    padding: 7px 7px;
+    margin-top: 10px;
+    font-size: 14px;
+    background-color: #3a063a;
+    color: white;
+    text-align: left;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-btn:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+/* Analytics Dashboard specific styles */
 .dashboard-page {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 18px;
     padding: 24px;
     box-shadow: 0 25px 45px rgba(58, 6, 58, 0.12);
 }
+
 .page-heading {
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--chi-purple-dark);
 }
+
 .text-accent {
     color: var(--chi-purple);
 }
+
 .dashboard-filter label {
     font-size: 0.72rem;
     text-transform: uppercase;
@@ -177,10 +358,12 @@ button:hover {
     color: #6f587d;
     font-weight: 600;
 }
+
 .dashboard-filter .form-select,
 .dashboard-filter .form-control {
     min-width: 160px;
 }
+
 .stat-card {
     background: linear-gradient(135deg, var(--chi-purple), var(--chi-purple-200));
     color: #fff;
@@ -194,18 +377,22 @@ button:hover {
     position: relative;
     overflow: hidden;
 }
+
 .stat-card[data-variant="gold"] {
     background: linear-gradient(135deg, var(--chi-gold), var(--chi-sand));
 }
+
 .stat-card[data-variant="slate"] {
     background: linear-gradient(135deg, var(--chi-slate), #6c4aa0);
 }
+
 .stat-card[data-variant="neutral"] {
     background: #fff;
     color: var(--chi-purple-dark);
     border: 1px solid rgba(90, 62, 123, 0.12);
     box-shadow: 0 8px 16px rgba(40, 4, 39, 0.08);
 }
+
 .stat-card .stat-label {
     text-transform: uppercase;
     font-size: .72rem;
@@ -213,16 +400,20 @@ button:hover {
     font-weight: 700;
     opacity: .85;
 }
+
 .stat-card[data-variant="neutral"] .stat-label {
     color: #6f6f6f;
 }
+
 .stat-card .stat-value {
     font-size: 2.4rem;
     font-weight: 700;
 }
+
 .stat-card .stat-foot {
     margin-top: auto;
 }
+
 .stat-chip {
     display: inline-flex;
     align-items: center;
@@ -233,14 +424,17 @@ button:hover {
     font-size: .75rem;
     font-weight: 600;
 }
+
 [data-variant="neutral"] .stat-chip {
     background: rgba(58, 6, 58, 0.08);
     color: var(--chi-purple);
 }
+
 .card.shadow-sm {
     border-radius: 1rem;
     border: 1px solid rgba(88, 6, 88, 0.12);
 }
+
 .card-header {
     border-bottom: 0;
     background: transparent;
@@ -248,14 +442,17 @@ button:hover {
     color: var(--chi-purple-dark);
     padding: 1rem 1.5rem 0;
 }
+
 .card-body {
     padding: 1rem 1.5rem 1.5rem;
 }
+
 .chart-canvas {
     width: 100%;
     height: 100%;
     min-height: 260px;
 }
+
 .chart-empty {
     border: 1px dashed rgba(58, 6, 58, 0.25);
     border-radius: .75rem;
@@ -265,60 +462,193 @@ button:hover {
     font-size: .9rem;
     margin: .5rem 0 0;
 }
+
 .table-dashboard thead {
     background: linear-gradient(90deg, rgba(58, 6, 58, 0.85), rgba(143, 102, 32, 0.85));
     color: #fff;
 }
+
 .table-dashboard tbody tr:hover {
     background-color: rgba(143, 102, 32, 0.08);
 }
+
 .badge-pass-strong {
     background-color: #2f9d57;
 }
+
 .badge-pass-mid {
     background-color: #f6c343;
     color: #3a063a;
 }
+
 .badge-pass-low {
     background-color: #e55353;
 }
+
 .metric-kpi {
     font-size: .85rem;
     font-weight: 600;
 }
+
 .metric-kpi .trend-up {
     color: #2f9d57;
 }
+
 .metric-kpi .trend-down {
     color: #e55353;
 }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+
+    .image-container {
+        position: relative;
+        top: 0;
+        margin-bottom: 15px;
+    }
+
+    .welcome-box {
+        height: auto;
+        padding-bottom: 30px;
+    }
+}
+
 @media (max-width: 992px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .content {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+    }
+
+    .image-container img {
+        width: 300px;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
     }
+
     .sidebar {
         position: relative;
         width: 100%;
         min-height: auto;
-        margin-bottom: 1.5rem;
+        height: auto;
+        padding: 10px;
     }
+
     .content {
         margin-left: 0;
         width: 100%;
-        padding: 20px 15px 40px;
     }
+
     .topbar input[type="search"] {
-        width: 80%;
+        width: 90%;
     }
+
+    .welcome-box {
+        height: auto;
+        padding: 15px;
+    }
+
+    .image-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        text-align: center;
+    }
+
+    .image-container img {
+        width: 250px;
+        height: auto;
+    }
+
+    .gradient-button {
+        display: flex;
+        justify-content: center;
+        margin-left: 0;
+        align-items: center;
+    }
+    
     .dashboard-filter .form-select,
     .dashboard-filter .form-control {
         min-width: 0;
     }
+
     .stat-card {
         min-height: 140px;
     }
+
     .chart-canvas {
         min-height: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        padding: 10px 5px;
+    }
+
+    .sidebar .graduate-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .topbar input[type="search"] {
+        width: 80%;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+        justify-content: center;
+    }
+
+    .welcome-box {
+        font-size: 18px;
+        height: auto;
+        padding: 10px;
+    }
+
+    .table-responsive {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .sidebar ul li {
+        font-size: 12px;
+    }
+
+    .fixy,
+    .fix {
+        font-size: 12px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+
+    .welcome-box {
+        font-size: 16px;
+    }
+
+    .gradient-button {
+        padding: 8px 15px;
+        font-size: 11px;
     }
 }
 </style>
@@ -329,264 +659,283 @@ button:hover {
 <div class="dashboard-container">
     {% include "core/administrator/_sidebar.html" %}
     <div class="content">
+        <!-- Welcome Box -->
+        <div class="welcome-container">
+            <div class="image-container">
+                <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+            </div>
+            <div class="welcome-box">
+                <h2><i class="fas fa-chart-line me-2"></i>Analytics Dashboard</h2>
+                <div class="date">
+                    Monitor system performance, learner progress, and assessment outcomes.
+                    <br>Track key metrics, identify trends, and make data-driven decisions.
+                    <span class="highlight">Real-time insights at your fingertips!</span>
+                    <br>
+                </div>
+                <button class="gradient-button">Data-Driven Excellence</button>
+            </div>
+        </div>
+
         <div class="topbar">
             <input type="search" placeholder="Search analytics...">
         </div>
+        
         <div class="dashboard-page">
-    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
-        <div>
-            <h1 class="page-heading mb-1">
-                <i class="fas fa-chart-line me-2 text-accent"></i>
-                Analytics Dashboard
-            </h1>
-            <p class="text-muted mb-0">Live indicators sourced from assessments, submissions, and learner records.</p>
-        </div>
-        <form method="get" class="row g-2 dashboard-filter align-items-end">
-            <div class="col-auto">
-                <label class="form-label">Qualification</label>
-                <select class="form-select form-select-sm" name="qualification">
-                    <option value="">All</option>
-                    {% if qualifications %}
-                        {% for qualification in qualifications %}
-                            {% with qid=qualification.id|stringformat:"s" %}
-                                <option value="{{ qid }}" {% if request.GET.qualification == qid %}selected{% endif %}>
-                                    {{ qualification.name }}
-                                </option>
-                            {% endwith %}
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">Period</label>
-                <select class="form-select form-select-sm" name="period">
-                    {% if period_options %}
-                        {% for value,label in period_options %}
-                            <option value="{{ value }}" {% if request.GET.period == value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    {% else %}
-                        {% with current=request.GET.period %}
-                            <option value="30d" {% if current == "30d" or not current %}selected{% endif %}>Last 30 days</option>
-                            <option value="90d" {% if current == "90d" %}selected{% endif %}>Last 90 days</option>
-                            <option value="365d" {% if current == "365d" %}selected{% endif %}>Last 12 months</option>
-                        {% endwith %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">Assessment type</label>
-                <select class="form-select form-select-sm" name="paper_type">
-                    <option value="">All types</option>
-                    {% if assessment_type_choices %}
-                        {% for value,label in assessment_type_choices %}
-                            <option value="{{ value }}" {% if request.GET.paper_type == value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">&nbsp;</label>
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
                 <div>
-                    <button type="submit" class="btn btn-primary btn-sm px-3">Apply</button>
-                    {% if request.GET %}
-                        <a href="{{ request.path }}" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
-                    {% endif %}
+                    <h1 class="page-heading mb-1">
+                        <i class="fas fa-chart-line me-2 text-accent"></i>
+                        Analytics Dashboard
+                    </h1>
+                    <p class="text-muted mb-0">Live indicators sourced from assessments, submissions, and learner records.</p>
                 </div>
-            </div>
-        </form>
-    </div>
-
-    {% with metrics=metrics %}
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <span class="stat-label">Registered learners</span>
-                <span class="stat-value">
-                    {{ metrics.total_learners|default:0|intcomma }}
-                </span>
-                <span class="stat-foot stat-chip">
-                    <i class="fas fa-graduation-cap me-1"></i>
-                    {{ metrics.active_qualifications|default:0|intcomma }} active qualifications
-                </span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="gold">
-                <span class="stat-label">Assessments completed</span>
-                <span class="stat-value">
-                    {{ metrics.completed_assessments|default:0|intcomma }}
-                </span>
-                <span class="stat-foot metric-kpi">
-                    {% with delta=metrics.completed_assessments_delta %}
-                        {% if delta or delta == 0 %}
-                            {% if delta >= 0 %}
-                                <span class="trend-up">
-                                    <i class="fas fa-arrow-up me-1"></i>{{ delta|floatformat:1 }}% vs prev.
-                                </span>
-                            {% else %}
-                                <span class="trend-down">
-                                    <i class="fas fa-arrow-down me-1"></i>{{ delta|floatformat:1 }}% vs prev.
-                                </span>
+                <form method="get" class="row g-2 dashboard-filter align-items-end">
+                    <div class="col-auto">
+                        <label class="form-label">Qualification</label>
+                        <select class="form-select form-select-sm" name="qualification">
+                            <option value="">All</option>
+                            {% if qualifications %}
+                                {% for qualification in qualifications %}
+                                    {% with qid=qualification.id|stringformat:"s" %}
+                                        <option value="{{ qid }}" {% if request.GET.qualification == qid %}selected{% endif %}>
+                                            {{ qualification.name }}
+                                        </option>
+                                    {% endwith %}
+                                {% endfor %}
                             {% endif %}
-                        {% else %}
-                            <span class="text-muted">Change data not available</span>
-                        {% endif %}
-                    {% endwith %}
-                </span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="slate">
-                <span class="stat-label">Overall pass rate</span>
-                <span class="stat-value">
-                    {{ metrics.overall_pass_rate|default:0|floatformat:1 }}%
-                </span>
-                <span class="stat-foot metric-kpi">
-                    {% with rate_delta=metrics.pass_rate_delta %}
-                        {% if rate_delta or rate_delta == 0 %}
-                            {% if rate_delta >= 0 %}
-                                <span class="trend-up">
-                                    <i class="fas fa-arrow-up me-1"></i>{{ rate_delta|floatformat:1 }}pts gain
-                                </span>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Period</label>
+                        <select class="form-select form-select-sm" name="period">
+                            {% if period_options %}
+                                {% for value,label in period_options %}
+                                    <option value="{{ value }}" {% if request.GET.period == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
                             {% else %}
-                                <span class="trend-down">
-                                    <i class="fas fa-arrow-down me-1"></i>{{ rate_delta|floatformat:1 }}pts drop
-                                </span>
+                                {% with current=request.GET.period %}
+                                    <option value="30d" {% if current == "30d" or not current %}selected{% endif %}>Last 30 days</option>
+                                    <option value="90d" {% if current == "90d" %}selected{% endif %}>Last 90 days</option>
+                                    <option value="365d" {% if current == "365d" %}selected{% endif %}>Last 12 months</option>
+                                {% endwith %}
                             {% endif %}
-                        {% else %}
-                            <span class="text-muted">No comparative period selected</span>
-                        {% endif %}
-                    {% endwith %}
-                </span>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Assessment type</label>
+                        <select class="form-select form-select-sm" name="paper_type">
+                            <option value="">All types</option>
+                            {% if assessment_type_choices %}
+                                {% for value,label in assessment_type_choices %}
+                                    <option value="{{ value }}" {% if request.GET.paper_type == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">&nbsp;</label>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-sm px-3">Apply</button>
+                            {% if request.GET %}
+                                <a href="{{ request.path }}" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="neutral">
-                <span class="stat-label">Randomized papers</span>
-                <span class="stat-value text-accent">
-                    {{ metrics.randomized_papers|default:0|intcomma }}
-                </span>
-                <span class="stat-foot metric-kpi">
-                    <span class="stat-chip">
-                        {{ metrics.randomized_share|default:0|floatformat:1 }}% of active tools
-                    </span>
-                </span>
-            </div>
-        </div>
-    </div>
-    {% endwith %}
 
-    <div class="row g-3 mb-4">
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100" id="pass-rate-card">
-                <div class="card-header">Pass rate by qualification</div>
-                <div class="card-body">
-                    <canvas aria-label="Pass rate by qualification" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No pass rate data available for the current filters.</p>
+            {% with metrics=metrics %}
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <span class="stat-label">Registered learners</span>
+                        <span class="stat-value">
+                            {{ metrics.total_learners|default:0|intcomma }}
+                        </span>
+                        <span class="stat-foot stat-chip">
+                            <i class="fas fa-graduation-cap me-1"></i>
+                            {{ metrics.active_qualifications|default:0|intcomma }} active qualifications
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="gold">
+                        <span class="stat-label">Assessments completed</span>
+                        <span class="stat-value">
+                            {{ metrics.completed_assessments|default:0|intcomma }}
+                        </span>
+                        <span class="stat-foot metric-kpi">
+                            {% with delta=metrics.completed_assessments_delta %}
+                                {% if delta or delta == 0 %}
+                                    {% if delta >= 0 %}
+                                        <span class="trend-up">
+                                            <i class="fas fa-arrow-up me-1"></i>{{ delta|floatformat:1 }}% vs prev.
+                                        </span>
+                                    {% else %}
+                                        <span class="trend-down">
+                                            <i class="fas fa-arrow-down me-1"></i>{{ delta|floatformat:1 }}% vs prev.
+                                        </span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">Change data not available</span>
+                                {% endif %}
+                            {% endwith %}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="slate">
+                        <span class="stat-label">Overall pass rate</span>
+                        <span class="stat-value">
+                            {{ metrics.overall_pass_rate|default:0|floatformat:1 }}%
+                        </span>
+                        <span class="stat-foot metric-kpi">
+                            {% with rate_delta=metrics.pass_rate_delta %}
+                                {% if rate_delta or rate_delta == 0 %}
+                                    {% if rate_delta >= 0 %}
+                                        <span class="trend-up">
+                                            <i class="fas fa-arrow-up me-1"></i>{{ rate_delta|floatformat:1 }}pts gain
+                                        </span>
+                                    {% else %}
+                                        <span class="trend-down">
+                                            <i class="fas fa-arrow-down me-1"></i>{{ rate_delta|floatformat:1 }}pts drop
+                                        </span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">No comparative period selected</span>
+                                {% endif %}
+                            {% endwith %}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="neutral">
+                        <span class="stat-label">Randomized papers</span>
+                        <span class="stat-value text-accent">
+                            {{ metrics.randomized_papers|default:0|intcomma }}
+                        </span>
+                        <span class="stat-foot metric-kpi">
+                            <span class="stat-chip">
+                                {{ metrics.randomized_share|default:0|floatformat:1 }}% of active tools
+                            </span>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100" id="completion-card">
-                <div class="card-header">Assessment completion trend</div>
-                <div class="card-body">
-                    <canvas aria-label="Assessment completion trend" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No completion trend data available for the selected window.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+            {% endwith %}
 
-    <div class="row g-3 mb-4">
-        <div class="col-lg-4">
-            <div class="card shadow-sm h-100" id="assessment-type-card">
-                <div class="card-header">Assessment type mix</div>
-                <div class="card-body">
-                    <canvas aria-label="Assessment type distribution" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No assessment type distribution recorded.</p>
+            <div class="row g-3 mb-4">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100" id="pass-rate-card">
+                        <div class="card-header">Pass rate by qualification</div>
+                        <div class="card-body">
+                            <canvas aria-label="Pass rate by qualification" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No pass rate data available for the current filters.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100" id="completion-card">
+                        <div class="card-header">Assessment completion trend</div>
+                        <div class="card-body">
+                            <canvas aria-label="Assessment completion trend" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No completion trend data available for the selected window.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="card shadow-sm h-100" id="enrollment-card">
-                <div class="card-header">Learner enrollment by qualification</div>
-                <div class="card-body">
-                    <canvas aria-label="Enrollment by qualification" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No enrollment data available.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">Qualification performance detail</div>
-        {% if course_statistics %}
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-dashboard table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="ps-4">Qualification</th>
-                                <th scope="col">Learners</th>
-                                <th scope="col">Completed</th>
-                                <th scope="col">Pass rate</th>
-                                <th scope="col">Average score</th>
-                                <th scope="col">Written papers</th>
-                                <th scope="col">Randomized</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for course in course_statistics %}
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="fw-semibold">{{ course.qualification|default:"-" }}</div>
-                                        {% if course.latest_assessment %}
-                                            <div class="text-muted small">Latest tool: {{ course.latest_assessment }}</div>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ course.total_learners|default:0|intcomma }}</td>
-                                    <td>{{ course.completed_learners|default:0|intcomma }}</td>
-                                    <td>
-                                        {% with rate=course.pass_rate %}
-                                            {% if rate or rate == 0 %}
-                                                {% if rate >= 75 %}
-                                                    <span class="badge badge-pass-strong">{{ rate|floatformat:0 }}%</span>
-                                                {% elif rate >= 50 %}
-                                                    <span class="badge badge-pass-mid">{{ rate|floatformat:0 }}%</span>
-                                                {% else %}
-                                                    <span class="badge badge-pass-low">{{ rate|floatformat:0 }}%</span>
+            <div class="row g-3 mb-4">
+                <div class="col-lg-4">
+                    <div class="card shadow-sm h-100" id="assessment-type-card">
+                        <div class="card-header">Assessment type mix</div>
+                        <div class="card-body">
+                            <canvas aria-label="Assessment type distribution" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No assessment type distribution recorded.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card shadow-sm h-100" id="enrollment-card">
+                        <div class="card-header">Learner enrollment by qualification</div>
+                        <div class="card-body">
+                            <canvas aria-label="Enrollment by qualification" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No enrollment data available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">Qualification performance detail</div>
+                {% if course_statistics %}
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-dashboard table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="ps-4">Qualification</th>
+                                        <th scope="col">Learners</th>
+                                        <th scope="col">Completed</th>
+                                        <th scope="col">Pass rate</th>
+                                        <th scope="col">Average score</th>
+                                        <th scope="col">Written papers</th>
+                                        <th scope="col">Randomized</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for course in course_statistics %}
+                                        <tr>
+                                            <td class="ps-4">
+                                                <div class="fw-semibold">{{ course.qualification|default:"-" }}</div>
+                                                {% if course.latest_assessment %}
+                                                    <div class="text-muted small">Latest tool: {{ course.latest_assessment }}</div>
                                                 {% endif %}
-                                            {% else %}
-                                                <span class="text-muted small">n/a</span>
-                                            {% endif %}
-                                        {% endwith %}
-                                    </td>
-                                    <td>
-                                        {% if course.average_score or course.average_score == 0 %}
-                                            {{ course.average_score|floatformat:1 }}%
-                                        {% else %}
-                                            <span class="text-muted small">n/a</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ course.written_count|default:0|intcomma }}</td>
-                                    <td>{{ course.randomized_count|default:0|intcomma }}</td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">No qualification level metrics match the selected filters.</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                            </td>
+                                            <td>{{ course.total_learners|default:0|intcomma }}</td>
+                                            <td>{{ course.completed_learners|default:0|intcomma }}</td>
+                                            <td>
+                                                {% with rate=course.pass_rate %}
+                                                    {% if rate or rate == 0 %}
+                                                        {% if rate >= 75 %}
+                                                            <span class="badge badge-pass-strong">{{ rate|floatformat:0 }}%</span>
+                                                        {% elif rate >= 50 %}
+                                                            <span class="badge badge-pass-mid">{{ rate|floatformat:0 }}%</span>
+                                                        {% else %}
+                                                            <span class="badge badge-pass-low">{{ rate|floatformat:0 }}%</span>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <span class="text-muted small">n/a</span>
+                                                    {% endif %}
+                                                {% endwith %}
+                                            </td>
+                                            <td>
+                                                {% if course.average_score or course.average_score == 0 %}
+                                                    {{ course.average_score|floatformat:1 }}%
+                                                {% else %}
+                                                    <span class="text-muted small">n/a</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ course.written_count|default:0|intcomma }}</td>
+                                            <td>{{ course.randomized_count|default:0|intcomma }}</td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="7" class="text-center py-4 text-muted">No qualification level metrics match the selected filters.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card-body">
+                        <p class="text-muted mb-0">No qualification level metrics are available for the selected filters.</p>
+                    </div>
+                {% endif %}
             </div>
-        {% else %}
-            <div class="card-body">
-                <p class="text-muted mb-0">No qualification level metrics are available for the selected filters.</p>
-            </div>
-        {% endif %}
+        </div>
     </div>
-</div>
 </div>
 {% endblock %}
 
@@ -763,7 +1112,3 @@ button:hover {
 })();
 </script>
 {% endblock %}
-
-
-
-

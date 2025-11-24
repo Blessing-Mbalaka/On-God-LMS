@@ -642,14 +642,14 @@
             </div>
 
             <!-- ========= Upload Assessment Form ========= -->
-            <div class="card mb-4">
+            <!-- <div class="card mb-4">
                 <div class="card-header">Upload New Assessment</div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" class="row g-3" id="uploadForm">
-                        {% csrf_token %}
+                        {% csrf_token %} -->
 
                         <!-- Qualification Dropdown -->
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <label for="qual" class="form-label">Qualification</label>
                             <select id="qual" name="qualification" class="form-select form-select-sm" required>
                                 <option value="">— Select Qualification —</option>
@@ -659,42 +659,42 @@
                                 </option>
                                 {% endfor %}
                             </select>
-                        </div>
+                        </div> -->
 
                         <!-- Auto-filled SAQA ID -->
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <label for="saqa" class="form-label">SAQA ID</label>
                             <input type="text" id="saqa" name="saqa_id" class="form-control form-control-sm"
                                 placeholder="Auto-filled" readonly>
-                        </div>
+                        </div> -->
 
                         <!-- Paper Name -->
-                        <input type="hidden" name="paper_number" id="paper_number">
+                        <!-- <input type="hidden" name="paper_number" id="paper_number"> -->
 
                         <!-- Assessment File -->
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="file" class="form-label">Assessment File</label>
                             <input type="file" id="file" name="file_input" class="form-control form-control-sm"
                                 accept=".docx,.pdf" required>
                             <small class="text-muted">Upload DOCX or PDF file</small>
-                        </div>
+                        </div> -->
 
                         <!-- Memo File - CORRECTED: name="memo_input" -->
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="memo" class="form-label">Memo File (Required)</label>
                             <input type="file" id="memo" name="memo_input" class="form-control form-control-sm"
                                 accept=".docx,.pdf" required>
                             <small class="text-muted">Upload assessment memo</small>
-                        </div>
+                        </div> -->
 
-                        <div class="col-12 text-end">
+                        <!-- <div class="col-12 text-end">
                             <button type="submit" name="action" value="etqa" class="btn btn-etqa btn-sm">
                                 Submit to ETQA
                             </button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> -->
 
             <!-- ========= List of Uploaded Assessments ========= -->
             <div class="card mb-4">

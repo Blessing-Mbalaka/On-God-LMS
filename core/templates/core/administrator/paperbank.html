@@ -15,32 +15,83 @@
     --chi-sand: #b8832a;
     --chi-slate: #403675;
 }
+
 body {
     margin: 0;
     font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #ecf0f1;
 }
-main.container {
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-}
-button:hover {
-    background-color: #ffffff;
-    color: #4d4747;
-    border-color: #007BFF;
-}
+
 .dashboard-container {
     display: flex;
     flex-direction: row;
     min-height: 100vh;
 }
+
+.sidebar ul li {
+    transition: background-color 0.3s ease;
+    border-top: 1.5px solid #580658;
+    border-radius: 10px;
+    color: #580658;
+}
+
+.fixy {
+    border-color: #ffffff;
+    width: 100%;
+    height: 40px;
+    color: whitesmoke;
+    border-radius: 10px;
+    margin-bottom: -2px;
+    background-color: #8f6620;
+}
+
+.fix {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    color: whitesmoke;
+    border-color: #f9f9f9;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+button:hover {
+    background-color: #ffffff;
+    color: #4d4747;
+    border-color: #007BFF;
+}
+
+.sidebar ul li:hover {
+    background-color: #8f6620;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 30px;
+    list-style: none;
+}
+
+.nav-item {
+    color: rgb(81, 3, 102);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 16px;
+}
+
+.nav-item:hover {
+    color: rgb(249, 249, 249);
+    transition: color 0.3s;
+}
+
 .sidebar {
     width: 210px;
     min-height: 100vh;
     font-size: 13px;
     background: linear-gradient(to bottom, rgb(195, 193, 193), white, rgb(160, 160, 160), rgb(240, 239, 239), rgb(240, 239, 239), rgb(91, 60, 131));
     padding: 20px;
+    border-radius: 0px 0px 0px 0px;
     border-right: 1px solid #8f6620;
     box-shadow: inset 0 -2px 3px rgba(75, 0, 130, 0.7);
     position: fixed;
@@ -49,6 +100,7 @@ button:hover {
     z-index: 1000;
     overflow-y: auto;
 }
+
 .sidebar .graduate-icon {
     border-radius: 20px;
     height: 110px;
@@ -59,47 +111,76 @@ button:hover {
     margin-left: auto;
     margin-right: auto;
 }
+
 .sidebar ul {
     list-style-type: none;
     padding: 0;
 }
+
 .sidebar ul li {
     margin: 20px 0;
     display: flex;
     align-items: center;
-    transition: background-color 0.3s ease;
-    border-top: 1.5px solid #580658;
-    border-radius: 10px;
-    color: #580658;
 }
+
 .sidebar ul li i {
     margin-right: 10px;
 }
-.sidebar ul li:hover {
-    background-color: #8f6620;
-    color: white;
-    cursor: pointer;
-    border-radius: 10px;
-    height: 30px;
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    background-color: #efeaea;
+    background-image: url("{% static 'core/images/Frame.png' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
 }
-.nav-link {
-    color: rgb(81, 3, 102);
-    text-decoration: none;
+
+.topbar {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 10px 14px;
-    width: 100%;
-    transition: color 0.3s;
+    margin-bottom: 20px;
 }
-.nav-link:hover,
-.nav-link.active,
-.sidebar ul li:hover .nav-link {
-    color: rgb(249, 249, 249);
+
+.topbar input[type="search"] {
+    padding: 10px;
+    width: 70%;
+    border-radius: 20px;
+    border: 1px solid #ccc;
 }
-.nav-link.active {
-    background-color: #8f6620;
+
+.welcome-box {
+    background: linear-gradient(to right, white, rgb(215, 213, 213), rgb(240, 239, 239), rgb(91, 60, 131));
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4d4747;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    min-height: 25vh;
+    position: relative;
+    border-left: 4px solid rgb(81, 3, 102);
 }
+
+.welcome-box .date {
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+.date {
+    font-size: 16px;
+    color: grey;
+}
+
 .gradient-button {
     background-color: #3a063a;
     color: white;
@@ -113,63 +194,163 @@ button:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .gradient-button:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     background-color: #8f6620;
 }
-.fix {
-    width: 100%;
-    height: 40px;
+
+.highlight {
+    color: red;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.welcome-container {
+    position: relative;
+    margin: 20px;
+}
+
+.image-container {
+    position: absolute;
+    top: -37px;
+    right: 0;
+    z-index: 2;
+}
+
+/* Card and table styling updates */
+.card {
+    background: linear-gradient(to right, white, rgb(240, 239, 239));
+    border: 1px solid #8f6620;
     border-radius: 10px;
-    color: whitesmoke;
-    border-color: #f9f9f9;
-    background-color: #3a063a;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-}
-.content {
-    flex-grow: 1;
-    padding: 20px;
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    background-color: #efeaea;
-    background-image: url("{% static 'core/images/Frame.png' %}");
-    background-repeat: no-repeat;
-    background-size: cover;
-    min-height: 100vh;
-    opacity: 0.9;
-}
-.topbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
-.topbar input[type="search"] {
-    padding: 10px;
-    width: 70%;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    background-color: rgba(255, 255, 255, 0.92);
+
+.card-header {
+    background: linear-gradient(to right, #3a063a, #580658);
+    color: white;
+    font-weight: bold;
+    border-bottom: 1px solid #8f6620;
 }
+
+.table-dark {
+    background: linear-gradient(to right, #3a063a, #580658) !important;
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(143, 102, 32, 0.1);
+}
+
+.btn-outline-primary {
+    border-color: #3a063a;
+    color: #3a063a;
+}
+
+.btn-outline-primary:hover {
+    background-color: #3a063a;
+    color: white;
+}
+
+.btn-outline-success {
+    border-color: #8f6620;
+    color: #8f6620;
+}
+
+.btn-outline-success:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+.btn-success {
+    background-color: #3a063a;
+    border-color: #3a063a;
+}
+
+.btn-success:hover {
+    background-color: #8f6620;
+    border-color: #8f6620;
+}
+
+.btn-outline-warning {
+    border-color: #8f6620;
+    color: #8f6620;
+}
+
+.btn-outline-warning:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+.badge.bg-primary {
+    background-color: #3a063a !important;
+}
+
+.badge.bg-success {
+    background-color: #8f6620 !important;
+}
+
+.alert-info {
+    background-color: rgba(143, 102, 32, 0.1);
+    border-color: #8f6620;
+    color: #3a063a;
+}
+
+/* Admin specific styles */
+.btn-etqa {
+    background-color: #3a063a;
+    border-color: #3a063a;
+    color: white;
+}
+
+.btn-etqa:hover {
+    background-color: #8f6620;
+    border-color: #8f6620;
+    color: white;
+}
+
+.logout-btn {
+    padding: 7px 7px;
+    margin-top: 10px;
+    font-size: 14px;
+    background-color: #3a063a;
+    color: white;
+    text-align: left;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-btn:hover {
+    background-color: #8f6620;
+    color: white;
+}
+
+/* Paper Bank specific styles */
 .paperbank-page {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 18px;
     padding: 24px;
     box-shadow: 0 25px 45px rgba(58, 6, 58, 0.12);
 }
+
 .page-heading {
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--chi-purple-dark);
 }
+
 .text-accent {
     color: var(--chi-purple);
 }
+
 .paperbank-filter label {
     font-size: 0.72rem;
     text-transform: uppercase;
@@ -177,10 +358,12 @@ button:hover {
     color: #6f587d;
     font-weight: 600;
 }
+
 .paperbank-filter .form-select,
 .paperbank-filter .form-control {
     min-width: 160px;
 }
+
 .stat-card {
     background: linear-gradient(135deg, var(--chi-purple), var(--chi-purple-200));
     color: #fff;
@@ -192,18 +375,22 @@ button:hover {
     flex-direction: column;
     gap: .4rem;
 }
+
 .stat-card[data-variant="neutral"] {
     background: #fff;
     color: var(--chi-purple-dark);
     border: 1px solid rgba(90, 62, 123, 0.12);
     box-shadow: 0 8px 16px rgba(40, 4, 39, 0.08);
 }
+
 .stat-card[data-variant="gold"] {
     background: linear-gradient(135deg, var(--chi-gold), var(--chi-sand));
 }
+
 .stat-card[data-variant="slate"] {
     background: linear-gradient(135deg, var(--chi-slate), #6c4aa0);
 }
+
 .stat-card .stat-label {
     text-transform: uppercase;
     font-size: .72rem;
@@ -211,21 +398,26 @@ button:hover {
     font-weight: 700;
     opacity: .85;
 }
+
 .stat-card[data-variant="neutral"] .stat-label {
     color: #6f6f6f;
 }
+
 .stat-card .stat-value {
     font-size: 2.2rem;
     font-weight: 700;
 }
+
 .stat-card .stat-foot {
     margin-top: auto;
     font-size: .85rem;
 }
+
 .card.shadow-sm {
     border-radius: 1rem;
     border: 1px solid rgba(88, 6, 88, 0.12);
 }
+
 .card-header {
     border-bottom: 0;
     background: transparent;
@@ -233,14 +425,17 @@ button:hover {
     color: var(--chi-purple-dark);
     padding: 1rem 1.5rem 0;
 }
+
 .card-body {
     padding: 1rem 1.5rem 1.5rem;
 }
+
 .chart-canvas {
     width: 100%;
     height: 100%;
     min-height: 260px;
 }
+
 .chart-empty {
     border: 1px dashed rgba(58, 6, 58, 0.25);
     border-radius: .75rem;
@@ -250,23 +445,28 @@ button:hover {
     font-size: .9rem;
     margin: .5rem 0 0;
 }
+
 .paperbank-table thead {
     background: linear-gradient(90deg, rgba(58, 6, 58, 0.85), rgba(143, 102, 32, 0.85));
     color: #fff;
 }
+
 .paperbank-table tbody tr:hover {
     background-color: rgba(143, 102, 32, 0.08);
 }
+
 .paperbank-table .badge {
     font-size: .75rem;
     letter-spacing: 0.03em;
 }
+
 .detail-card {
     background: rgba(90, 62, 123, 0.05);
     border-radius: .85rem;
     padding: 1.25rem;
     margin-top: .75rem;
 }
+
 .detail-heading {
     font-size: .9rem;
     text-transform: uppercase;
@@ -275,9 +475,11 @@ button:hover {
     font-weight: 700;
     margin-bottom: .75rem;
 }
+
 .detail-list {
     margin: 0;
 }
+
 .detail-list dt {
     font-size: .75rem;
     text-transform: uppercase;
@@ -285,41 +487,168 @@ button:hover {
     color: #75608d;
     margin-bottom: .25rem;
 }
+
 .detail-list dd {
     margin-bottom: .75rem;
     font-weight: 600;
     color: var(--chi-purple-dark);
 }
+
 .link-stack .btn {
     text-align: left;
 }
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+
+    .image-container {
+        position: relative;
+        top: 0;
+        margin-bottom: 15px;
+    }
+
+    .welcome-box {
+        height: auto;
+        padding-bottom: 30px;
+    }
+}
+
 @media (max-width: 992px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .content {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+    }
+
+    .image-container img {
+        width: 300px;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
     }
+
     .sidebar {
         position: relative;
         width: 100%;
         min-height: auto;
-        margin-bottom: 1.5rem;
+        height: auto;
+        padding: 10px;
     }
+
     .content {
         margin-left: 0;
         width: 100%;
-        padding: 20px 15px 40px;
     }
+
     .topbar input[type="search"] {
-        width: 80%;
+        width: 90%;
     }
+
+    .welcome-box {
+        height: auto;
+        padding: 15px;
+    }
+
+    .image-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        text-align: center;
+    }
+
+    .image-container img {
+        width: 250px;
+        height: auto;
+    }
+
+    .gradient-button {
+        display: flex;
+        justify-content: center;
+        margin-left: 0;
+        align-items: center;
+    }
+    
     .paperbank-filter .form-select,
     .paperbank-filter .form-control {
         min-width: 0;
     }
+
     .stat-card {
         min-height: 140px;
     }
+
     .chart-canvas {
         min-height: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        padding: 10px 5px;
+    }
+
+    .sidebar .graduate-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .topbar input[type="search"] {
+        width: 80%;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+        justify-content: center;
+    }
+
+    .welcome-box {
+        font-size: 18px;
+        height: auto;
+        padding: 10px;
+    }
+
+    .table-responsive {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .sidebar ul li {
+        font-size: 12px;
+    }
+
+    .fixy,
+    .fix {
+        font-size: 12px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+
+    .welcome-box {
+        font-size: 16px;
+    }
+
+    .gradient-button {
+        padding: 8px 15px;
+        font-size: 11px;
     }
 }
 </style>
@@ -330,271 +659,290 @@ button:hover {
 <div class="dashboard-container">
     {% include "core/administrator/_sidebar.html" %}
     <div class="content">
+        <!-- Welcome Box -->
+        <div class="welcome-container">
+            <div class="image-container">
+                <!-- <img src="{% static 'core/images/rb_2148892786.png' %}" alt="Profile Picture" width="390px" height="190px"> -->
+            </div>
+            <div class="welcome-box">
+                <h2><i class="fas fa-folder-open me-2"></i>Paper Bank Dashboard</h2>
+                <div class="date">
+                    Manage assessment tools, track uploads, and monitor paper bank statistics.
+                    <br>Access stored assessments, memos, and workflow status across all qualifications.
+                    <span class="highlight">Centralized assessment repository!</span>
+                    <br>
+                </div>
+                <button class="gradient-button">Quality Assessment Storage</button>
+            </div>
+        </div>
+
         <div class="topbar">
             <input type="search" placeholder="Search paper bank...">
         </div>
+        
         <div class="paperbank-page">
-    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
-        <div>
-            <h1 class="page-heading mb-1">
-                <i class="fas fa-folder-open me-2 text-accent"></i>
-                Paper Bank
-            </h1>
-            <p class="text-muted mb-0">Curated assessment tools with their source files, memos, and workflow status.</p>
-        </div>
-        <form method="get" class="row g-2 paperbank-filter align-items-end">
-            <div class="col-auto">
-                <label class="form-label">Qualification</label>
-                <select class="form-select form-select-sm" name="qualification">
-                    <option value="">All</option>
-                    {% if qualifications %}
-                        {% for qualification in qualifications %}
-                            {% with qid=qualification.id|stringformat:"s" %}
-                                <option value="{{ qid }}" {% if request.GET.qualification == qid %}selected{% endif %}>
-                                    {{ qualification.name }}
-                                </option>
-                            {% endwith %}
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">Paper type</label>
-                <select class="form-select form-select-sm" name="paper_type">
-                    <option value="">All types</option>
-                    {% if paper_type_choices %}
-                        {% for value,label in paper_type_choices %}
-                            <option value="{{ value }}" {% if request.GET.paper_type == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">Workflow status</label>
-                <select class="form-select form-select-sm" name="status">
-                    <option value="">All statuses</option>
-                    {% if status_options %}
-                        {% for value,label in status_options %}
-                            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="col-auto">
-                <label class="form-label">Search</label>
-                <input type="search" class="form-control form-control-sm" name="q" placeholder="EISA or paper number" value="{{ request.GET.q }}">
-            </div>
-            <div class="col-auto">
-                <label class="form-label">&nbsp;</label>
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
                 <div>
-                    <button type="submit" class="btn btn-primary btn-sm px-3">Apply</button>
-                    {% if request.GET %}
-                        <a href="{{ request.path }}" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
-                    {% endif %}
+                    <h1 class="page-heading mb-1">
+                        <i class="fas fa-folder-open me-2 text-accent"></i>
+                        Paper Bank
+                    </h1>
+                    <p class="text-muted mb-0">Curated assessment tools with their source files, memos, and workflow status.</p>
                 </div>
+                <form method="get" class="row g-2 paperbank-filter align-items-end">
+                    <div class="col-auto">
+                        <label class="form-label">Qualification</label>
+                        <select class="form-select form-select-sm" name="qualification">
+                            <option value="">All</option>
+                            {% if qualifications %}
+                                {% for qualification in qualifications %}
+                                    {% with qid=qualification.id|stringformat:"s" %}
+                                        <option value="{{ qid }}" {% if request.GET.qualification == qid %}selected{% endif %}>
+                                            {{ qualification.name }}
+                                        </option>
+                                    {% endwith %}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Paper type</label>
+                        <select class="form-select form-select-sm" name="paper_type">
+                            <option value="">All types</option>
+                            {% if paper_type_choices %}
+                                {% for value,label in paper_type_choices %}
+                                    <option value="{{ value }}" {% if request.GET.paper_type == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Workflow status</label>
+                        <select class="form-select form-select-sm" name="status">
+                            <option value="">All statuses</option>
+                            {% if status_options %}
+                                {% for value,label in status_options %}
+                                    <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Search</label>
+                        <input type="search" class="form-control form-control-sm" name="q" placeholder="EISA or paper number" value="{{ request.GET.q }}">
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">&nbsp;</label>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-sm px-3">Apply</button>
+                            {% if request.GET %}
+                                <a href="{{ request.path }}" class="btn btn-outline-secondary btn-sm ms-1">Reset</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
 
-    {% with stats=paperbank_stats %}
-    <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <span class="stat-label">Stored papers</span>
-                <span class="stat-value">{{ stats.total_entries|default:0|intcomma }}</span>
-                <span class="stat-foot">Latest ingest: {{ stats.latest_upload_at|default_if_none:"-" }}</span>
+            {% with stats=paperbank_stats %}
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <span class="stat-label">Stored papers</span>
+                        <span class="stat-value">{{ stats.total_entries|default:0|intcomma }}</span>
+                        <span class="stat-foot">Latest ingest: {{ stats.latest_upload_at|default_if_none:"-" }}</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="gold">
+                        <span class="stat-label">Randomized tools</span>
+                        <span class="stat-value">{{ stats.randomized_entries|default:0|intcomma }}</span>
+                        <span class="stat-foot">{{ stats.randomized_share|default:0|floatformat:1 }}% of catalogue</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="slate">
+                        <span class="stat-label">Memos on file</span>
+                        <span class="stat-value">{{ stats.memos_available|default:0|intcomma }}</span>
+                        <span class="stat-foot">{{ stats.memos_share|default:0|floatformat:1 }}% coverage</span>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="stat-card" data-variant="neutral">
+                        <span class="stat-label">Average total marks</span>
+                        <span class="stat-value text-accent">
+                            {% if stats.average_total_marks or stats.average_total_marks == 0 %}
+                                {{ stats.average_total_marks|floatformat:1 }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </span>
+                        <span class="stat-foot text-muted">Based on linked paper structures</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="gold">
-                <span class="stat-label">Randomized tools</span>
-                <span class="stat-value">{{ stats.randomized_entries|default:0|intcomma }}</span>
-                <span class="stat-foot">{{ stats.randomized_share|default:0|floatformat:1 }}% of catalogue</span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="slate">
-                <span class="stat-label">Memos on file</span>
-                <span class="stat-value">{{ stats.memos_available|default:0|intcomma }}</span>
-                <span class="stat-foot">{{ stats.memos_share|default:0|floatformat:1 }}% coverage</span>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3">
-            <div class="stat-card" data-variant="neutral">
-                <span class="stat-label">Average total marks</span>
-                <span class="stat-value text-accent">
-                    {% if stats.average_total_marks or stats.average_total_marks == 0 %}
-                        {{ stats.average_total_marks|floatformat:1 }}
-                    {% else %}
-                        <span class="text-muted">-</span>
-                    {% endif %}
-                </span>
-                <span class="stat-foot text-muted">Based on linked paper structures</span>
-            </div>
-        </div>
-    </div>
-    {% endwith %}
+            {% endwith %}
 
-    <div class="row g-3 mb-4">
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100" id="uploads-chart-card">
-                <div class="card-header">Uploads by month</div>
-                <div class="card-body">
-                    <canvas aria-label="Paper uploads by month" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No upload activity recorded for the selected filters.</p>
+            <div class="row g-3 mb-4">
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100" id="uploads-chart-card">
+                        <div class="card-header">Uploads by month</div>
+                        <div class="card-body">
+                            <canvas aria-label="Paper uploads by month" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No upload activity recorded for the selected filters.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100" id="distribution-chart-card">
+                        <div class="card-header">Catalogue distribution by qualification</div>
+                        <div class="card-body">
+                            <canvas aria-label="Paper distribution" role="img" class="chart-canvas"></canvas>
+                            <p class="chart-empty text-muted small mb-0">No paper bank distribution data available.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card shadow-sm h-100" id="distribution-chart-card">
-                <div class="card-header">Catalogue distribution by qualification</div>
-                <div class="card-body">
-                    <canvas aria-label="Paper distribution" role="img" class="chart-canvas"></canvas>
-                    <p class="chart-empty text-muted small mb-0">No paper bank distribution data available.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header">Stored assessments</div>
-        {% if paper_bank_entries %}
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table paperbank-table table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="ps-4">Paper</th>
-                                <th scope="col">Qualification</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Uploaded</th>
-                                <th scope="col">Files</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for entry in paper_bank_entries %}
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="fw-semibold">{{ entry.assessment.paper }}</div>
-                                        <div class="text-muted small">{{ entry.assessment.eisa_id }}</div>
-                                    </td>
-                                    <td>
-                                        {{ entry.assessment.qualification.name|default:"-" }}
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark border">{{ entry.assessment.get_paper_type_display }}</span>
-                                        {% if entry.assessment.paper_link and entry.assessment.paper_link.is_randomized %}
-                                            <span class="badge bg-warning text-dark ms-1">Randomized</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-secondary">{{ entry.assessment.get_status_display|default:entry.assessment.status }}</span>
-                                    </td>
-                                    <td>
-                                        {{ entry.created_at|date:"Y-m-d" }}
-                                    </td>
-                                    <td>
-                                        <div class="link-stack d-flex flex-column gap-1">
-                                            {% if entry.original_file %}
-                                                <a href="{{ entry.original_file.url }}" class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-file-download me-1"></i>Download paper
-                                                </a>
-                                            {% endif %}
-                                            {% if entry.assessment.memo %}
-                                                <a href="{{ entry.assessment.memo.url }}" class="btn btn-outline-secondary btn-sm">
-                                                    <i class="fas fa-scroll me-1"></i>Memo (admin upload)
-                                                </a>
-                                            {% elif entry.assessment.memo_file %}
-                                                <a href="{{ entry.assessment.memo_file.url }}" class="btn btn-outline-secondary btn-sm">
-                                                    <i class="fas fa-scroll me-1"></i>Memo (randomized)
-                                                </a>
-                                            {% else %}
-                                                <span class="text-muted small">No memo on file</span>
-                                            {% endif %}
-                                            <button class="btn btn-link btn-sm text-decoration-none px-0" data-bs-toggle="collapse" data-bs-target="#paper-detail-{{ entry.pk }}" aria-expanded="false" aria-controls="paper-detail-{{ entry.pk }}">
-                                                <i class="fas fa-info-circle me-1"></i>Details
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="collapse" id="paper-detail-{{ entry.pk }}">
-                                    <td colspan="6">
-                                        <div class="detail-card">
-                                            <div class="row g-3">
-                                                <div class="col-md-4">
-                                                    <h6 class="detail-heading">Paper</h6>
-                                                    <dl class="detail-list">
-                                                        <dt>Qualification</dt>
-                                                        <dd>{{ entry.assessment.qualification.name|default:"-" }}</dd>
-                                                        <dt>Total marks</dt>
-                                                        <dd>
-                                                            {% if entry.assessment.paper_link %}
-                                                                {{ entry.assessment.paper_link.total_marks|default:"-" }}
-                                                            {% else %}
-                                                                <span class="text-muted">-</span>
-                                                            {% endif %}
-                                                        </dd>
-                                                        <dt>Created by</dt>
-                                                        <dd>
-                                                            {% if entry.assessment.paper_link and entry.assessment.paper_link.created_by %}
-                                                                {{ entry.assessment.paper_link.created_by.get_full_name|default:entry.assessment.paper_link.created_by.username }}
-                                                            {% else %}
-                                                                <span class="text-muted">-</span>
-                                                            {% endif %}
-                                                        </dd>
-                                                    </dl>
+            <div class="card shadow-sm">
+                <div class="card-header">Stored assessments</div>
+                {% if paper_bank_entries %}
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table paperbank-table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="ps-4">Paper</th>
+                                        <th scope="col">Qualification</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Uploaded</th>
+                                        <th scope="col">Files</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entry in paper_bank_entries %}
+                                        <tr>
+                                            <td class="ps-4">
+                                                <div class="fw-semibold">{{ entry.assessment.paper }}</div>
+                                                <div class="text-muted small">{{ entry.assessment.eisa_id }}</div>
+                                            </td>
+                                            <td>
+                                                {{ entry.assessment.qualification.name|default:"-" }}
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-light text-dark border">{{ entry.assessment.get_paper_type_display }}</span>
+                                                {% if entry.assessment.paper_link and entry.assessment.paper_link.is_randomized %}
+                                                    <span class="badge bg-warning text-dark ms-1">Randomized</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">{{ entry.assessment.get_status_display|default:entry.assessment.status }}</span>
+                                            </td>
+                                            <td>
+                                                {{ entry.created_at|date:"Y-m-d" }}
+                                            </td>
+                                            <td>
+                                                <div class="link-stack d-flex flex-column gap-1">
+                                                    {% if entry.original_file %}
+                                                        <a href="{{ entry.original_file.url }}" class="btn btn-outline-primary btn-sm">
+                                                            <i class="fas fa-file-download me-1"></i>Download paper
+                                                        </a>
+                                                    {% endif %}
+                                                    {% if entry.assessment.memo %}
+                                                        <a href="{{ entry.assessment.memo.url }}" class="btn btn-outline-secondary btn-sm">
+                                                            <i class="fas fa-scroll me-1"></i>Memo (admin upload)
+                                                        </a>
+                                                    {% elif entry.assessment.memo_file %}
+                                                        <a href="{{ entry.assessment.memo_file.url }}" class="btn btn-outline-secondary btn-sm">
+                                                            <i class="fas fa-scroll me-1"></i>Memo (randomized)
+                                                        </a>
+                                                    {% else %}
+                                                        <span class="text-muted small">No memo on file</span>
+                                                    {% endif %}
+                                                    <button class="btn btn-link btn-sm text-decoration-none px-0" data-bs-toggle="collapse" data-bs-target="#paper-detail-{{ entry.pk }}" aria-expanded="false" aria-controls="paper-detail-{{ entry.pk }}">
+                                                        <i class="fas fa-info-circle me-1"></i>Details
+                                                    </button>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <h6 class="detail-heading">Workflow</h6>
-                                                    <dl class="detail-list">
-                                                        <dt>Status</dt>
-                                                        <dd>{{ entry.assessment.get_status_display|default:entry.assessment.status }}</dd>
-                                                        <dt>Moderator</dt>
-                                                        <dd>{{ entry.assessment.moderator|default:"-" }}</dd>
-                                                        <dt>Forwarded to moderator</dt>
-                                                        <dd>{{ entry.assessment.forward_to_moderator|yesno:"Yes,No" }}</dd>
-                                                    </dl>
+                                            </td>
+                                        </tr>
+                                        <tr class="collapse" id="paper-detail-{{ entry.pk }}">
+                                            <td colspan="6">
+                                                <div class="detail-card">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-4">
+                                                            <h6 class="detail-heading">Paper</h6>
+                                                            <dl class="detail-list">
+                                                                <dt>Qualification</dt>
+                                                                <dd>{{ entry.assessment.qualification.name|default:"-" }}</dd>
+                                                                <dt>Total marks</dt>
+                                                                <dd>
+                                                                    {% if entry.assessment.paper_link %}
+                                                                        {{ entry.assessment.paper_link.total_marks|default:"-" }}
+                                                                    {% else %}
+                                                                        <span class="text-muted">-</span>
+                                                                    {% endif %}
+                                                                </dd>
+                                                                <dt>Created by</dt>
+                                                                <dd>
+                                                                    {% if entry.assessment.paper_link and entry.assessment.paper_link.created_by %}
+                                                                        {{ entry.assessment.paper_link.created_by.get_full_name|default:entry.assessment.paper_link.created_by.username }}
+                                                                    {% else %}
+                                                                        <span class="text-muted">-</span>
+                                                                    {% endif %}
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <h6 class="detail-heading">Workflow</h6>
+                                                            <dl class="detail-list">
+                                                                <dt>Status</dt>
+                                                                <dd>{{ entry.assessment.get_status_display|default:entry.assessment.status }}</dd>
+                                                                <dt>Moderator</dt>
+                                                                <dd>{{ entry.assessment.moderator|default:"-" }}</dd>
+                                                                <dt>Forwarded to moderator</dt>
+                                                                <dd>{{ entry.assessment.forward_to_moderator|yesno:"Yes,No" }}</dd>
+                                                            </dl>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <h6 class="detail-heading">Notes</h6>
+                                                            <dl class="detail-list">
+                                                                <dt>Comments</dt>
+                                                                <dd>
+                                                                    {% if entry.assessment.comment %}
+                                                                        {{ entry.assessment.comment }}
+                                                                    {% else %}
+                                                                        <span class="text-muted">No comments recorded.</span>
+                                                                    {% endif %}
+                                                                </dd>
+                                                                <dt>Last updated</dt>
+                                                                <dd>{{ entry.assessment.updated_at|default:entry.created_at|date:"Y-m-d H:i" }}</dd>
+                                                            </dl>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <h6 class="detail-heading">Notes</h6>
-                                                    <dl class="detail-list">
-                                                        <dt>Comments</dt>
-                                                        <dd>
-                                                            {% if entry.assessment.comment %}
-                                                                {{ entry.assessment.comment }}
-                                                            {% else %}
-                                                                <span class="text-muted">No comments recorded.</span>
-                                                            {% endif %}
-                                                        </dd>
-                                                        <dt>Last updated</dt>
-                                                        <dd>{{ entry.assessment.updated_at|default:entry.created_at|date:"Y-m-d H:i" }}</dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">No papers are stored in the bank for the selected filters.</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4 text-muted">No papers are stored in the bank for the selected filters.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card-body">
+                        <p class="text-muted mb-0">No papers have been captured in the bank yet.</p>
+                    </div>
+                {% endif %}
             </div>
-        {% else %}
-            <div class="card-body">
-                <p class="text-muted mb-0">No papers have been captured in the bank yet.</p>
-            </div>
-        {% endif %}
+        </div>
     </div>
-</div>
 </div>
 {% endblock %}
 
@@ -696,5 +1044,3 @@ button:hover {
 })();
 </script>
 {% endblock %}
-
-

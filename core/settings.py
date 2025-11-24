@@ -403,16 +403,16 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'chieta_lmsdb',
-        'USER': 'chieta_lmsdb_user',
-        'PASSWORD': 'KLo46ahIw4gYzF3InULyEyd64qA3tWDC',
-        'HOST': 'dpg-d4e4ut6mcj7s73cfdb6g-a.singapore-postgres.render.com',
+        'NAME': 'demochietahandover',
+        'USER': 'demochietahandover_user',
+        'PASSWORD': 'dznDpVNLOehMveDOMUBTgIzPNSpEfot8',
+        'HOST': 'dpg-d4i2rcshg0os738o7s80-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/opt/render/project/src/media'
 
 # 🚨 TEMPORARY DEMO CHANGE - Create media folder on startup
 os.makedirs(MEDIA_ROOT, exist_ok=True)
